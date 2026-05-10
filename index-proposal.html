@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>markdownheaven — Design Proposal C</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --accent-subtle: #e0f2fe;
+      --accent-warm: #e0603c;
+      --accent-warm-hover: #c4502f;
+      --accent-warm-subtle: #fde8e2;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-subtle: #f1f5f9;
+      --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono: 'Cascadia Code', 'Courier New', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Accent bar ─── */
+    .accent-bar {
+      height: 3px;
+      background: var(--accent);
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .wordmark span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* ─── Hero ─── */
+    .hero {
+      background: linear-gradient(160deg, #fef3ee 0%, #fef9f4 30%, #f8fbff 60%, #e8f4fd 100%);
+      padding: 72px 24px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Atmospheric light patches — "heaven" without cartoon clouds */
+    .atm-patch {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .hero-left { display: flex; flex-direction: column; }
+
+    .hero-accent-line {
+      width: 48px;
+      height: 3px;
+      background: var(--accent);
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 4vw, 50px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 22px;
+      color: var(--text-primary);
+    }
+
+    .hero-lead {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+      align-self: flex-start;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    /* Hero right: compact article previews */
+    .hero-right { display: flex; flex-direction: column; gap: 12px; }
+
+    .hero-guides-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      margin-bottom: 4px;
+    }
+
+    .hero-article {
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 8px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      backdrop-filter: blur(4px);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .hero-article:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: #bae6fd;
+    }
+
+    .hero-article-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .hero-article-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text-primary);
+    }
+
+    .hero-all-guides {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 4px;
+      padding-left: 2px;
+    }
+    .hero-all-guides:hover { color: var(--accent-hover); }
+
+    /* ─── Section base ─── */
+    .section { padding: 96px 24px; }
+    .section-inner { max-width: 1152px; margin: 0 auto; }
+
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-eyebrow.warm { color: var(--accent-warm); }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-intro {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin-bottom: 56px;
+    }
+
+    /* ─── Product cards ─── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(252px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .product-card:hover {
+      border-color: #bae6fd;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.09);
+    }
+
+    .product-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .product-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-name {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .product-name span { color: var(--accent); }
+
+    .product-tagline {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      flex: 1;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .badge-free     { background: #dcfce7; color: #15803d; }
+    .badge-paid     { background: #e0f2fe; color: #0369a1; }
+    .badge-soon     { background: #f1f5f9; color: #64748b; }
+    .badge-freemium { background: #fef3c7; color: #92400e; }
+
+    .product-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .product-link:hover { color: var(--accent-hover); }
+
+    /* ─── Why strip ─── */
+    .why-section {
+      background: linear-gradient(160deg, #f0f9ff 0%, #fefcf7 100%);
+      border-top: 1px solid #e0f2fe;
+      border-bottom: 1px solid #e0f2fe;
+    }
+
+    .why-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .why-quote {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 26px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .why-text {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* ─── Articles ─── */
+    .articles-bg { background: #f8fafc; }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+      gap: 20px;
+    }
+
+    .article-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .article-card:hover {
+      border-color: #bae6fd;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
+    }
+
+    .article-thumb {
+      width: 100%;
+      height: 160px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+      flex-shrink: 0;
+    }
+    .article-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Placeholder shown when image is missing */
+    .article-thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #94a3b8;
+      letter-spacing: 4px;
+    }
+
+    .article-body {
+      padding: 20px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .article-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+    .article-tag.warm { color: var(--accent-warm); }
+
+    .hero-article-tag.warm { color: var(--accent-warm); }
+
+    .article-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text-primary);
+    }
+
+    .article-excerpt {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── Featured product (hero right) ─── */
+    .hero-product {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 12px;
+      padding: 24px 24px 20px;
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-product-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+    }
+
+    .hero-product-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+    .hero-product-name span { color: var(--accent); }
+
+    .hero-product-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .hero-product-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-product {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-product:hover { background: var(--accent-hover); }
+
+    .hero-product-price {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Divider line between product card and article teasers */
+    .hero-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 4px 0;
+    }
+
+    /* ─── "More guides" link ─── */
+    .guides-footer {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .guides-more-link {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .guides-more-link:hover { color: var(--accent-hover); }
+
+    /* ─── Design note banner ─── */
+    .design-note {
+      background: #fef9c3;
+      border: 1px solid #fde68a;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-size: 13px;
+      color: #92400e;
+      text-align: center;
+      position: sticky;
+      bottom: 16px;
+      margin: 16px 24px;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  TOP ACCENT LINE (3px sky blue — family signature)     -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="accent-bar"></div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  NAV                                                    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="wordmark">markdown<span>heaven</span></a>
+      <ul class="nav-links">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#guides">Guides</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  HERO — two-column: left=copy, right=article previews   -->
+  <!--  Atmospheric light patches evoke "heaven" subtly        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="hero">
+
+    <!-- Atmospheric patches: soft diffused light, not cartoon clouds -->
+    <!-- Large, very blurred ellipses — like sun behind thin cloud cover -->
+    <div class="atm-patch" style="width:520px; height:320px; top:-80px; right:-60px;
+         background:rgba(255,255,255,0.55); filter:blur(72px);"></div>
+    <div class="atm-patch" style="width:380px; height:260px; top:60px; right:180px;
+         background:rgba(186,230,253,0.35); filter:blur(60px);"></div>
+    <div class="atm-patch" style="width:300px; height:200px; bottom:-40px; right:80px;
+         background:rgba(224,242,254,0.4); filter:blur(56px);"></div>
+    <div class="atm-patch" style="width:280px; height:180px; bottom:20px; left:20px;
+         background:rgba(255,255,255,0.3); filter:blur(64px);"></div>
+
+    <div class="hero-inner">
+
+      <!-- Left column: headline + lead + CTA -->
+      <div class="hero-left">
+        <div class="hero-accent-line"></div>
+        <h1>The language of AI,<br>made effortless.</h1>
+        <p class="hero-lead">
+          AI speaks in markdown. Your tools don't always understand it.
+          markdownheaven is where that gap gets fixed — a family of tools
+          built around the format that connects human writing and machine thinking.
+        </p>
+        <a href="#products" class="btn-primary">Explore the tools →</a>
+      </div>
+
+      <!-- Right column: featured product + 2 article teasers -->
+      <div class="hero-right">
+
+        <!-- Featured product: markdownword -->
+        <div class="hero-product">
+          <div class="hero-product-eyebrow">Featured tool</div>
+          <div class="hero-product-name">markdown<span>word</span></div>
+          <div class="hero-product-desc">
+            Paste markdown, get a clean Word document. Style profiles, tables,
+            code blocks and headings — all preserved. One click.
+          </div>
+          <div class="hero-product-actions">
+            <a href="#" class="btn-product">Try it free →</a>
+            <span class="hero-product-price">Web · Windows — from $19</span>
+          </div>
+        </div>
+
+        <hr class="hero-divider" />
+
+        <!-- 2 article teasers -->
+        <a href="plain-text-formatted.html" class="hero-article">
+          <div class="hero-article-tag warm">Fundamentals</div>
+          <div class="hero-article-title">Plain text formatted — what "AI-ready" really means</div>
+        </a>
+
+        <a href="copy-button-vs-selection.html" class="hero-article">
+          <div class="hero-article-tag warm">Workflow</div>
+          <div class="hero-article-title">Copy button vs. selection — why they give you different text</div>
+        </a>
+
+        <a href="#guides" class="hero-all-guides">More guides →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  ARTICLES / GUIDES  (D: content-first, before products) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section articles-bg" id="guides">
+    <div class="section-inner">
+      <div class="section-eyebrow warm">Guides</div>
+      <h2 class="section-title">Understand the format.</h2>
+      <p class="section-intro">
+        Practical articles about markdown, AI workflow, and why the two belong together.
+        Genuinely useful — not content-farm filler.
+      </p>
+
+      <div class="articles-grid">
+
+        <a href="plain-text-formatted.html" class="article-card">
+          <div class="article-thumb">
+            <img src="illustrations/plain-text-formatted.png"
+                 alt="Plain text formatted illustration"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+          </div>
+          <div class="article-body">
+            <div class="article-tag warm">Fundamentals</div>
+            <div class="article-title">Plain text formatted — what "AI-ready" really means</div>
+            <div class="article-excerpt">
+              Why structured plain text is the most reliable format for both writing
+              prompts and receiving AI output.
+            </div>
+          </div>
+        </a>
+
+        <a href="history.html" class="article-card">
+          <div class="article-thumb">
+            <img src="illustrations/history.png"
+                 alt="History of markdown illustration"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+          </div>
+          <div class="article-body">
+            <div class="article-tag">History</div>
+            <div class="article-title">The history of markdown — from Gruber to CommonMark</div>
+            <div class="article-excerpt">
+              How a simple formatting convention became the default language of the
+              internet and AI.
+            </div>
+          </div>
+        </a>
+
+        <a href="copy-button-vs-selection.html" class="article-card">
+          <div class="article-thumb">
+            <img src="illustrations/copy-button-vs-selection.jpg"
+                 alt="Copy button vs selection illustration"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+          </div>
+          <div class="article-body">
+            <div class="article-tag warm">Workflow</div>
+            <div class="article-title">Copy button vs. selection — why they give you different text</div>
+            <div class="article-excerpt">
+              The copy button in a chat interface and Ctrl+C do not give you the same
+              thing. Here's why — and what to do about it.
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="guides-footer">
+        <a href="guides.html" class="guides-more-link">More guides →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  PRODUCTS                                               -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="products">
+    <div class="section-inner">
+      <div class="section-eyebrow">The tools</div>
+      <h2 class="section-title">Everything markdown needs.<br>Nothing it doesn't.</h2>
+      <p class="section-intro">
+        Four tools, one coherent workflow. From capturing AI output, to converting it,
+        to reading and writing it natively.
+      </p>
+
+      <div class="products-grid">
+
+        <!-- markdownword -->
+        <div class="product-card">
+          <div class="product-icon"><img src="icons/markdownword.png" alt="markdownword icon" /></div>
+          <div class="product-name">markdown<span>word</span></div>
+          <div class="product-tagline">
+            Markdown to Word, done right. Style profiles, tables, code blocks,
+            headings — all preserved. One click, clean document.
+          </div>
+          <div class="product-footer">
+            <span class="badge badge-paid">Paid</span>
+            <a href="#" class="product-link">Web + Windows →</a>
+          </div>
+        </div>
+
+        <!-- showmarkdown -->
+        <div class="product-card">
+          <div class="product-icon"><img src="icons/showmarkdown.png" alt="showmarkdown icon" /></div>
+          <div class="product-name">show<span>markdown</span></div>
+          <div class="product-tagline">
+            Read markdown as it was meant to look. Drop a file, paste text,
+            or open a URL. Instant rendering. Your style. Zero friction.
+          </div>
+          <div class="product-footer">
+            <span class="badge badge-free">Free</span>
+            <a href="#" class="product-link">Web + Windows →</a>
+          </div>
+        </div>
+
+        <!-- PromptCorrector -->
+        <div class="product-card">
+          <div class="product-icon"><img src="icons/promptcorrector.png" alt="promptcorrector icon" /></div>
+          <div class="product-name">prompt<span>corrector</span></div>
+          <div class="product-tagline">
+            Format text before it goes to AI — or clean up what comes back.
+            Plain text, Markdown, JSON, YAML, CSV, HTML. One tool, both directions.
+          </div>
+          <div class="product-footer">
+            <span class="badge badge-free">Free</span>
+            <a href="https://promptcorrector.com" class="product-link">Web →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  WHY MARKDOWN — philosophy strip                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="section why-section">
+    <div class="why-inner">
+      <div class="section-eyebrow" style="margin-bottom:20px;">Why markdown?</div>
+      <p class="why-quote">
+        "Human-readable text is the language of AI communication."
+      </p>
+      <p class="why-text">
+        When you write a prompt, you write in human-readable text. When AI responds,
+        it responds in human-readable text — most often in markdown. Markdown is structured
+        enough to carry meaning: headings, lists, emphasis, code, tables. And transparent
+        enough that you never lose the words underneath. The problem is that the rest
+        of the software world hasn't caught up. That's the gap these tools fill.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  FOOTER                                                 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <a href="/" class="wordmark">markdown<span>heaven</span></a>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 RocketMade Productions AB</span>
+    </div>
+  </footer>
+
+  <!-- ─── Design review note — remove before going live ─── -->
+  <div class="design-note">
+    ⚠ Design proposal C — for review only. Not the final index.html.
+    Open in a browser at full width (≥1152px) for correct impression.
+    Placeholder product icons = 48px divs; replace with real 512px PNG icons.
+    Hero illustration = pick Option A (abstract SVG art) or Option B (workflow diagram).
+  </div>
+
+</body>
+</html>

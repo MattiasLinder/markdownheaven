@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>H1 as Title or Heading — What's Actually Correct? — markdownheaven.com</title>
+  <meta name="description" content="In markdown, H1 can mean the document title or just a large heading. The distinction matters more than you think — especially when converting to Word or feeding AI output into structured formats." />
+  <meta property="og:title" content="H1 as title or heading — what's actually correct?" />
+  <meta property="og:description" content="Markdown doesn't define what H1 means. Convention does. Here's what the conventions are and why they conflict." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens (Theme 2 — Marketing-Web) ── */
+    :root {
+      --color-bg-base:        #ffffff;
+      --color-bg-surface:     #f8fafc;
+      --color-bg-elevated:    #f1f5f9;
+      --color-border-subtle:  #e2e8f0;
+      --color-border-default: #cbd5e1;
+      --color-text-primary:   #0f172a;
+      --color-text-secondary: #334155;
+      --color-text-muted:     #64748b;
+      --color-text-faint:     #94a3b8;
+      --color-accent:         #0284c7;
+      --color-accent-subtle:  #e0f2fe;
+      --color-accent-hover:   #0369a1;
+      --color-accent-text:    #0369a1;
+      --color-warning:        #d97706;
+      --color-warning-bg:     #fef3c7;
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+
+      --font-sans:  'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono:  'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-lg:   18px;
+      --text-2xl:  24px;
+      --text-4xl:  36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-base);
+    }
+
+    /* ── Nav ── */
+    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
+    nav {
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .nav-brand {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--color-accent); }
+    nav a.nav-link {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    nav a.nav-link:hover { color: var(--color-text-primary); }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      background: var(--color-accent-subtle);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+    .hero-accent-line {
+      width: 48px;
+      height: 3px;
+      background: var(--color-accent);
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      max-width: 760px;
+      margin-bottom: 20px;
+    }
+    .hero-lead {
+      font-size: var(--text-lg);
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      max-width: 640px;
+    }
+
+    /* ── Article hero image ── */
+    .article-hero-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      display: block;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+    }
+    .article-hero-img-wrap {
+      margin: 40px 0 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    /* ── Article ── */
+    .article {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 64px;
+      padding: 64px 0 96px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .article { grid-template-columns: 1fr; gap: 48px; }
+      .sidebar { display: none; }
+    }
+
+    .content h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-top: 56px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .content h2:first-child { margin-top: 0; }
+    .content h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+    .content p {
+      color: var(--color-text-secondary);
+      margin-bottom: 20px;
+    }
+    .content ul, .content ol {
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+    .content li {
+      color: var(--color-text-secondary);
+      margin-bottom: 8px;
+    }
+    .content a {
+      color: var(--color-accent-text);
+      text-decoration: none;
+    }
+    .content a:hover { text-decoration: underline; }
+    .content code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--color-bg-elevated);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-primary);
+    }
+
+    /* ── Comparison table ── */
+    .convention-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: var(--text-sm);
+    }
+    .convention-table thead tr { background: var(--color-bg-elevated); }
+    .convention-table th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      border-bottom: 2px solid var(--color-border-default);
+    }
+    .convention-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      vertical-align: top;
+    }
+    .convention-table td code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--color-bg-elevated);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-primary);
+    }
+    .convention-table tbody tr:last-child td { border-bottom: none; }
+    .convention-table tbody tr:hover td { background: var(--color-bg-surface); }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .code-block-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background: var(--color-bg-elevated);
+      border-bottom: 1px solid var(--color-border-subtle);
+      padding: 8px 16px;
+    }
+    .code-block pre {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      padding: 20px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-accent-subtle);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+    }
+    .callout p {
+      color: var(--color-text-secondary);
+      margin: 0;
+      font-size: var(--text-sm);
+    }
+    .callout strong { color: var(--color-accent-text); }
+
+    .callout-note {
+      border-left: 3px solid var(--color-warning);
+      background: var(--color-warning-bg);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+    }
+    .callout-note p {
+      color: var(--color-text-secondary);
+      margin: 0;
+      font-size: var(--text-sm);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar { position: sticky; top: 32px; }
+    .sidebar-card {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+    .sidebar-card h4 {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 14px;
+    }
+    .sidebar-card ol { list-style: none; padding: 0; }
+    .sidebar-card li { margin-bottom: 0; }
+    .sidebar-card li a {
+      display: block;
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .sidebar-card li:last-child a { border-bottom: none; }
+    .sidebar-card li a:hover { color: var(--color-accent); }
+    .sidebar-cta {
+      margin-top: 16px;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      display: block;
+    }
+    .sidebar-cta:hover { background: var(--color-accent-hover); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--color-border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    footer a { color: var(--color-accent-text); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="nav-outer">
+    <nav>
+      <a href="/" class="nav-brand">markdown<span>heaven</span></a>
+      <a href="/" class="nav-link">All guides</a>
+    </nav>
+  </div>
+
+  <div class="page-wrapper">
+
+    <!-- Hero -->
+    <section class="hero">
+      <span class="hero-eyebrow">Writing</span>
+      <div class="hero-accent-line"></div>
+      <h1>H1 as title or heading —<br>what's actually correct?</h1>
+      <p class="hero-lead">
+        Markdown doesn't define what <code># H1</code> means semantically. The spec
+        just says it's the largest heading. What it <em>represents</em> — document title,
+        top-level section, or just "big text" — is left to convention. And conventions conflict.
+      </p>
+    </section>
+
+    <!-- Article hero illustration -->
+    <div class="article-hero-img-wrap">
+      <img class="article-hero-img"
+           src="illustrations/title-vs-headings.png"
+           alt="Illustration: hierarchy of heading symbols arranged in a structured composition"
+           loading="eager" />
+    </div>
+
+    <!-- Article + Sidebar -->
+    <div class="article">
+      <div class="content">
+
+        <h2 id="the-question">The ambiguity</h2>
+        <p>
+          In HTML, <code>&lt;h1&gt;</code> means "the most important heading on this page."
+          By convention, that is usually the page title — but the spec doesn't require it.
+          Markdown inherited this ambiguity: <code>#</code> produces the largest heading,
+          and what that heading <em>is</em> depends entirely on context.
+        </p>
+        <p>
+          In practice, two different conventions have developed and both are widespread.
+          They produce identical markdown but carry different intent, and that intent
+          matters the moment you do anything structured with the output.
+        </p>
+
+        <table class="convention-table">
+          <thead>
+            <tr>
+              <th>Convention</th>
+              <th>What <code>#</code> means</th>
+              <th>Where it's common</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Title convention</strong></td>
+              <td>Document title. One per file, at the top. Not a content heading.</td>
+              <td>README files, documentation sites, blog posts, GitHub wikis</td>
+            </tr>
+            <tr>
+              <td><strong>Heading convention</strong></td>
+              <td>Top-level section heading. Can appear multiple times. Title is implicit or in metadata.</td>
+              <td>AI output, academic writing, long-form articles, YAML-fronted docs</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Neither is wrong. They are just different assumptions about the same syntax.
+          The problem is when software has to make a choice between them.
+        </p>
+
+        <h2 id="ai-output">What AI does</h2>
+        <p>
+          When you ask a language model to write a structured document, it will almost
+          always open with <code># Title</code> followed by <code>## Section</code> headings.
+          This follows the title convention — the H1 is the document name, not a content
+          section. That is reasonable and readable.
+        </p>
+        <p>
+          But when AI writes a report, analysis, or list of recommendations in response
+          to a conversational prompt, it sometimes uses <code>#</code> headings for each
+          major point — treating H1 as a section heading with no document title above it.
+          Both patterns appear regularly in AI output, often depending on how the prompt
+          was phrased.
+        </p>
+
+        <div class="callout-note">
+          <p>The same model can produce either convention depending on the prompt. If you ask
+          for "a report on X," you are more likely to get a title-convention H1. If you ask
+          to "list the main reasons for X," you may get heading-convention H1s with no title.</p>
+        </div>
+
+        <h2 id="word-conversion">Why it matters for Word conversion</h2>
+        <p>
+          Word documents have a dedicated <strong>Title</strong> style — separate from
+          Heading 1. The Title style is typically larger, centred, and used once at the
+          top of the document. Heading 1 is a section heading that can repeat.
+        </p>
+        <p>
+          When you convert markdown to Word, the converter has to decide: should the
+          first <code>#</code> become a Word Title, or a Heading 1? The right answer
+          depends entirely on which convention the author was using — and the converter
+          cannot know this from the syntax alone.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-label">Same markdown — two valid interpretations</div>
+          <pre># Quarterly Review — Q1 2025
+
+## Executive Summary
+The first quarter results show...
+
+## Key Findings
+...</pre>
+        </div>
+
+        <p>
+          If the author intended the title convention, <code># Quarterly Review</code>
+          should map to Word's Title style and <code>##</code> sections to Heading 1.
+          If the author intended the heading convention, <code>#</code> should map to
+          Heading 1 and there is no Word Title at all.
+        </p>
+        <p>
+          Converting without this decision produces either a document with a gigantic
+          Heading 1 at the top that looks wrong, or one where the title is swallowed
+          into the heading hierarchy.
+        </p>
+
+        <h2 id="markdownword">How markdownword handles it</h2>
+        <p>
+          markdownword gives you two distinct ways to set a document title, and handles
+          both correctly.
+        </p>
+
+        <h3>Option 1 — YAML front matter</h3>
+        <p>
+          If your markdown file opens with a YAML front matter block, markdownword
+          parses it and uses the <code>title</code> field as the Word Title style.
+          No H1 heading needed at all. Additional fields — <code>author</code>,
+          <code>date</code>, <code>subject</code>, <code>abstract</code>, and more —
+          are written into the Word document's built-in metadata properties.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-label">YAML front matter — markdownword reads all of these</div>
+          <pre>---
+title: "Quarterly Review Q1 2025"
+author: "Mattias Linder"
+date: "2025-04-01"
+status: "Draft"
+---
+
+## Executive Summary
+The first quarter results show...</pre>
+        </div>
+
+        <p>
+          With this approach, your H1 slots are free to use as section headings — or
+          you can skip H1 entirely and start directly at H2. Word's Title field, author,
+          and date fields are populated correctly.
+        </p>
+
+        <h3>Option 2 — firstH1AsTitle</h3>
+        <p>
+          If there is no front matter, the <code>firstH1AsTitle</code> option treats
+          the first <code>#</code> heading as the Word Title style, with all subsequent
+          headings shifting down one level. This covers the common case where a document
+          opens with a single H1 title followed by H2 sections.
+        </p>
+
+        <div class="callout">
+          <p><strong>Default: on.</strong> Most markdown documents with a single <code>#</code>
+          at the top are using the title convention. Turn it off if your H1 is a content
+          heading rather than a document title.</p>
+        </div>
+
+        <div class="callout-note">
+          <p>If both a YAML <code>title:</code> field and <code>firstH1AsTitle</code> are
+          active at the same time, markdownword will warn you — two title sources in one
+          document is almost always unintentional.</p>
+        </div>
+
+        <h2 id="practical-guidance">What to do in practice</h2>
+        <p>
+          If you are writing markdown that will be converted to Word or another
+          structured format, the clearest approach is to commit to one convention
+          and be consistent:
+        </p>
+        <ul>
+          <li>Use <code>#</code> once, at the top, as the document title. Use <code>##</code>
+          for your main sections. This is the title convention and works well with most converters.</li>
+          <li>If you are writing AI prompts that ask for structured output, include a note
+          about which convention you expect — or specify in your style guide that output
+          should always open with a title H1.</li>
+          <li>When converting AI output that uses H1 as a section heading with no title,
+          turn <code>firstH1AsTitle</code> off — or add a title manually before converting.</li>
+        </ul>
+        <p>
+          The ambiguity is baked into markdown and will not be resolved by the spec.
+          The only practical answer is consistent intent.
+        </p>
+
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h4>In this article</h4>
+          <ol>
+            <li><a href="#the-question">The ambiguity</a></li>
+            <li><a href="#ai-output">What AI does</a></li>
+            <li><a href="#word-conversion">Why it matters for Word</a></li>
+            <li><a href="#markdownword">How markdownword handles it</a></li>
+            <li><a href="#markdownword">— YAML front matter</a></li>
+            <li><a href="#markdownword">— firstH1AsTitle</a></li>
+            <li><a href="#practical-guidance">What to do in practice</a></li>
+          </ol>
+          <a href="https://markdownword.com" class="sidebar-cta">Try markdownword →</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <footer>
+    <a href="/">markdownheaven.com</a> &nbsp;·&nbsp; © 2026 RocketMade Productions AB
+  </footer>
+
+</body>
+</html>

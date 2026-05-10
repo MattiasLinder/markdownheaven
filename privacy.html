@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — markdownheaven</title>
+  <meta name="description" content="markdownheaven uses Google Analytics to understand site traffic. No personal content is ever collected or uploaded." />
+  <link rel="canonical" href="https://markdownheaven.com/privacy.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --accent-warm: #e0603c;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .accent-bar { height: 3px; background: var(--accent); }
+
+    nav {
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wordmark {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .wordmark span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .page-header {
+      background: linear-gradient(160deg, #f0f9ff 0%, #fefcf7 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 24px 48px;
+    }
+    .page-header-inner { max-width: 720px; margin: 0 auto; }
+    .page-header-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .page-header-meta {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 96px;
+    }
+
+    .content h2 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 40px 0 12px;
+      color: var(--text-primary);
+    }
+    .content h2:first-child { margin-top: 0; }
+
+    .content p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .content a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .content a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--text-primary); }
+    .footer-copy { font-size: 13px; color: var(--text-muted); }
+
+    #cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: #fff; border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.07); padding: 14px 24px; display: none;
+    }
+    .cookie-inner { max-width: 1152px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .cookie-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .cookie-text a { color: var(--accent); text-decoration: none; }
+    .cookie-text a:hover { text-decoration: underline; }
+    .cookie-buttons { display: flex; gap: 8px; flex-shrink: 0; }
+    .cookie-accept { padding: 7px 18px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 600; border: none; border-radius: 5px; cursor: pointer; }
+    .cookie-accept:hover { background: var(--accent-hover); }
+    .cookie-decline { padding: 7px 18px; background: #fff; color: var(--text-secondary); font-size: 13px; font-weight: 600; border: 1px solid var(--border); border-radius: 5px; cursor: pointer; }
+    .cookie-decline:hover { background: #f8fafc; }
+  </style>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied' });
+    if (localStorage.getItem('cookie-consent') === 'accepted') {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+
+  <div id="site-nav"></div>
+
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="page-header-eyebrow">Legal</div>
+      <h1>Privacy Policy</h1>
+      <p class="page-header-meta">Last updated: 2026-05-09 &nbsp;·&nbsp; markdownheaven.com</p>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <h2>What this site does</h2>
+    <p>
+      markdownheaven.com is an informational site — a hub for markdown tools and guides.
+      It does not process any documents, text, or personal content. Nothing you type
+      or upload anywhere is sent to our servers, because there is no such functionality here.
+    </p>
+
+    <h2>Analytics</h2>
+    <p>
+      We use Google Analytics 4 (GA4) to understand how the site is used — which pages
+      are visited, roughly where visitors come from, and what devices they use.
+      GA4 collects anonymised data only. No personal information linked to your content
+      is ever collected.
+    </p>
+    <p>
+      IP addresses are anonymised before being logged. You can opt out at any time
+      via the cookie banner at the bottom of the page, or by using the
+      <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics opt-out browser add-on</a>.
+    </p>
+
+    <h2>Cookies</h2>
+    <p>
+      We use cookies solely for GA4 analytics. No advertising cookies, tracking pixels,
+      or third-party marketing tools are used on this site.
+    </p>
+
+    <h2>Third-party links</h2>
+    <p>
+      This site links to external products (markdownword.com, showmarkdown.com,
+      promptcorrector.com) and to Google Fonts and CDN resources. Each of those
+      services has its own privacy policy.
+    </p>
+
+    <h2>Data controller</h2>
+    <p>
+      RocketMade Productions AB, Sweden.<br />
+      Contact: <a href="mailto:heaven@markdownheaven.com">heaven@markdownheaven.com</a>
+    </p>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+
+  <div id="cookie-banner">
+    <div class="cookie-inner">
+      <p class="cookie-text">
+        We use cookies for anonymous usage analytics (Google Analytics).
+        No personal content is ever collected.
+        <a href="privacy.html">Privacy policy</a>
+      </p>
+      <div class="cookie-buttons">
+        <button id="cookie-accept" class="cookie-accept">Accept</button>
+        <button id="cookie-decline" class="cookie-decline">Decline</button>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function () {
+    var consent = localStorage.getItem('cookie-consent');
+    if (!consent) { document.getElementById('cookie-banner').style.display = ''; }
+    document.getElementById('cookie-accept').addEventListener('click', function () {
+      localStorage.setItem('cookie-consent', 'accepted');
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+      document.getElementById('cookie-banner').style.display = 'none';
+    });
+    document.getElementById('cookie-decline').addEventListener('click', function () {
+      localStorage.setItem('cookie-consent', 'declined');
+      document.getElementById('cookie-banner').style.display = 'none';
+    });
+  })();
+  </script>
+</body>
+</html>

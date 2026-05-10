@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guides — markdownheaven</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --accent-subtle: #e0f2fe;
+      --accent-warm: #e0603c;
+      --accent-warm-hover: #c4502f;
+      --accent-warm-subtle: #fde8e2;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-subtle: #f1f5f9;
+      --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono: 'Cascadia Code', 'Courier New', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Accent bar ─── */
+    .accent-bar {
+      height: 3px;
+      background: var(--accent);
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .wordmark span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--text-primary); font-weight: 600; }
+
+    /* ─── Page header ─── */
+    .page-header {
+      background: linear-gradient(160deg, #fef3ee 0%, #fef9f4 40%, #f8fbff 70%, #e8f4fd 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 24px 48px;
+    }
+
+    .page-header-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+
+    .page-header-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      margin-bottom: 14px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .page-header-lead {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 540px;
+    }
+
+    /* ─── Main content ─── */
+    .content {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+    }
+
+    /* ─── Section label ─── */
+    .content-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .content-eyebrow.warm { color: var(--accent-warm); }
+
+    /* ─── Featured articles: 2-column large cards ─── */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .featured-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .featured-card:hover {
+      border-color: #bae6fd;
+      box-shadow: 0 6px 28px rgba(2, 132, 199, 0.10);
+    }
+
+    .featured-thumb {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+      flex-shrink: 0;
+    }
+    .featured-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .featured-card:hover .featured-thumb img {
+      transform: scale(1.03);
+    }
+    .featured-thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: #94a3b8;
+      letter-spacing: 6px;
+    }
+
+    .featured-body {
+      padding: 24px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .article-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+    .article-tag.warm { color: var(--accent-warm); }
+    .article-tag.teal { color: #0d9488; }
+
+    .featured-title {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+      color: var(--text-primary);
+    }
+
+    .featured-excerpt {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      flex: 1;
+    }
+
+    .featured-read-more {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    /* ─── Standard article grid ─── */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+      gap: 20px;
+    }
+
+    .article-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .article-card:hover {
+      border-color: #bae6fd;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
+    }
+
+    .article-thumb {
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+      flex-shrink: 0;
+    }
+    .article-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .article-card:hover .article-thumb img {
+      transform: scale(1.03);
+    }
+    .article-thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #94a3b8;
+      letter-spacing: 4px;
+    }
+
+    .article-body {
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      flex: 1;
+    }
+
+    .article-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text-primary);
+    }
+
+    .article-excerpt {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    /* ─── Divider between featured and grid ─── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border-subtle);
+      margin: 0 0 48px 0;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── Tools strip ─── */
+    .tools-strip {
+      background: linear-gradient(160deg, #f0f9ff 0%, #fefcf7 100%);
+      border-top: 1px solid #e0f2fe;
+      padding: 72px 24px 80px;
+    }
+
+    .tools-strip-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+
+    .tools-strip-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .tools-strip-heading {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-top: 10px;
+    }
+
+    .tools-strip-all {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .tools-strip-all:hover { color: var(--accent-hover); }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .tool-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .tool-card:hover {
+      border-color: #bae6fd;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.09);
+    }
+
+    .tool-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 9px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .tool-card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .tool-card-icon-placeholder {
+      width: 100%;
+      height: 100%;
+      background: var(--accent-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .tool-card-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+    .tool-card-name span { color: var(--accent); }
+
+    .tool-card-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      flex: 1;
+    }
+
+    .tool-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tool-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .tool-badge-free { background: #dcfce7; color: #15803d; }
+    .tool-badge-paid { background: #e0f2fe; color: #0369a1; }
+
+    .tool-card-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 720px) {
+      .featured-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Cookie banner ─── */
+    #cookie-banner {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 200;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.07);
+      padding: 14px 24px;
+      display: none;
+    }
+    .cookie-inner {
+      max-width: 1152px; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .cookie-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .cookie-text a { color: var(--accent); text-decoration: none; }
+    .cookie-text a:hover { text-decoration: underline; }
+    .cookie-buttons { display: flex; gap: 8px; flex-shrink: 0; }
+    .cookie-accept {
+      padding: 7px 18px; background: var(--accent); color: #fff;
+      font-size: 13px; font-weight: 600; border: none; border-radius: 5px;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .cookie-accept:hover { background: var(--accent-hover); }
+    .cookie-decline {
+      padding: 7px 18px; background: #fff; color: var(--text-secondary);
+      font-size: 13px; font-weight: 600; border: 1px solid var(--border);
+      border-radius: 5px; cursor: pointer; transition: background 0.15s;
+    }
+    .cookie-decline:hover { background: #f8fafc; }
+  </style>
+
+  <!-- GA4: consent default denied until user accepts -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied' });
+    if (localStorage.getItem('cookie-consent') === 'accepted') {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+
+  <div id="site-nav"></div>
+
+  <!-- ─── Page header ─── -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="page-header-eyebrow">Guides</div>
+      <h1>Understand markdown.<br>Work better with AI.</h1>
+      <p class="page-header-lead">
+        Practical articles about markdown, AI workflow, and the connection between the two.
+        No filler — just things worth knowing.
+      </p>
+    </div>
+  </header>
+
+  <!-- ─── Content ─── -->
+  <main class="content">
+
+    <!-- Featured: 2 most relevant articles -->
+    <div class="content-eyebrow warm">Start here</div>
+
+    <div class="featured-grid">
+
+      <!-- FEATURED 1: Mermaid — most topical (AI draws diagrams) -->
+      <a href="mermaid.html" class="featured-card">
+        <div class="featured-thumb">
+          <img src="illustrations/mermaid.png"
+               alt="Mermaid diagrams illustration"
+               loading="eager"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'featured-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="featured-body">
+          <div class="article-tag teal">Diagrams</div>
+          <div class="featured-title">Mermaid diagrams — the format AI actually draws in</div>
+          <div class="featured-excerpt">
+            When you ask an AI to draw a diagram, it almost always writes Mermaid syntax.
+            Here's what Mermaid is, why AI converged on it, and how to render what you get.
+          </div>
+          <div class="featured-read-more">Read article →</div>
+        </div>
+      </a>
+
+      <!-- FEATURED 2: Plain text formatted — brand core -->
+      <a href="plain-text-formatted.html" class="featured-card">
+        <div class="featured-thumb">
+          <img src="illustrations/plain-text-formatted.png"
+               alt="Plain text formatted illustration"
+               loading="eager"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'featured-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="featured-body">
+          <div class="article-tag warm">Fundamentals</div>
+          <div class="featured-title">Plain text formatted — what "AI-ready" really means</div>
+          <div class="featured-excerpt">
+            Why structured plain text is the most reliable format for both writing
+            prompts and receiving AI output — and what gets lost when you skip it.
+          </div>
+          <div class="featured-read-more">Read article →</div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- All other guides -->
+    <hr class="section-divider" />
+    <div class="content-eyebrow">All guides</div>
+
+    <div class="articles-grid">
+
+      <a href="copy-button-vs-selection.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/copy-button-vs-selection.jpg"
+               alt="Copy button vs selection"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag warm">Workflow</div>
+          <div class="article-title">Copy button vs. selection — why they give you different text</div>
+          <div class="article-excerpt">
+            The copy button and Ctrl+C don't give you the same thing. Here's why — and what to do about it.
+          </div>
+        </div>
+      </a>
+
+      <a href="syntax-highlighting.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/syntax-highlighting.png"
+               alt="Syntax highlighting illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag">Format</div>
+          <div class="article-title">Syntax highlighting in markdown — how it works and why it matters</div>
+          <div class="article-excerpt">
+            Fenced code blocks, language tags, and why the same markdown renders so
+            differently depending on where you put it.
+          </div>
+        </div>
+      </a>
+
+      <a href="math.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/math.png"
+               alt="Math in markdown illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag">Format</div>
+          <div class="article-title">Math in markdown — LaTeX, KaTeX, and AI-generated equations</div>
+          <div class="article-excerpt">
+            AI writes math with LaTeX syntax. Here's what that means, where it renders,
+            and how to get clean output in your documents.
+          </div>
+        </div>
+      </a>
+
+      <a href="jupyter-notebooks.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/jupyter-notebooks.png"
+               alt="Jupyter notebooks illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag">Format</div>
+          <div class="article-title">Jupyter notebooks and markdown — AI-native by design</div>
+          <div class="article-excerpt">
+            Jupyter's .ipynb format embeds markdown natively. What that means for
+            AI-generated notebooks and why it matters.
+          </div>
+        </div>
+      </a>
+
+      <a href="title-vs-headings.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/title-vs-headings.png"
+               alt="Title vs headings illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag warm">Writing</div>
+          <div class="article-title">H1 as title or heading — what's actually correct?</div>
+          <div class="article-excerpt">
+            A practical guide to the H1 question in markdown — and how markdownword's
+            firstH1AsTitle handles it automatically.
+          </div>
+        </div>
+      </a>
+
+      <a href="history.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/history.png"
+               alt="History of markdown illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag">History</div>
+          <div class="article-title">The history of markdown — from Gruber to CommonMark</div>
+          <div class="article-excerpt">
+            How a simple formatting convention became the default language of the
+            internet and AI.
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+  </main>
+
+  <!-- ─── Tools strip ─── -->
+  <section class="tools-strip">
+    <div class="tools-strip-inner">
+      <div class="tools-strip-header">
+        <div>
+          <div class="content-eyebrow">The tools</div>
+          <div class="tools-strip-heading">Put what you've learned to work.</div>
+        </div>
+        <a href="index.html#products" class="tools-strip-all">See all tools →</a>
+      </div>
+
+      <div class="tools-grid">
+
+        <!-- markdownword -->
+        <a href="https://markdownword.com" class="tool-card">
+          <div class="tool-card-icon">
+            <img src="icons/markdownword.png" alt="markdownword icon"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tool-card-icon-placeholder\'>📄</div>'" />
+          </div>
+          <div class="tool-card-name">markdown<span>word</span></div>
+          <div class="tool-card-desc">
+            Paste markdown, get a clean Word document — style profiles, tables,
+            code blocks, headings, all preserved. One click.
+          </div>
+          <div class="tool-card-footer">
+            <span class="tool-badge tool-badge-paid">From $19</span>
+            <span class="tool-card-link">Web + Windows →</span>
+          </div>
+        </a>
+
+        <!-- showmarkdown -->
+        <a href="https://showmarkdown.com" class="tool-card">
+          <div class="tool-card-icon">
+            <img src="icons/showmarkdown.png" alt="showmarkdown icon"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tool-card-icon-placeholder\'>👁</div>'" />
+          </div>
+          <div class="tool-card-name">show<span>markdown</span></div>
+          <div class="tool-card-desc">
+            Read markdown as it was meant to look. Drop a file, paste text, or open a URL.
+            Instant rendering, your style, zero friction.
+          </div>
+          <div class="tool-card-footer">
+            <span class="tool-badge tool-badge-free">Free</span>
+            <span class="tool-card-link">Web + Windows →</span>
+          </div>
+        </a>
+
+        <!-- promptcorrector -->
+        <a href="https://promptcorrector.com" class="tool-card">
+          <div class="tool-card-icon">
+            <img src="icons/promptcorrector.png" alt="promptcorrector icon"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tool-card-icon-placeholder\'>✏️</div>'" />
+          </div>
+          <div class="tool-card-name">prompt<span>corrector</span></div>
+          <div class="tool-card-desc">
+            Format text before it goes to AI — or clean up what comes back.
+            Plain text, Markdown, JSON, YAML, CSV, HTML. One tool, both directions.
+          </div>
+          <div class="tool-card-footer">
+            <span class="tool-badge tool-badge-free">Free</span>
+            <span class="tool-card-link">Web →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+
+  <div id="cookie-banner">
+    <div class="cookie-inner">
+      <p class="cookie-text">
+        We use cookies for anonymous usage analytics (Google Analytics).
+        No personal content is ever collected.
+        <a href="privacy.html">Privacy policy</a>
+      </p>
+      <div class="cookie-buttons">
+        <button id="cookie-accept" class="cookie-accept">Accept</button>
+        <button id="cookie-decline" class="cookie-decline">Decline</button>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function () {
+    var consent = localStorage.getItem('cookie-consent');
+    if (!consent) { document.getElementById('cookie-banner').style.display = ''; }
+    document.getElementById('cookie-accept').addEventListener('click', function () {
+      localStorage.setItem('cookie-consent', 'accepted');
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+      document.getElementById('cookie-banner').style.display = 'none';
+    });
+    document.getElementById('cookie-decline').addEventListener('click', function () {
+      localStorage.setItem('cookie-consent', 'declined');
+      document.getElementById('cookie-banner').style.display = 'none';
+    });
+  })();
+  </script>
+</body>
+</html>

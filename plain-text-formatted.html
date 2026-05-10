@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plain Text Formatted (AI-Ready) — markdownheaven.com</title>
+  <meta name="description" content="Markdown syntax in system prompts takes up space that could hold instructions. Plain text formatted (AI-ready) preserves structure using conventions LLMs already understand — so more of your token budget goes to meaning." />
+  <meta property="og:title" content="More instructions, same token budget" />
+  <meta property="og:description" content="Every token you spend on ## or ** is a token you can't spend on an instruction. Plain text formatted keeps the structure, frees the space." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens (Theme 2 — Marketing-Web) ── */
+    :root {
+      --color-bg-base:        #ffffff;
+      --color-bg-surface:     #f8fafc;
+      --color-bg-elevated:    #f1f5f9;
+      --color-border-subtle:  #e2e8f0;
+      --color-border-default: #cbd5e1;
+      --color-text-primary:   #0f172a;
+      --color-text-secondary: #334155;
+      --color-text-muted:     #64748b;
+      --color-text-faint:     #94a3b8;
+      --color-accent:         #0284c7;
+      --color-accent-subtle:  #e0f2fe;
+      --color-accent-hover:   #0369a1;
+      --color-accent-text:    #0369a1;
+      --color-warning:        #d97706;
+      --color-warning-bg:     #fef3c7;
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+
+      --font-sans:  'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono:  'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-lg:   18px;
+      --text-2xl:  24px;
+      --text-4xl:  36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-base);
+    }
+
+    /* ── Nav ── */
+    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
+    nav {
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .nav-brand {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--color-accent); }
+    nav a.nav-link {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    nav a.nav-link:hover { color: var(--color-text-primary); }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      background: var(--color-accent-subtle);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+    .hero-accent-line {
+      width: 48px;
+      height: 3px;
+      background: var(--color-accent);
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      max-width: 760px;
+      margin-bottom: 20px;
+    }
+    .hero-lead {
+      font-size: var(--text-lg);
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      max-width: 640px;
+      margin-bottom: 32px;
+    }
+
+    /* ── Article hero image ── */
+    .article-hero-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      display: block;
+      margin: 0 0 0;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+    }
+    .article-hero-img-wrap {
+      margin: 40px 0 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      padding-bottom: 0;
+    }
+
+    /* ── Token stat strip ── */
+    .stat-strip {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-accent);
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Article ── */
+    .article {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 64px;
+      padding: 64px 0 96px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .article { grid-template-columns: 1fr; gap: 48px; }
+      .sidebar { display: none; }
+    }
+
+    .content h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-top: 56px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .content h2:first-child { margin-top: 0; }
+    .content h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+    .content p {
+      color: var(--color-text-secondary);
+      margin-bottom: 20px;
+    }
+    .content ul, .content ol {
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+    .content li {
+      color: var(--color-text-secondary);
+      margin-bottom: 8px;
+    }
+    .content a {
+      color: var(--color-accent-text);
+      text-decoration: none;
+    }
+    .content a:hover { text-decoration: underline; }
+
+    /* ── Token diff block ── */
+    .token-diff {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .token-diff-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .token-diff-col-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+    }
+    .token-diff-col-label.markdown {
+      color: var(--color-text-muted);
+      background: var(--color-bg-elevated);
+      border-right: 1px solid var(--color-border-subtle);
+    }
+    .token-diff-col-label.plain {
+      color: var(--color-accent-text);
+      background: var(--color-accent-subtle);
+    }
+    .token-diff-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .token-diff-cell {
+      padding: 16px;
+    }
+    .token-diff-cell.markdown {
+      border-right: 1px solid var(--color-border-subtle);
+      background: var(--color-bg-base);
+    }
+    .token-diff-cell.plain {
+      background: var(--color-bg-base);
+    }
+    .token-diff-cell pre {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .token-diff-footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--color-border-subtle);
+    }
+    .token-diff-count {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      padding: 8px 16px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+    .token-diff-count.markdown {
+      border-right: 1px solid var(--color-border-subtle);
+      background: var(--color-bg-elevated);
+    }
+    .token-diff-count.plain {
+      color: var(--color-accent-text);
+      background: var(--color-accent-subtle);
+    }
+    .token-diff-count .saving {
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+
+    /* ── Inline token comparison row ── */
+    .inline-compare {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+    }
+    .inline-compare-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 80px;
+      gap: 0;
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      font-size: var(--text-sm);
+    }
+    .icr-cell {
+      padding: 9px 14px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--color-bg-base);
+    }
+    .icr-cell.md-side {
+      border-right: 1px solid var(--color-border-subtle);
+      color: var(--color-text-muted);
+    }
+    .icr-cell.pt-side {
+      border-right: 1px solid var(--color-border-subtle);
+      color: var(--color-text-primary);
+    }
+    .icr-cell.saving-cell {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-accent-text);
+      background: var(--color-accent-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .inline-compare-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr 80px;
+      gap: 0;
+      padding: 0 0 4px;
+    }
+    .inline-compare-header span {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-faint);
+      padding: 0 14px;
+    }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 28px 0;
+    }
+    .code-block-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background: var(--color-bg-elevated);
+      border-bottom: 1px solid var(--color-border-subtle);
+      padding: 8px 16px;
+    }
+    .code-block pre {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      padding: 20px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ── Convention table ── */
+    .convention-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: var(--text-sm);
+    }
+    .convention-table thead tr { background: var(--color-bg-elevated); }
+    .convention-table th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      border-bottom: 2px solid var(--color-border-default);
+    }
+    .convention-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      vertical-align: top;
+    }
+    .convention-table td code, .convention-table th code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--color-bg-elevated);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-primary);
+    }
+    .convention-table tbody tr:last-child td { border-bottom: none; }
+    .convention-table tbody tr:hover td { background: var(--color-bg-surface); }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-accent-subtle);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+    }
+    .callout p {
+      color: var(--color-text-secondary);
+      margin: 0;
+      font-size: var(--text-sm);
+    }
+    .callout strong { color: var(--color-accent-text); }
+
+    .callout-note {
+      border-left: 3px solid var(--color-warning);
+      background: var(--color-warning-bg);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+    }
+    .callout-note p {
+      color: var(--color-text-secondary);
+      margin: 0;
+      font-size: var(--text-sm);
+    }
+
+    /* ── When-to-use grid ── */
+    .use-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    @media (max-width: 680px) { .use-grid { grid-template-columns: 1fr; } }
+    .use-card {
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+    }
+    .use-card h4 {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--color-text-primary);
+    }
+    .use-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .use-card li {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      padding: 5px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .use-card li:last-child { border-bottom: none; }
+    .use-card li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+    .use-card.yes li::before { background: var(--color-accent); }
+    .use-card.no li::before { background: var(--color-text-faint); }
+
+    /* ── Sidebar ── */
+    .sidebar { position: sticky; top: 32px; }
+    .sidebar-card {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+    .sidebar-card h4 {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 14px;
+    }
+    .sidebar-card ol { list-style: none; padding: 0; }
+    .sidebar-card li { margin-bottom: 0; }
+    .sidebar-card li a {
+      display: block;
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .sidebar-card li:last-child a { border-bottom: none; }
+    .sidebar-card li a:hover { color: var(--color-accent); }
+    .sidebar-cta {
+      margin-top: 16px;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      display: block;
+    }
+    .sidebar-cta:hover { background: var(--color-accent-hover); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--color-border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    footer a { color: var(--color-accent-text); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="nav-outer">
+    <nav>
+      <a href="/" class="nav-brand">markdown<span>heaven</span></a>
+      <a href="/" class="nav-link">All tools</a>
+    </nav>
+  </div>
+
+  <div class="page-wrapper">
+
+    <!-- Hero -->
+    <section class="hero">
+      <span class="hero-eyebrow">System prompt best practice</span>
+      <div class="hero-accent-line"></div>
+      <h1>More instructions.<br>Same token budget.</h1>
+      <p class="hero-lead">
+        Markdown is genuinely great for AI — as output format, and as input when documents are long and token cost isn't critical. But for system prompts the calculus changes: they run on every single request, token overhead compounds, and you want to cram in as many instructions as possible. <em>Plain text formatted (AI-ready)</em> keeps the structure, drops the markup, and gives that space back to meaning.
+      </p>
+      <div class="stat-strip">
+        <div class="stat-item">
+          <span class="stat-value">~15–25%</span>
+          <span class="stat-label">More room for instructions in a typical system prompt</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">0</span>
+          <span class="stat-label">Markdown syntax characters in output</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Semantic structure preserved</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Article hero illustration -->
+    <div class="article-hero-img-wrap">
+      <img class="article-hero-img"
+           src="illustrations/plain-text-formatted.png"
+           alt="Illustration: chaos of markdown symbols transforming into ordered structure"
+           loading="eager" />
+    </div>
+
+    <!-- Article + Sidebar -->
+    <div class="article">
+      <div class="content">
+
+        <!-- 1. The token math -->
+        <h2 id="the-math">The capacity argument</h2>
+        <p>
+          Markdown is the right format for LLM output — chat interfaces render it well, and it makes long responses readable. It is also fine as input for one-off prompts, longer documents, or cases where you're not running at scale. This article is not an argument against Markdown in general.
+        </p>
+        <p>
+          System prompts are a specific, different case. They run on every request — every user message, every API call, every background task your application triggers. Token overhead that is negligible in a one-off prompt becomes significant when multiplied across thousands of calls. More importantly: a system prompt has a job to do. It needs to convey role, constraints, tone, output format, edge cases, and examples. Every token spent on <code>##</code> or <code>**</code> is a token that cannot hold the word "always" or "never" or "if the user says X, do Y instead."
+        </p>
+        <p>
+          Markdown syntax characters carry no information in this context. The model doesn't need <code>##</code> to know something is a heading — it can read that from ALL CAPS or Title Case just as well, because those patterns are deeply embedded in its training data. A typical system prompt written in Markdown carries 15–25% syntax overhead that could instead be instructions.
+        </p>
+
+        <p>Here's what common Markdown constructs cost versus their plain-text equivalents:</p>
+
+        <div class="inline-compare">
+          <div class="inline-compare-header">
+            <span>Markdown</span>
+            <span>Plain text formatted</span>
+            <span style="text-align:center;">Saved</span>
+          </div>
+          <div class="inline-compare-row">
+            <div class="icr-cell md-side">## Introduction</div>
+            <div class="icr-cell pt-side">INTRODUCTION</div>
+            <div class="icr-cell saving-cell">−3 chars</div>
+          </div>
+          <div class="inline-compare-row">
+            <div class="icr-cell md-side">### Background</div>
+            <div class="icr-cell pt-side">&nbsp;&nbsp;Background</div>
+            <div class="icr-cell saving-cell">−2 chars</div>
+          </div>
+          <div class="inline-compare-row">
+            <div class="icr-cell md-side">**important term**</div>
+            <div class="icr-cell pt-side">*important term*</div>
+            <div class="icr-cell saving-cell">−2 chars</div>
+          </div>
+          <div class="inline-compare-row">
+            <div class="icr-cell md-side">*emphasized*</div>
+            <div class="icr-cell pt-side">/emphasized/</div>
+            <div class="icr-cell saving-cell">0 chars</div>
+          </div>
+          <div class="inline-compare-row">
+            <div class="icr-cell md-side">---</div>
+            <div class="icr-cell pt-side">---</div>
+            <div class="icr-cell saving-cell">0 chars</div>
+          </div>
+        </div>
+
+        <p>
+          Each individual saving looks small. Across a 1 500-token system prompt with 8 headings, 25 bold terms, and assorted syntax, the total overhead is typically 80–200 characters — that's 20–50 tokens per request, multiplied by every single API call your application makes.
+        </p>
+
+        <!-- 2. Side by side -->
+        <h2 id="side-by-side">A real system prompt, before and after</h2>
+        <p>
+          The same instructions, the same structure, the same meaning — expressed first with Markdown and then in plain text formatted (AI-ready):
+        </p>
+
+        <div class="token-diff">
+          <div class="token-diff-header">
+            <div class="token-diff-col-label markdown">Markdown system prompt</div>
+            <div class="token-diff-col-label plain">Plain text formatted (AI-ready)</div>
+          </div>
+          <div class="token-diff-body">
+            <div class="token-diff-cell markdown">
+<pre>## Role
+You are a support assistant for a
+B2B SaaS product.
+
+## Behaviour
+- Always respond in the user's language
+- **Never** speculate about pricing
+- Keep replies under 120 words
+
+## Output format
+Use **bullet points** for lists.
+Start every reply with a one-sentence
+*summary* of the issue.
+
+### Escalation
+If the user mentions *legal* or
+*cancellation*, end the reply with:
+> Escalate: [topic]</pre>
+            </div>
+            <div class="token-diff-cell plain">
+<pre>ROLE
+You are a support assistant for a
+B2B SaaS product.
+
+BEHAVIOUR
+- Always respond in the user's language
+- *Never* speculate about pricing
+- Keep replies under 120 words
+
+OUTPUT FORMAT
+Use bullet points for lists.
+Start every reply with a one-sentence
+/summary/ of the issue.
+
+  Escalation
+If the user mentions /legal/ or
+/cancellation/, end the reply with:
+Escalate: [topic]</pre>
+            </div>
+          </div>
+          <div class="token-diff-footer">
+            <div class="token-diff-count markdown">≈ 118 tokens (estimated)</div>
+            <div class="token-diff-count plain">≈ 98 tokens — <span class="saving">~17% fewer</span></div>
+          </div>
+        </div>
+
+        <p>
+          The model understands both versions identically. The second version uses roughly 17% fewer tokens — which means 17% more room for actual instructions: another constraint, another example, another edge case handled. That's the real benefit. The cost saving is just a side effect.
+        </p>
+
+        <div class="callout-note">
+          <p>
+            Token counts above are estimates using a GPT-4 / Claude-class tokenizer. Exact savings depend on your model, prompt length, and how heavily formatted the original is. The general direction holds across all major tokenizers.
+          </p>
+        </div>
+
+        <!-- 3. Why it works -->
+        <h2 id="why-it-works">Why the model understands it anyway</h2>
+        <p>
+          Large language models were trained on enormous amounts of text that predate Markdown — books, articles, manuals, Usenet posts, and plain-text email from the 1980s and 1990s. These sources are full of structural conventions that have nothing to do with Markdown:
+        </p>
+        <ul>
+          <li><strong>ALL CAPS titles</strong> signal section headings in typewritten documents, legal texts, and RFC standards.</li>
+          <li><strong>Indented subsections</strong> appear throughout technical writing and structured correspondence.</li>
+          <li><strong>*Asterisk-delimited terms*</strong> for emphasis were standard on Usenet and early internet forums decades before Markdown formalized them.</li>
+          <li><strong>Dash-prefixed bullet items</strong> are natural in plain-text writing and require no parser to interpret.</li>
+        </ul>
+        <p>
+          These patterns are deeply embedded in the model's weights. You do not need <code>#</code> characters to make a model understand that something is a heading. You do not need <code>**</code> to signal emphasis. The semantic intent is legible from the text conventions themselves.
+        </p>
+
+        <div class="callout">
+          <p>
+            <strong>The key insight:</strong> Markdown was designed for humans writing for humans — to make plain text more readable before rendering. When you write for an LLM, there is no rendering step. The raw characters are what the model sees. You want those characters to carry signal, not syntax overhead.
+          </p>
+        </div>
+
+        <!-- 4. The conventions -->
+        <h2 id="conventions">The conventions</h2>
+        <p>
+          Plain text formatted (AI-ready) uses a fixed, minimal set of conventions. The goal is predictability: one document element always maps to one text representation, so the model never has to resolve ambiguity.
+        </p>
+
+        <table class="convention-table">
+          <thead>
+            <tr>
+              <th>Element</th>
+              <th>Markdown</th>
+              <th>Plain text formatted</th>
+              <th>Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Heading 1</td>
+              <td><code># Title</code></td>
+              <td><code>TITLE</code></td>
+              <td>ALL CAPS is the oldest, most universal heading convention in plain text.</td>
+            </tr>
+            <tr>
+              <td>Heading 2</td>
+              <td><code>## Section</code></td>
+              <td><code>Section Name</code></td>
+              <td>Title Case on its own line. Blank line before and after creates visual separation without extra characters.</td>
+            </tr>
+            <tr>
+              <td>Heading 3</td>
+              <td><code>### Sub</code></td>
+              <td><code>&nbsp;&nbsp;Sub Name</code></td>
+              <td>2-space indent expresses nesting without any prefix character.</td>
+            </tr>
+            <tr>
+              <td>Heading 4</td>
+              <td><code>#### Deep</code></td>
+              <td><code>&nbsp;&nbsp;&nbsp;&nbsp;Deep Name</code></td>
+              <td>4-space indent. Deeper nesting than this is usually a signal to flatten the structure.</td>
+            </tr>
+            <tr>
+              <td>Bold / strong</td>
+              <td><code>**word**</code></td>
+              <td><code>*word*</code></td>
+              <td>Single asterisks cost half the characters of double. Meaning is identical to a trained model.</td>
+            </tr>
+            <tr>
+              <td>Italic / emphasis</td>
+              <td><code>*word*</code> or <code>_word_</code></td>
+              <td><code>/word/</code></td>
+              <td>Forward slashes avoid the collision between <code>*italic*</code> and <code>*bullet</code> in Markdown.</td>
+            </tr>
+            <tr>
+              <td>Bullet list item</td>
+              <td><code>- item</code></td>
+              <td><code>- item</code></td>
+              <td>Unchanged. This is the most natural plain-text convention and costs nothing to keep.</td>
+            </tr>
+            <tr>
+              <td>Bullet list item</td>
+              <td><code>- item</code></td>
+              <td><code>- item</code></td>
+              <td>Unchanged. Already the leanest possible convention.</td>
+            </tr>
+            <tr>
+              <td>Numbered list item</td>
+              <td><code>1. item</code></td>
+              <td><code>1. item</code></td>
+              <td>Unchanged.</td>
+            </tr>
+            <tr>
+              <td>Inline code</td>
+              <td><code>`code`</code></td>
+              <td><code>`code`</code></td>
+              <td>Unchanged. Backtick is the universal code delimiter and carries no overhead.</td>
+            </tr>
+            <tr>
+              <td>Code block</td>
+              <td><code>```lang</code></td>
+              <td><code>```lang</code></td>
+              <td>Unchanged. Fenced blocks are necessary for multi-line code and should be kept as-is.</td>
+            </tr>
+            <tr>
+              <td>Separator</td>
+              <td><code>---</code></td>
+              <td><code>---</code></td>
+              <td>Unchanged.</td>
+            </tr>
+            <tr>
+              <td>Link</td>
+              <td><code>[text](url)</code></td>
+              <td><code>text</code></td>
+              <td>URL dropped. If the URL matters, keep it as bare text: <code>text (https://...)</code></td>
+            </tr>
+            <tr>
+              <td>Blockquote</td>
+              <td><code>> text</code></td>
+              <td><code>text</code> (indented or labeled)</td>
+              <td>The <code>&gt;</code> prefix has no semantic value to a model. Indent or use a label instead.</td>
+            </tr>
+            <tr>
+              <td>Image</td>
+              <td><code>![alt](url)</code></td>
+              <td><em>(removed)</em></td>
+              <td>Images have no representation in plain text. If the image matters, describe it in prose.</td>
+            </tr>
+            <tr>
+              <td>Table</td>
+              <td><code>| col | col |</code></td>
+              <td>Tab-separated (TSV)</td>
+              <td>Special case — see below. Most prompt tables are better expressed as bullet lists. When a real table is needed, tab-separated is the leanest option.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 4b. Tables special case -->
+        <h3 id="tables">Tables: a special case</h3>
+        <p>
+          Tables rarely belong in a prompt. Most things that look like tables are either a list of items (use bullet points) or a comparison with two or three properties (express in prose). Before using a table, ask whether the information could be flatter.
+        </p>
+        <p>
+          When a table genuinely can't be avoided — a lookup matrix, a dataset sample, a structured mapping — use tab-separated values (TSV). It is the leanest format that still preserves column alignment in a way LLMs reliably parse. A Markdown pipe table adds one <code>|</code> per cell boundary plus a full separator row; TSV adds one <code>\t</code> per column.
+        </p>
+
+        <div class="token-diff">
+          <div class="token-diff-header">
+            <div class="token-diff-col-label markdown">Markdown pipe table</div>
+            <div class="token-diff-col-label plain">Tab-separated (plain text formatted)</div>
+          </div>
+          <div class="token-diff-body">
+            <div class="token-diff-cell markdown">
+<pre>| Country | Code | Timezone |
+|---------|------|----------|
+| Sweden  | SE   | UTC+1    |
+| Germany | DE   | UTC+1    |
+| Japan   | JP   | UTC+9    |</pre>
+            </div>
+            <div class="token-diff-cell plain">
+<pre>Country	Code	Timezone
+Sweden	SE	UTC+1
+Germany	DE	UTC+1
+Japan	JP	UTC+9</pre>
+            </div>
+          </div>
+          <div class="token-diff-footer">
+            <div class="token-diff-count markdown">≈ 62 tokens (estimated)</div>
+            <div class="token-diff-count plain">≈ 38 tokens — <span class="saving">~39% fewer</span></div>
+          </div>
+        </div>
+
+        <p>
+          The header row in TSV is plain text, Title Case, tab-separated — no special characters needed. The model distinguishes the header from data rows by position, exactly as it would in a pipe table.
+        </p>
+
+        <!-- 5. Limitations -->
+        <h2 id="limitations">Where it breaks down</h2>
+        <p>
+          Plain text formatted (AI-ready) has a practical hierarchy ceiling. The conventions run out of clearly distinguishable levels at around H4:
+        </p>
+        <ul>
+          <li><strong>H1</strong> → ALL CAPS — visually dominant, unambiguous</li>
+          <li><strong>H2</strong> → Title Case, blank line around it — clearly a section</li>
+          <li><strong>H3</strong> → 2-space indent, Title Case — readable as a subsection</li>
+          <li><strong>H4</strong> → 4-space indent, Title Case — usable, but starts getting subtle</li>
+          <li><strong>H5 / H6</strong> → at this depth, plain text conventions become genuinely ambiguous</li>
+        </ul>
+        <p>
+          Markdown doesn't have this problem — <code>##</code> through <code>######</code> are all unambiguous to a parser. For long technical documents with deep hierarchies, Markdown is the right tool.
+        </p>
+        <p>
+          But this limitation almost never matters in practice for the primary use case: <strong>system prompts</strong>. A well-written system prompt rarely needs more than two or three heading levels. If you find yourself needing H5 in a system prompt, the prompt is probably doing too much. The hierarchy ceiling is a real constraint — it just rarely bites where the format is most useful.
+        </p>
+
+        <div class="callout-note">
+          <p>
+            <strong>Rule of thumb:</strong> If your document needs more than three heading levels, use Markdown. If it's a system prompt or a structured context block going into an LLM, plain text formatted almost certainly has enough levels — and fewer tokens.
+          </p>
+        </div>
+
+        <!-- 6. When to use what -->
+        <h2 id="when-to-use">When to use this — and when not to</h2>
+        <p>
+          This format is specifically designed for text that goes <em>into</em> an LLM — prompts, system instructions, context documents. It is not the right choice for everything.
+        </p>
+
+        <div class="use-grid">
+          <div class="use-card yes">
+            <h4>Use plain text formatted (AI-ready)</h4>
+            <ul>
+              <li>System prompts in production applications</li>
+              <li>Long user prompts with structure (instructions, context, examples)</li>
+              <li>Documents pasted into a chat interface</li>
+              <li>RAG / retrieval chunks fed to a model</li>
+              <li>Any prompt where you pay per input token</li>
+            </ul>
+          </div>
+          <div class="use-card no">
+            <h4>Stick with Markdown</h4>
+            <ul>
+              <li>Model output — Markdown renders beautifully in chat UIs</li>
+              <li>Documentation, READMEs, wikis</li>
+              <li>Knowledge bases you control end-to-end</li>
+              <li>Content going to a Markdown-rendering surface</li>
+              <li>Short prompts where the overhead is trivial</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout-note">
+          <p>
+            <strong>What about XML tags?</strong> Anthropic recommends XML tags (e.g. <code>&lt;context&gt;...&lt;/context&gt;</code>) for sectioning Claude system prompts — and for good reason: tags create unambiguous boundaries that survive any input format. Plain text formatted (AI-ready) and XML tags are not mutually exclusive. You can use XML tags for outer structure and plain text conventions for the content inside each tag.
+          </p>
+        </div>
+
+        <!-- 6. The gap -->
+        <h2 id="the-gap">The gap nobody has named yet</h2>
+        <p>
+          Searching for guidance on this specific topic — what format to use in your prompts to reduce token cost while preserving semantic structure — returns almost nothing. The discourse on Markdown and LLMs almost entirely concerns two other questions:
+        </p>
+        <ul>
+          <li>Should <em>model output</em> be in Markdown? (Usually yes, if the UI renders it.)</li>
+          <li>Should <em>knowledge base documents</em> be converted to Markdown before indexing? (Usually yes, relative to HTML.)</li>
+        </ul>
+        <p>
+          The question of what format to use for the prompt <em>itself</em> — the instruction text — has gone largely undiscussed. Most prompt engineering guides simply use Markdown by default, because it reads well in documentation and GitHub READMEs where those guides are published. That habit has transferred into production system prompts without much scrutiny.
+        </p>
+        <p>
+          Plain text formatted (AI-ready) is an attempt to name this gap and fill it. It is not a new format — all the conventions existed before Markdown. It is simply the deliberate choice to use those conventions in prompts rather than Markdown syntax, and the argument that this choice is worth making.
+        </p>
+
+        <div class="callout">
+          <p>
+            <strong>Try it:</strong> <a href="https://promptcorrector.com">Prompt Corrector</a> converts Markdown, HTML, and rich text into plain text formatted (AI-ready) in one step. Paste your system prompt, select the output format, copy the result.
+          </p>
+        </div>
+
+      </div><!-- /.content -->
+
+      <!-- Sidebar TOC -->
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#the-math">The token math</a></li>
+            <li><a href="#side-by-side">Before and after</a></li>
+            <li><a href="#why-it-works">Why the model understands it</a></li>
+            <li><a href="#conventions">The conventions</a></li>
+            <li><a href="#tables">Tables: a special case</a></li>
+            <li><a href="#limitations">Where it breaks down</a></li>
+            <li><a href="#when-to-use">When to use this</a></li>
+            <li><a href="#the-gap">The gap nobody has named</a></li>
+          </ol>
+          <a href="https://promptcorrector.com" class="sidebar-cta">Try Prompt Corrector →</a>
+        </div>
+      </aside>
+
+    </div><!-- /.article -->
+  </div><!-- /.page-wrapper -->
+
+  <footer>
+    <p>Part of the <a href="/">markdownheaven.com</a> family of Markdown tools.</p>
+  </footer>
+
+</body>
+</html>
