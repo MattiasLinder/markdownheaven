@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The History of Markdown — markdownheaven.com</title>
-  <meta name="description" content="From a Perl script on Daring Fireball to the language of the modern web. The origin story of Markdown — the people, the decisions, and why there is still no single standard." />
+  <meta name="description" content="A format designed in 2004 to help one writer avoid HTML tags is now the native output format of every major AI system. The origin story of Markdown — the people, the decisions, and why the design choices made in 2004 turned out to be exactly right for the AI era." />
   <meta property="og:title" content="The History of Markdown" />
   <meta property="og:description" content="From a Perl script on Daring Fireball to the language of the modern web. The people behind Markdown and why there is still no single standard." />
   <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-01-20T00:00:00Z" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -102,6 +103,12 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--color-accent-text);
+      margin-bottom: 16px;
+    }
+    .hero-date {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
       margin-bottom: 16px;
     }
     .hero h1 {
@@ -400,27 +407,18 @@
       border-bottom: 1px solid var(--color-border-subtle);
     }
   </style>
+  <link rel="stylesheet" href="site.css" />
 </head>
 <body>
-
-  <div class="accent-line"></div>
-
-  <div class="nav-outer">
-    <nav>
-      <a href="/" class="nav-brand">markdown<span>heaven</span></a>
-      <div class="nav-links">
-        <a href="/plain-text-formatted.html" class="nav-link">Plain text formatted</a>
-        <a href="#" class="nav-link">Tools</a>
-      </div>
-    </nav>
-  </div>
+  <div id="site-nav"></div>
 
   <!-- Hero -->
   <div style="background: var(--color-bg-base);">
     <div class="hero">
       <p class="hero-label">Origin story</p>
+      <p class="hero-date"><time datetime="2025-01-20">20 January 2025</time></p>
       <h1>The history of Markdown</h1>
-      <p class="hero-sub">From a Perl script on a personal blog to the standard format for developer documentation, technical writing, and AI output. The people, the decisions, the arguments — and why there is still no single standard.</p>
+      <p class="hero-sub">A format designed in 2004 to help one writer avoid typing HTML tags is now the native output format of every major AI system. The design decisions that made Markdown readable as plain text turned out to be, twenty years later, exactly what language models needed. The people, the arguments — and why there is still no single standard.</p>
       <p class="hero-ingress">John Gruber created Markdown in 2004 because writing HTML by hand was getting in the way of writing. The format spread quietly through developer culture — READMEs, documentation, technical blogs — until it became the default way structured text travels between systems. Today it sits at the centre of how people work with AI: structured prompts in, structured answers out. Nobody owns it, nobody governs it, and nobody has agreed on a definitive version. It works anyway.</p>
     </div>
   </div>
@@ -451,7 +449,7 @@
       <nav class="toc" aria-label="Table of contents">
         <p class="toc-label">In this article</p>
         <ol class="toc-list">
-          <li><a href="#key-moments">Key moments</a></li>
+          <li><a href="#key-moments">Key moments — including AI's adoption of Markdown</a></li>
           <li><a href="#the-people">The people</a></li>
           <li><a href="#anecdotes">Anecdotes worth knowing</a></li>
           <li><a href="#central-authority">Is there a central authority?</a></li>
@@ -504,6 +502,12 @@
           <div class="timeline-year">Today</div>
           <div class="timeline-title">CommonMark 0.31 — still no 1.0</div>
           <div class="timeline-body">The CommonMark spec is at version 0.31.2. The 1.0 milestone has been open since the project started. Markdown is used by hundreds of millions of people. It has no formal standards body, no governing committee, and no official version history beyond Gruber's original 2004 release.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2022–2023</div>
+          <div class="timeline-title">AI chat interfaces adopt Markdown as default output</div>
+          <div class="timeline-body">ChatGPT, Claude, Gemini, and Copilot all output Markdown by default. Not as a deliberate design choice — but because they were trained on years of GitHub READMEs, Stack Overflow answers, and documentation sites. A format Gruber invented to spare himself from writing HTML is now how AI communicates structure to humans. The design decisions made in 2004 turned out to be exactly right for a technology that did not exist until two decades later.</div>
         </div>
 
       </div>
@@ -617,7 +621,8 @@
       <!-- Why it matters -->
       <h2 id="why-it-matters">Why it still matters</h2>
       <p>Markdown outlasted every trend it was adjacent to: the blogging era, the CMS wars, the static site generator wave, the note-taking app boom. It survived because it is not tied to any platform, any company, or any tool. A Markdown file from 2004 opens in any text editor today and looks exactly as it did then. That kind of durability is rare in software.</p>
-      <p>In the context of AI, Markdown has a practical advantage that Gruber never anticipated: it is token-efficient. HTML and most other structured formats are verbose — they wrap every piece of content in opening and closing tags, repeat attribute names, and add layers of nesting that exist for the parser, not the reader. A sentence in HTML can easily consume three times as many tokens as the same sentence in Markdown. For AI systems that charge by the token, or that work within fixed context windows, that overhead is not free. Markdown carries structure at low cost.</p>
+      <p>In the context of AI, Markdown has two advantages that Gruber never anticipated. The first is practical: it is token-efficient. HTML and most other structured formats are verbose — they wrap every piece of content in opening and closing tags, repeat attribute names, and add layers of nesting that exist for the parser, not the reader. A sentence in HTML can easily consume three times as many tokens as the same sentence in Markdown. For AI systems that charge by the token, or that work within fixed context windows, that overhead is not free. Markdown carries structure at low cost.</p>
+      <p>The second advantage is more fundamental: the same property that makes Markdown readable as plain text makes it natively legible to AI. A language model processes text. Markdown is text — structured, yes, but never opaque. A heading is a line that starts with <code>#</code>. A list is lines that start with <code>-</code>. The structure is in the characters, not in a binary format or a tag tree. Language models read and write Markdown fluently not just because they were trained on it, but because its design — readable source, no rendering required to understand it — is the design of a format that text-processing systems handle well. Gruber made that decision to serve writers. It turned out to serve machines too.</p>
       <p>This is the idea behind <a href="/plain-text-formatted.html">plain text formatted (AI-ready)</a> — taking Markdown's efficiency one step further for use in system prompts and instructions, where every token saved is a token available for meaning.</p>
       <p>Today Markdown is also the default output format of most AI chat systems. Not because anyone designed it that way, but because large language models were trained on enormous amounts of it — years of README files, Stack Overflow answers, and documentation sites — and learned to write it naturally. A format invented to spare one blogger from writing HTML tags is now how AI communicates structure to humans.</p>
 
@@ -628,18 +633,8 @@
     </article>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer-outer">
-    <div class="footer-inner">
-      <a href="/" class="footer-brand">markdown<span>heaven</span></a>
-      <div class="footer-links">
-        <a href="/plain-text-formatted.html">Plain text formatted</a>
-        <a href="/history.html">History</a>
-        <a href="/math.html">Math</a>
-      </div>
-      <span class="footer-copy">markdownheaven.com</span>
-    </div>
-  </footer>
+  <div id="site-footer"></div>
 
+  <script src="site.js"></script>
 </body>
 </html>

@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Syntax Highlighting in Markdown — How Code Gets Its Colors — markdownheaven.com</title>
+  <meta name="description" content="When you write ```python at the start of a code block, most editors and chatbots automatically colorize your code. Here's how that works — and what happens when it doesn't." />
+  <meta property="og:title" content="The language hint that unlocks color in your code blocks" />
+  <meta property="og:description" content="Three backticks and a word. That's all it takes. Here's what actually happens after that — and why your code looks dead when you forget it." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens (Theme 2 — Marketing-Web) ── */
+    :root {
+      --color-bg-base:        #ffffff;
+      --color-bg-surface:     #f8fafc;
+      --color-bg-elevated:    #f1f5f9;
+      --color-border-subtle:  #e2e8f0;
+      --color-border-default: #cbd5e1;
+      --color-text-primary:   #0f172a;
+      --color-text-secondary: #334155;
+      --color-text-muted:     #64748b;
+      --color-text-faint:     #94a3b8;
+      --color-accent:         #0284c7;
+      --color-accent-subtle:  #e0f2fe;
+      --color-accent-hover:   #0369a1;
+      --color-accent-text:    #0369a1;
+      --color-warning:        #d97706;
+      --color-warning-bg:     #fef3c7;
+      --color-ok:             #16a34a;
+      --color-ok-bg:          #dcfce7;
+      --color-ok-text:        #15803d;
+      --color-error-bg:       #fee2e2;
+      --color-error-text:     #b91c1c;
+
+      /* Syntax highlight theme tokens (dark code surface) */
+      --code-bg:         #0f172a;
+      --code-text:       #e2e8f0;
+      --code-keyword:    #7dd3fc;   /* sky-300 */
+      --code-string:     #86efac;   /* green-300 */
+      --code-comment:    #64748b;   /* slate-500 */
+      --code-number:     #fda4af;   /* rose-300 */
+      --code-function:   #c4b5fd;   /* violet-300 */
+      --code-type:       #fcd34d;   /* amber-300 */
+      --code-operator:   #94a3b8;   /* slate-400 */
+      --code-plain:      #e2e8f0;
+      --code-overlay-subtle:  rgba(255,255,255,0.04);
+      --code-overlay-border:  rgba(255,255,255,0.06);
+      --code-overlay-dot:     rgba(255,255,255,0.10);
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+
+      --font-sans:  'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono:  'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-lg:   18px;
+      --text-2xl:  24px;
+      --text-4xl:  36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-base);
+    }
+
+    /* ── Nav ── */
+    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
+    nav {
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .nav-brand {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--color-accent); }
+    nav a.nav-link {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    nav a.nav-link:hover { color: var(--color-text-primary); }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      background: var(--color-accent-subtle);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+    .hero-accent-line {
+      width: 48px;
+      height: 3px;
+      background: var(--color-accent);
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 4vw, var(--text-4xl));
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      max-width: 740px;
+      margin-bottom: 20px;
+    }
+    .hero-lead {
+      font-size: var(--text-lg);
+      color: var(--color-text-secondary);
+      max-width: 640px;
+      line-height: 1.6;
+    }
+
+    /* ── Article grid ── */
+    .article {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 64px;
+      padding: 56px 0 80px;
+    }
+    @media (max-width: 768px) {
+      .article { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* ── Prose ── */
+    .content h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--color-text-primary);
+      margin: 56px 0 16px;
+      letter-spacing: -0.01em;
+    }
+    .content h2:first-child { margin-top: 0; }
+    .content h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin: 24px 0 8px;
+    }
+    .content p { margin-bottom: 16px; color: var(--color-text-secondary); }
+    .content p:last-child { margin-bottom: 0; }
+    .content a { color: var(--color-accent-text); text-decoration: underline; text-decoration-color: var(--color-accent-subtle); }
+    .content a:hover { text-decoration-color: var(--color-accent); }
+    .content code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      padding: 1px 5px;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-primary);
+    }
+    .content ul, .content ol {
+      padding-left: 24px;
+      margin-bottom: 16px;
+      color: var(--color-text-secondary);
+    }
+    .content li { margin-bottom: 6px; }
+
+    /* ── Code block (the star of the show) ── */
+    .code-block {
+      background: var(--code-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 20px 0;
+      font-size: var(--text-sm);
+    }
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--code-overlay-subtle);
+      border-bottom: 1px solid var(--code-overlay-border);
+    }
+    .code-lang {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots span {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--code-overlay-dot);
+    }
+    .code-body {
+      padding: 20px 20px;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      color: var(--code-plain);
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* syntax tokens */
+    .kw  { color: var(--code-keyword); }
+    .str { color: var(--code-string); }
+    .cmt { color: var(--code-comment); font-style: italic; }
+    .num { color: var(--code-number); }
+    .fn  { color: var(--code-function); }
+    .typ { color: var(--code-type); }
+    .op  { color: var(--code-operator); }
+
+    /* plain (no language hint) */
+    .code-block-plain .code-body { color: var(--code-text); }
+
+    /* ── Side-by-side compare ── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+    .compare-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 0 10px;
+    }
+    .compare-label.bad  { color: var(--color-warning); }
+    .compare-label.good { color: var(--color-ok-text); }
+
+    /* ── Language table ── */
+    .lang-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: var(--text-sm);
+    }
+    .lang-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--color-bg-elevated);
+      border-bottom: 2px solid var(--color-border-default);
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .lang-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      vertical-align: top;
+    }
+    .lang-table tr:last-child td { border-bottom: none; }
+    .lang-table code {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      padding: 1px 5px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88em;
+    }
+
+    /* ── Support table ── */
+    .support-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: var(--text-sm);
+    }
+    .support-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--color-bg-elevated);
+      border-bottom: 2px solid var(--color-border-default);
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .support-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      vertical-align: middle;
+    }
+    .support-table tr:last-child td { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+    .badge-yes  { background: var(--color-ok-bg);      color: var(--color-ok-text); }
+    .badge-no   { background: var(--color-error-bg);     color: var(--color-error-text); }
+    .badge-part { background: var(--color-warning-bg);  color: var(--color-warning); }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--color-accent-subtle);
+      border-left: 3px solid var(--color-accent);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+    }
+    .callout strong { color: var(--color-text-primary); }
+    .callout a { color: var(--color-accent-text); }
+
+    .callout-warning {
+      background: var(--color-warning-bg);
+      border-left-color: var(--color-warning);
+    }
+
+    /* ── How-it-works diagram ── */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      padding: 20px;
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+    }
+    .pipeline-step {
+      background: white;
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: var(--text-sm);
+      text-align: center;
+      min-width: 100px;
+    }
+    .pipeline-step strong { display: block; font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+    .pipeline-arrow {
+      color: var(--color-text-faint);
+      font-size: var(--text-lg);
+      flex-shrink: 0;
+    }
+
+    /* ── Promo card ── */
+    .promo-card {
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 32px 0;
+    }
+    .promo-card-header {
+      padding: 24px 24px 16px;
+      background: var(--color-bg-surface);
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .promo-card-eyebrow {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      background: var(--color-accent-subtle);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+    }
+    .promo-card-header h3 {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 8px;
+    }
+    .promo-card-header p { font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0; }
+    .promo-card-footer {
+      padding: 14px 24px;
+      background: var(--color-bg-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .promo-card-footer p { font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; }
+    .promo-card-footer p strong { color: var(--color-text-primary); }
+    .promo-coming-soon {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-warning);
+      background: var(--color-warning-bg);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar { position: sticky; top: 24px; align-self: start; }
+    .sidebar-card {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+    .sidebar-card h4 {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .sidebar-card ol {
+      padding-left: 18px;
+      margin: 0 0 16px;
+    }
+    .sidebar-card li { margin-bottom: 8px; }
+    .sidebar-card a {
+      font-size: var(--text-sm);
+      color: var(--color-accent-text);
+      text-decoration: none;
+    }
+    .sidebar-card a:hover { text-decoration: underline; }
+    .sidebar-cta {
+      display: block;
+      text-align: center;
+      background: var(--color-accent);
+      color: var(--color-bg-base);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      text-decoration: none !important;
+      margin-top: 4px;
+    }
+    .sidebar-cta:hover { background: var(--color-accent-hover); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--color-border-subtle);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    footer a { color: var(--color-accent-text); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Article hero image ── */
+    .article-hero-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      display: block;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+    }
+    .article-hero-img-wrap {
+      margin: 40px 0 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+  </style>
+  <link rel="stylesheet" href="site.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <div class="nav-outer">
+    <nav>
+      <a class="nav-brand" href="/">markdown<span>heaven</span>.com</a>
+      <a class="nav-link" href="/">All tools</a>
+    </nav>
+  </div>
+
+  <div class="page-wrapper">
+
+    <section class="hero">
+      <span class="hero-eyebrow">Code blocks &amp; syntax highlighting</span>
+      <div class="hero-accent-line"></div>
+      <h1>The language hint that gives code its colors</h1>
+      <p class="hero-lead">
+        When you write <code>```python</code> above a code block, VS Code, GitHub, ChatGPT, and dozens of other tools automatically colorize keywords, strings, and comments. Here's exactly how that works — and what falls apart when you leave the hint out.
+      </p>
+    </section>
+
+    <!-- Article hero illustration -->
+    <div class="article-hero-img-wrap">
+      <img class="article-hero-img"
+           src="illustrations/syntax-highlighting.png"
+           alt="Illustration: color bands emerging from a label, human figure placing the trigger"
+           loading="eager" />
+    </div>
+
+    <div class="article">
+      <div class="content">
+
+        <!-- 1. What you see -->
+        <h2 id="what-you-see">What you actually see — and why</h2>
+        <p>
+          Open a Markdown file in VS Code and write a fenced code block with a language hint. The moment you type those characters, the code inside turns from flat grey text into a color-coded display where keywords glow blue, strings shine green, and comments fade to muted grey. That visual treatment is called <strong>syntax highlighting</strong>, and it's one of the most useful things Markdown does for code.
+        </p>
+        <p>
+          The color isn't stored anywhere in the Markdown source. There are no color codes, no CSS classes, no hidden tags. The raw source is just plain text with a language word after the opening backticks. Everything visual is computed at render time.
+        </p>
+
+        <!-- Live demo side by side -->
+        <div class="compare-grid">
+          <div>
+            <div class="compare-label bad">Without language hint — dead text</div>
+            <div class="code-block code-block-plain">
+              <div class="code-block-header">
+                <span class="code-lang">no hint</span>
+                <div class="code-dots"><span></span><span></span><span></span></div>
+              </div>
+              <div class="code-body">def greet(name):
+    message = "Hello, " + name
+    # return the greeting
+    return message
+
+result = greet("world")
+print(result)</div>
+            </div>
+          </div>
+          <div>
+            <div class="compare-label good">With ```python — highlighted</div>
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-lang">python</span>
+                <div class="code-dots"><span></span><span></span><span></span></div>
+              </div>
+              <div class="code-body"><span class="kw">def</span> <span class="fn">greet</span>(<span class="op">name</span>):
+    message <span class="op">=</span> <span class="str">"Hello, "</span> <span class="op">+</span> name
+    <span class="cmt"># return the greeting</span>
+    <span class="kw">return</span> message
+
+result <span class="op">=</span> <span class="fn">greet</span>(<span class="str">"world"</span>)
+<span class="fn">print</span>(result)</div>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          The Markdown source for both blocks is identical except for one word on the opening fence line. The renderer does all the work.
+        </p>
+
+        <!-- 2. How it works -->
+        <h2 id="how-it-works">How the coloring actually happens</h2>
+        <p>
+          When a renderer encounters a fenced code block with a language hint, it runs the content through a <strong>tokenizer</strong> — a program that reads the text and classifies each fragment by its role in that programming language. The tokenizer knows that <code>def</code> is a Python keyword, that text between double quotes is a string literal, that a line starting with <code>#</code> is a comment.
+        </p>
+        <p>
+          Each classified fragment gets wrapped in a <code>&lt;span&gt;</code> with a CSS class like <code>.keyword</code>, <code>.string</code>, or <code>.comment</code>. Then a <strong>color theme</strong> — just a CSS file — maps those classes to actual colors. VS Code ships dozens of themes that all reuse the same token classes but apply different colors to them. That's why your code looks different in "Monokai" vs. "GitHub Light" vs. "Dracula" even though the underlying structure is identical.
+        </p>
+
+        <div class="pipeline">
+          <div class="pipeline-step"><strong>Input</strong>Raw Markdown text</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><strong>Language ID</strong>```python, ```js …</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><strong>Tokenizer</strong>Classifies fragments</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><strong>Spans + classes</strong>.keyword .string …</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><strong>Color theme</strong>CSS maps class→color</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-step"><strong>Output</strong>Colored HTML</div>
+        </div>
+
+        <p>
+          The most common tokenizer libraries used across tools are <strong>highlight.js</strong> (used by many Markdown renderers and ChatGPT), <strong>Prism.js</strong> (used by many static site generators and documentation tools), and <strong>TextMate grammars</strong> (the format VS Code, GitHub, and Sublime Text use). They all do roughly the same job with slightly different language coverage and accuracy.
+        </p>
+
+        <div class="callout">
+          <p><strong>Why do some tools get highlighting slightly wrong?</strong> Tokenizing is hard. Real programming languages have context-dependent rules that simple pattern matching misses. A string containing <code>#</code> might look like a comment to a naive tokenizer. Most tools use heuristics and grammars that are good enough for reading purposes but not a full language parser. VS Code's grammars are among the most accurate because they're the same ones used to power actual IntelliSense.</p>
+        </div>
+
+        <!-- 3. Syntax -->
+        <h2 id="syntax">The Markdown syntax — exactly how to write it</h2>
+        <p>
+          A fenced code block uses three backticks to open and three to close. The language identifier goes immediately after the opening backticks, no space:
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-lang">markdown source</span>
+            <div class="code-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div class="code-body"><span class="op">```python</span>
+<span class="kw">def</span> <span class="fn">hello</span>():
+    <span class="kw">return</span> <span class="str">"world"</span>
+<span class="op">```</span></div>
+        </div>
+
+        <p>
+          Three backticks, language name, newline, code, newline, three backticks. That's the entire syntax. The language identifier is case-insensitive in most renderers — <code>Python</code>, <code>PYTHON</code>, and <code>python</code> all work.
+        </p>
+        <p>
+          You can also use tildes (<code>~~~</code>) instead of backticks in standard CommonMark Markdown. Backticks are more widely supported and more commonly used.
+        </p>
+
+        <!-- Language table -->
+        <h2 id="language-identifiers">Common language identifiers</h2>
+        <p>
+          Each language has one canonical identifier and often several accepted aliases. These are the ones you're likely to use:
+        </p>
+
+        <table class="lang-table">
+          <thead>
+            <tr>
+              <th>Language</th>
+              <th>Primary identifier</th>
+              <th>Common aliases</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Python</td><td><code>python</code></td><td><code>py</code></td></tr>
+            <tr><td>JavaScript</td><td><code>javascript</code></td><td><code>js</code></td></tr>
+            <tr><td>TypeScript</td><td><code>typescript</code></td><td><code>ts</code></td></tr>
+            <tr><td>C#</td><td><code>csharp</code></td><td><code>cs</code>, <code>c#</code></td></tr>
+            <tr><td>C / C++</td><td><code>c</code> / <code>cpp</code></td><td><code>c++</code></td></tr>
+            <tr><td>Java</td><td><code>java</code></td><td>—</td></tr>
+            <tr><td>Go</td><td><code>go</code></td><td><code>golang</code></td></tr>
+            <tr><td>Rust</td><td><code>rust</code></td><td><code>rs</code></td></tr>
+            <tr><td>HTML</td><td><code>html</code></td><td><code>htm</code></td></tr>
+            <tr><td>CSS</td><td><code>css</code></td><td><code>scss</code>, <code>sass</code></td></tr>
+            <tr><td>SQL</td><td><code>sql</code></td><td>—</td></tr>
+            <tr><td>Shell / Bash</td><td><code>bash</code></td><td><code>sh</code>, <code>shell</code>, <code>zsh</code></td></tr>
+            <tr><td>PowerShell</td><td><code>powershell</code></td><td><code>ps1</code>, <code>pwsh</code></td></tr>
+            <tr><td>JSON</td><td><code>json</code></td><td>—</td></tr>
+            <tr><td>YAML</td><td><code>yaml</code></td><td><code>yml</code></td></tr>
+            <tr><td>XML</td><td><code>xml</code></td><td><code>xaml</code></td></tr>
+            <tr><td>Markdown</td><td><code>markdown</code></td><td><code>md</code></td></tr>
+            <tr><td>Plain text (no color)</td><td><code>text</code></td><td><code>txt</code>, <code>plain</code></td></tr>
+          </tbody>
+        </table>
+
+        <p>
+          If the renderer doesn't recognize the identifier, it typically falls back to displaying the block as plain monospace text — no error, just no color. This is the same result as omitting the hint entirely.
+        </p>
+
+        <!-- 4. Where it works -->
+        <h2 id="where-it-works">Where syntax highlighting works</h2>
+
+        <table class="support-table">
+          <thead>
+            <tr>
+              <th>Tool / Platform</th>
+              <th>Supports highlighting</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>VS Code</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>Full TextMate grammar support, theme-aware, hundreds of languages</td>
+            </tr>
+            <tr>
+              <td><strong>GitHub / GitLab / Bitbucket</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>Both in README files and in inline code review comments</td>
+            </tr>
+            <tr>
+              <td><strong>ChatGPT</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>Uses highlight.js; AI automatically adds the language hint when generating code</td>
+            </tr>
+            <tr>
+              <td><strong>Claude</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>Same — AI adds the hint automatically, renderer colorizes it</td>
+            </tr>
+            <tr>
+              <td><strong>Obsidian</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>In preview mode and Live Preview; theme-dependent colors</td>
+            </tr>
+            <tr>
+              <td><strong>Notion</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>Supports common languages; language selector in the block UI</td>
+            </tr>
+            <tr>
+              <td><strong>Slack</strong></td>
+              <td><span class="badge badge-no">No</span></td>
+              <td>Renders code blocks as monospace but ignores the language hint</td>
+            </tr>
+            <tr>
+              <td><strong>Microsoft Teams</strong></td>
+              <td><span class="badge badge-no">No</span></td>
+              <td>Same — monospace block, no coloring</td>
+            </tr>
+            <tr>
+              <td><strong>Microsoft Word</strong></td>
+              <td><span class="badge badge-no">No</span></td>
+              <td>Word has no Markdown renderer; code blocks must be converted first (see below)</td>
+            </tr>
+            <tr>
+              <td><strong>Gmail / Outlook (web)</strong></td>
+              <td><span class="badge badge-no">No</span></td>
+              <td>Email composers don't render Markdown at all</td>
+            </tr>
+            <tr>
+              <td><strong>Jupyter Notebooks</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>In Markdown cells; language cells always highlighted by kernel language</td>
+            </tr>
+            <tr>
+              <td><strong>GitHub Pages / Jekyll / Hugo</strong></td>
+              <td><span class="badge badge-yes">Yes</span></td>
+              <td>Uses Rouge or Prism; theme must be configured in site CSS</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-warning">
+          <p><strong>The language hint is preserved even when highlighting doesn't render.</strong> If you write your Markdown with correct hints in VS Code and then paste it somewhere that doesn't support highlighting — like Slack — the text still displays in a monospace block. The hint string (<code>python</code>) might appear as a label or be silently ignored, but it doesn't break anything. You lose the color but keep the structure.</p>
+        </div>
+
+        <!-- 5. How AI uses it -->
+        <h2 id="ai-and-highlighting">Why AI chatbots add the hint automatically</h2>
+        <p>
+          When ChatGPT, Claude, or Gemini generates a code response, the language identifier appears automatically. You didn't ask for it — the model adds it because it was trained on vast amounts of Markdown where code blocks consistently carried language hints. The model learned that well-formed code blocks include the hint and reproduces that pattern.
+        </p>
+        <p>
+          This is one of those places where training on human-written Markdown produces a concretely useful behavior. The AI has essentially internalized the convention.
+        </p>
+        <p>
+          It also means that the colorized output you see in a ChatGPT or Claude response is not coming from the AI — the AI outputs plain text with a language hint. The <em>interface</em> (the web application around the model) is doing the rendering and the coloring. If you copy the raw Markdown source from the copy button and paste it into a plain text file, you'll see the fence and the identifier but no color — because your text editor has no renderer.
+        </p>
+
+        <!-- 6. Word / conversion -->
+        <h2 id="word-and-conversion">What happens when you convert to Word</h2>
+        <p>
+          Word documents don't have a syntax highlighting engine. A <code>.docx</code> file can contain a code block — a paragraph with a monospace font and a grey background — but it won't colorize tokens based on programming language. The structure is preserved; the colors are not.
+        </p>
+        <p>
+          When a Markdown-to-Word converter processes a fenced code block, the best it can do is output a styled paragraph in a monospace font (typically Consolas or Courier New) with a light background fill to visually separate it from prose. The language hint may be used to add a label, but the individual tokens won't be colored unless the converter explicitly runs its own tokenizer and applies character-level text color — which very few do, because it produces enormous file sizes and fragile formatting.
+        </p>
+
+        <div class="callout">
+          <p><strong>This is a reasonable tradeoff.</strong> Documents sent by email or submitted as reports are rarely expected to contain syntax-highlighted code. Monospace + background is already a significant improvement over plain paragraph text. If you need color in Word specifically, the most robust approach is to use a dedicated code formatter like <em>Notepad++ → Copy as RTF</em> and paste the result as rich text, or use a VS Code extension that exports colorized HTML which Word can import.</p>
+        </div>
+
+        <div class="promo-card">
+          <div class="promo-card-header">
+            <span class="promo-card-eyebrow">Web tool</span>
+            <h3>Paste Markdown. Get a proper Word document.</h3>
+            <p>markdownword.com converts your Markdown — including fenced code blocks — into a correctly structured <code>.docx</code> file with real heading styles, real lists, and code blocks in a styled monospace font. No manual reformatting.</p>
+          </div>
+          <div class="promo-card-footer">
+            <p><strong>markdownword.com</strong> — free web tool, paste and download. No account required.</p>
+            <a href="https://markdownword.com" class="promo-coming-soon" style="text-decoration:none;">Try it →</a>
+          </div>
+        </div>
+
+        <!-- 7. Tips -->
+        <h2 id="practical-tips">Practical tips</h2>
+
+        <h3>Always add the language hint</h3>
+        <p>
+          There is no cost to adding it and a clear benefit in any renderer that supports highlighting. Make it a habit: whenever you open a fenced code block, immediately type the language identifier. This takes under a second and improves readability everywhere the Markdown is rendered.
+        </p>
+
+        <h3>Use <code>text</code> when you explicitly want no color</h3>
+        <p>
+          If you're showing output, logs, or content that looks like code but shouldn't be colorized — command output, file paths, error messages — use <code>```text</code>. This tells the renderer "this is a code block, use monospace, but don't try to colorize it". It produces cleaner results than omitting the hint, because some renderers attempt auto-detection on unhinted blocks and get it wrong.
+        </p>
+
+        <h3>Use <code>bash</code> or <code>sh</code> for command-line instructions</h3>
+        <p>
+          Shell commands are some of the most commonly written code blocks in documentation and AI responses. <code>```bash</code> highlights the command name, flags, and arguments in a way that makes multi-step instructions much easier to scan.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-lang">bash</span>
+            <div class="code-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div class="code-body"><span class="cmt"># Install dependencies and start the dev server</span>
+<span class="fn">npm</span> install
+<span class="fn">npm</span> run dev <span class="op">--</span>port <span class="num">3000</span></div>
+        </div>
+
+        <h3>Check the identifier if highlighting looks wrong</h3>
+        <p>
+          If your code block is colorized but the colors seem off — comments treated as strings, keywords not highlighted — the most common cause is a wrong or unsupported language identifier. Try the canonical name from the table above. If that doesn't help, try <code>text</code> to suppress auto-detection attempts.
+        </p>
+
+      </div><!-- /.content -->
+
+      <!-- Sidebar TOC -->
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#what-you-see">What you see — and why</a></li>
+            <li><a href="#how-it-works">How the coloring happens</a></li>
+            <li><a href="#syntax">The Markdown syntax</a></li>
+            <li><a href="#language-identifiers">Language identifiers</a></li>
+            <li><a href="#where-it-works">Where it works</a></li>
+            <li><a href="#ai-and-highlighting">AI chatbots and the hint</a></li>
+            <li><a href="#word-and-conversion">What happens in Word</a></li>
+            <li><a href="#practical-tips">Practical tips</a></li>
+          </ol>
+          <a href="https://markdownword.com" class="sidebar-cta">Try markdownword.com →</a>
+          <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--color-border-subtle);">
+            <p style="font-size:var(--text-xs); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-text-muted); margin-bottom:8px;">Also coming</p>
+            <p style="font-size:var(--text-sm); color:var(--color-text-secondary); margin:0; line-height:1.5;"><strong>ClipboardFormatter</strong> — Windows tray app that transforms clipboard content before you paste. <span style="color:var(--color-warning); font-weight:600;">Soon</span></p>
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- /.article -->
+  </div><!-- /.page-wrapper -->
+
+  <footer>
+    <p>Part of the <a href="/">markdownheaven.com</a> family of Markdown tools.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spec-driven development — this is where Markdown really shines — markdownheaven.com</title>
+  <meta name="description" content="Writing specifications in Markdown before writing code is one of the most underrated uses of the format. Here's why it works — and why AI makes it even better." />
+  <meta property="og:title" content="Spec-driven development — this is where Markdown really shines" />
+  <meta property="og:description" content="Write the spec first. Write it in Markdown. Then hand it to AI. The result is cleaner, faster, and easier to maintain than any other workflow." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-08-19T00:00:00Z" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens (Theme 2 — Marketing-Web) ── */
+    :root {
+      --color-bg-base:        #ffffff;
+      --color-bg-surface:     #f8fafc;
+      --color-bg-elevated:    #f1f5f9;
+      --color-border-subtle:  #e2e8f0;
+      --color-border-default: #cbd5e1;
+      --color-text-primary:   #0f172a;
+      --color-text-secondary: #334155;
+      --color-text-muted:     #64748b;
+      --color-text-faint:     #94a3b8;
+      --color-accent:         #0284c7;
+      --color-accent-subtle:  #e0f2fe;
+      --color-accent-hover:   #0369a1;
+      --color-accent-text:    #0369a1;
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+
+      --font-sans:  'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono:  'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-lg:   18px;
+      --text-2xl:  24px;
+      --text-4xl:  36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-base);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background-color: var(--color-bg-base);
+      padding: 72px 24px 56px;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      margin-bottom: 16px;
+    }
+    .hero-date {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      max-width: 720px;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      max-width: 640px;
+      line-height: 1.6;
+    }
+    .hero-ingress {
+      margin-top: 20px;
+      font-size: var(--text-base);
+      color: var(--color-text-secondary);
+      max-width: 640px;
+      line-height: 1.75;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    /* ── Article body ── */
+    .article-outer {
+      padding: 0 24px 96px;
+    }
+    .article {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .article h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      margin-top: 56px;
+      margin-bottom: 16px;
+      padding-top: 8px;
+      border-top: 2px solid var(--color-border-subtle);
+    }
+
+    .article h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    .article p {
+      color: var(--color-text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .article a {
+      color: var(--color-accent-text);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+    .article a:hover { color: var(--color-accent-hover); }
+
+    /* ── Code block ── */
+    .code-block {
+      background: #0f172a;
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      color: #e2e8f0;
+      white-space: pre;
+    }
+    .code-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+      margin-bottom: 8px;
+    }
+
+    /* ── Pull quote ── */
+    .pullquote {
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-accent-subtle);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+    .pullquote p {
+      color: var(--color-text-primary);
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    /* ── Reason cards ── */
+    .reason-list {
+      margin: 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .reason-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .reason-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: #ffffff;
+      font-size: var(--text-xs);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .reason-body strong {
+      display: block;
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+    }
+    .reason-body p {
+      margin-bottom: 0;
+      font-size: var(--text-sm);
+      line-height: 1.65;
+    }
+
+    /* ── Two-column comparison ── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .compare-col {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+    }
+    .compare-col-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .compare-col-label.bad  { color: #b91c1c; }
+    .compare-col-label.good { color: #15803d; }
+    .compare-col p {
+      font-size: var(--text-sm);
+      line-height: 1.65;
+      color: var(--color-text-secondary);
+      margin-bottom: 0;
+      font-family: var(--font-mono);
+      white-space: pre-wrap;
+    }
+
+    /* ── Recommendation box ── */
+    .recommendation {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin: 48px 0 0;
+    }
+    .recommendation-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      margin-bottom: 10px;
+    }
+    .recommendation h3 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    .recommendation p { margin-bottom: 12px; }
+    .recommendation p:last-child { margin-bottom: 0; }
+
+    /* ── Table of contents ── */
+    .toc {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 32px 0 0;
+    }
+    .toc-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: toc;
+    }
+    .toc-list li {
+      counter-increment: toc;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: var(--text-sm);
+    }
+    .toc-list li:last-child { border-bottom: none; }
+    .toc-list li::before {
+      content: counter(toc);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-accent-text);
+      min-width: 16px;
+    }
+    .toc-list a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+    .toc-list a:hover { color: var(--color-accent); text-decoration: underline; }
+
+    /* ── Article hero image ── */
+    .article-hero-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+    }
+    .article-hero-img-wrap {
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .article-hero-placeholder {
+      width: 100%;
+      height: 360px;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 32px;
+      letter-spacing: 8px;
+      color: #94a3b8;
+    }
+
+    /* ── Footer ── */
+    .footer-outer {
+      border-top: 1px solid var(--color-border-subtle);
+      background: var(--color-bg-surface);
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-brand {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .footer-brand span { color: var(--color-accent); }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--color-text-primary); }
+    .footer-copy {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      .hero { padding: 48px 20px 40px; }
+      .article-outer { padding: 0 20px 64px; }
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="site.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <!-- Hero -->
+  <div style="background: var(--color-bg-base);">
+    <div class="hero">
+      <p class="hero-label">AI workflow · Development</p>
+      <p class="hero-date"><time datetime="2025-08-19">19 August 2025</time></p>
+      <h1>Spec-driven development — this is where Markdown really shines</h1>
+      <p class="hero-sub">Write the spec first. Write it in Markdown. Then hand it to AI. The result is cleaner, faster, and easier to maintain than anything you get from a vague prompt.</p>
+      <p class="hero-ingress">Most people who use AI for code start by describing what they want in a sentence or two. Sometimes that works. More often, the result is technically correct but slightly off — missing edge cases, wrong assumptions, structure you have to undo. The fix is not a better prompt. It's a spec. And Markdown is the only format that makes writing a spec genuinely pleasant — for you, and perfectly legible to the AI on the other end.</p>
+    </div>
+  </div>
+
+  <!-- Article hero illustration -->
+  <div class="article-hero-img-wrap">
+    <img class="article-hero-img"
+         src="illustrations/spec-driven-development.png"
+         alt="Illustration: a structured markdown document becoming clean code"
+         loading="eager"
+         onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=\'article-hero-placeholder\'># spec → code</div>')" />
+  </div>
+
+  <!-- Article -->
+  <div class="article-outer">
+    <article class="article">
+
+      <p>There is a pattern that experienced developers have used long before AI arrived: write what a piece of software is supposed to do before writing any code. Call it a spec, a design doc, a technical brief — the name doesn't matter much. What matters is that it exists, and that it forces clarity before implementation begins.</p>
+      <p>AI makes this pattern both more powerful and more accessible. A spec written in Markdown is not just documentation. It becomes the context the model reasons from — directly, without any conversion or reformatting. Write the spec clearly, and the code you get back reflects that clarity.</p>
+
+      <!-- Table of contents -->
+      <nav class="toc" aria-label="Table of contents">
+        <p class="toc-label">In this article</p>
+        <ol class="toc-list">
+          <li><a href="#the-vague-prompt-problem">The vague prompt problem</a></li>
+          <li><a href="#what-a-spec-actually-is">What a spec actually is</a></li>
+          <li><a href="#why-markdown">Why Markdown specifically</a></li>
+          <li><a href="#what-a-good-spec-looks-like">What a good spec looks like</a></li>
+          <li><a href="#the-workflow">The workflow in practice</a></li>
+          <li><a href="#the-reusability-bonus">The reusability bonus</a></li>
+        </ol>
+      </nav>
+
+      <!-- The vague prompt problem -->
+      <h2 id="the-vague-prompt-problem">The vague prompt problem</h2>
+
+      <p>When you prompt an AI with something like "write a function that processes user data", you are asking it to make a series of decisions you haven't made yourself. What does "process" mean? What does the input look like? What should happen on error? What are the edge cases?</p>
+      <p>The model will answer these questions — it has to — but it answers them based on the most common patterns in its training data, not based on your specific situation. The result is code that might work for someone's problem. Often not yours.</p>
+
+      <div class="compare-grid">
+        <div class="compare-col">
+          <div class="compare-col-label bad">Vague prompt</div>
+          <p>Write a function that validates a user registration form.</p>
+        </div>
+        <div class="compare-col">
+          <div class="compare-col-label good">Spec-driven prompt</div>
+          <p>## validateRegistration(input)
+
+**Input**
+- email: string (required, valid format)
+- password: string (min 8 chars, 1 digit)
+- displayName: string (optional, max 40 chars)
+
+**Returns**
+{ valid: bool, errors: string[] }
+
+**Edge cases**
+- Email with + alias must pass
+- Password "12345678" fails (no letter)
+- Empty displayName → omit from output</p>
+        </div>
+      </div>
+
+      <p>The second version takes three minutes to write. It saves you considerably more than that in review, correction, and debugging cycles. And — crucially — it exists now as a document you can return to, share, and update.</p>
+
+      <!-- What a spec actually is -->
+      <h2 id="what-a-spec-actually-is">What a spec actually is</h2>
+
+      <p>A spec for AI-assisted development doesn't have to be a formal engineering document. It just needs to answer the questions the model would otherwise guess at:</p>
+
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-body">
+            <strong>What is this?</strong>
+            <p>One or two sentences. The purpose of the function, component, or module. What problem it solves and for whom.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">2</div>
+          <div class="reason-body">
+            <strong>What goes in and what comes out?</strong>
+            <p>Inputs with types and constraints. Outputs with shape and meaning. This is the contract. Everything else follows from it.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">3</div>
+          <div class="reason-body">
+            <strong>What are the edge cases?</strong>
+            <p>The things that are not obvious from the happy path. Empty inputs. Invalid values. Race conditions. The cases you know will arise because you know the domain.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">4</div>
+          <div class="reason-body">
+            <strong>What does it depend on?</strong>
+            <p>External services, existing modules, libraries that must or must not be used. Context the model doesn't have unless you provide it.</p>
+          </div>
+        </div>
+      </div>
+
+      <p>That's it. No formal notation required. Plain language, organised with headings and lists, is sufficient — and Markdown is the natural format for exactly that.</p>
+
+      <!-- Why Markdown -->
+      <h2 id="why-markdown">Why Markdown specifically</h2>
+
+      <p>This is where Markdown really shines. Not because of any particular feature, but because of its fundamental property: it is structured text that is equally readable by humans and AI, with no translation layer in between.</p>
+
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-body">
+            <strong>Structure carries meaning without ceremony</strong>
+            <p>A <code>##</code> heading in your spec becomes a section the model treats as a distinct concept. A bullet list communicates enumeration. A code block signals: this is literal, not approximate. You get semantic structure without XML, without JSON, without any format the model has to parse. The structure is already there, embedded in the text itself.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">2</div>
+          <div class="reason-body">
+            <strong>AI outputs Markdown natively</strong>
+            <p>Claude, ChatGPT, Gemini — they all respond in Markdown. When your spec is in Markdown, the model's output can feed back into the same format without any friction. The spec can grow to include code examples the model generated, responses you accepted, and clarifications you added. It stays coherent as a document.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">3</div>
+          <div class="reason-body">
+            <strong>Version control works properly</strong>
+            <p>Markdown is plain text. Git diffs are readable. When your spec evolves — and it will — you can see exactly what changed, review the history, and understand why a particular decision was made. A Word document or a Notion page can hold this information, but they cannot give you a clean <code>git diff</code>.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">4</div>
+          <div class="reason-body">
+            <strong>The spec lives alongside the code</strong>
+            <p>A <code>SPEC.md</code> file in the same folder as the code it describes is accessible to every tool in your workflow. It can be referenced in a README, linked in a PR, reviewed by a colleague, or fed to an AI in a future session without any export or conversion step.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pullquote">
+        <p>Markdown is the one format where the way it looks when you write it is precisely how AI reads it. That alignment is not incidental — it is the reason spec-driven development and Markdown belong together.</p>
+      </div>
+
+      <!-- What a good spec looks like -->
+      <h2 id="what-a-good-spec-looks-like">What a good spec looks like</h2>
+
+      <p>A practical example. This is a spec for a small utility function — not a large system, just something representative of daily work:</p>
+
+      <div class="code-block">
+        <div class="code-label">example spec — parseInvoiceDate.md</div>
+        <pre>## parseInvoiceDate(raw: string): Date | null
+
+Parses a date string from an imported invoice CSV.
+Returns a JavaScript Date if the input is recognisable,
+or null if it cannot be parsed reliably.
+
+### Input formats observed in the wild
+
+- `2024-11-03` — ISO 8601 (most common)
+- `03/11/2024` — DD/MM/YYYY (Swedish suppliers)
+- `November 3, 2024` — long-form English (some UK invoices)
+- `3 nov 2024` — abbreviated Swedish month names
+
+### What NOT to accept
+
+- US-style MM/DD/YYYY — ambiguous, never appears in our data
+- Two-digit years — treat as invalid
+- Relative strings like "yesterday" — return null
+
+### Error handling
+
+- Return null (not throw) on unrecognised format
+- Log a warning to console with the raw input when returning null
+
+### Dependencies
+
+- No external date libraries. Use built-in Date parsing
+  with explicit format detection.
+- Must run in both Node and browser environments.</pre>
+      </div>
+
+      <p>This takes perhaps five minutes to write. It eliminates an entire category of back-and-forth: the model won't guess that you want null instead of an exception, won't introduce a date library you didn't want, and won't conflate DD/MM and MM/DD. Every one of those decisions is already made.</p>
+
+      <!-- The workflow in practice -->
+      <h2 id="the-workflow">The workflow in practice</h2>
+
+      <p>The workflow is straightforward:</p>
+
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-body">
+            <strong>Write the spec before asking for code</strong>
+            <p>Open a <code>.md</code> file. Write what you know about the problem. Leave blanks where you're uncertain — those are exactly the places the model can help clarify before it writes a single line of code.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">2</div>
+          <div class="reason-body">
+            <strong>Use the spec as your prompt context</strong>
+            <p>Paste the spec into the prompt. Append your instruction: "Implement this in TypeScript", or "Review this spec and flag any ambiguities before we write code." The spec is the context; the instruction is short.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">3</div>
+          <div class="reason-body">
+            <strong>Update the spec when requirements change</strong>
+            <p>When you discover a new edge case, add it to the spec. When a dependency changes, update the constraints. The spec becomes the single source of truth — more useful than inline comments, more durable than chat history.</p>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">4</div>
+          <div class="reason-body">
+            <strong>Check the output against the spec, not intuition</strong>
+            <p>Code review becomes mechanical in the best way: does the implementation match the spec? If yes, it's correct. If not, either the code is wrong or the spec needs updating. Either way, you have a clear decision to make.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- The reusability bonus -->
+      <h2 id="the-reusability-bonus">The reusability bonus</h2>
+
+      <p>A spec written in Markdown doesn't become obsolete after the first implementation. It is reusable context — in the sense that you can drop it into any future conversation, with any AI tool, and immediately pick up where you left off without re-explaining the domain.</p>
+
+      <p>This is closely related to a broader pattern: using Markdown files as lightweight, portable context for AI agents. You don't need a vector database or an embedding pipeline to give an AI tool meaningful background knowledge about your project. A well-written Markdown file will do. That idea is worth exploring on its own — and it's covered in <a href="markdown-as-rag.html">Markdown as RAG: your own lightweight context layer</a>.</p>
+
+      <div class="recommendation">
+        <div class="recommendation-label">The pattern</div>
+        <h3>Spec first, code second</h3>
+        <p>Before asking AI for code, write a <code>SPEC.md</code>. Describe what the function or module is supposed to do. Specify inputs, outputs, and edge cases. Note dependencies and constraints.</p>
+        <p>Markdown is the right format for this because it structures your thinking without bureaucracy, renders in every tool, and is read by AI with exactly the fidelity you'd hope for. The five minutes you spend writing the spec are almost always recovered in the first round of review.</p>
+        <p>Start small. Pick one function you're about to implement. Write the spec before you write the prompt. See what comes back. The quality difference is usually clear enough on the first attempt.</p>
+      </div>
+
+      <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); color: var(--color-text-faint);">
+        Related reading: <a href="spec-driven-workflow.html">The full workflow — phases, slices and prompts</a> · <a href="markdown-as-rag.html">Markdown as RAG — your own lightweight context layer</a> · <a href="which-markdown-flavor-for-ai.html">Which Markdown flavor for AI?</a> · <a href="plain-text-formatted.html">Plain text formatted — what "AI-ready" really means</a>
+      </p>
+
+    </article>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+</body>
+</html>

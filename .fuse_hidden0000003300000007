@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jupyter Notebooks and Markdown — markdownheaven.com</title>
+  <meta name="description" content="A Jupyter notebook stores its documentation as raw Markdown strings inside a JSON file. That design decision, made in 2011, turns out to align exactly with how language models think." />
+  <meta property="og:title" content="Jupyter Notebooks and Markdown" />
+  <meta property="og:description" content="The .ipynb format stores Markdown as plain strings in JSON. That turns Jupyter into one of the most AI-native document formats in wide use — by accident." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens ── */
+    :root {
+      --color-bg-base:        #ffffff;
+      --color-bg-surface:     #f8fafc;
+      --color-bg-elevated:    #f1f5f9;
+      --color-border-subtle:  #e2e8f0;
+      --color-border-default: #cbd5e1;
+      --color-text-primary:   #0f172a;
+      --color-text-secondary: #334155;
+      --color-text-muted:     #64748b;
+      --color-text-faint:     #94a3b8;
+      --color-accent:         #0284c7;
+      --color-accent-subtle:  #e0f2fe;
+      --color-accent-hover:   #0369a1;
+      --color-accent-text:    #0369a1;
+      --color-accent-light:   #38bdf8;
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+
+      --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono: 'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-lg:   18px;
+      --text-2xl:  24px;
+      --text-4xl:  36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-base);
+    }
+
+    /* ── Nav ── */
+    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
+    nav {
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .nav-brand {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--color-accent); }
+    nav a.nav-link {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    nav a.nav-link:hover { color: var(--color-text-primary); }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+
+    /* ── Accent line ── */
+    .accent-line {
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 24px 48px;
+    }
+    .hero-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+    .hero-ingress {
+      font-size: var(--text-base);
+      color: var(--color-text-secondary);
+      line-height: 1.75;
+      border-left: 3px solid var(--color-accent);
+      padding-left: 20px;
+    }
+
+    /* ── Article ── */
+    .article-outer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .article p {
+      margin-bottom: 20px;
+      color: var(--color-text-secondary);
+      line-height: 1.75;
+    }
+    .article h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-top: 56px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+      padding-top: 8px;
+      border-top: 2px solid var(--color-border-subtle);
+    }
+    .article h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin: 32px 0 12px;
+    }
+    .article a {
+      color: var(--color-accent-text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .article a:hover { color: var(--color-accent-hover); }
+    .article code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 1px 5px;
+      color: var(--color-text-primary);
+    }
+    .article pre {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      overflow-x: auto;
+      margin: 24px 0;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.65;
+      color: var(--color-text-primary);
+    }
+    .article pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* ── Pre label ── */
+    .code-block { margin: 28px 0; }
+    .code-block-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-bottom: none;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      padding: 7px 16px;
+    }
+    .code-block pre {
+      margin: 0;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+
+    /* ── Pull quote ── */
+    .pullquote {
+      margin: 36px 0;
+      padding: 24px 28px;
+      background: var(--color-accent-subtle);
+      border-left: 4px solid var(--color-accent);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+    .pullquote p {
+      font-size: var(--text-lg);
+      color: var(--color-text-primary);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 10px !important;
+    }
+    .pullquote cite {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: normal;
+    }
+
+    /* ── Infobox ── */
+    .infobox {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      padding: 28px 32px;
+      margin: 40px 0;
+    }
+    .infobox h3 {
+      margin-top: 0;
+      border: none;
+    }
+    .infobox ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .infobox li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+    }
+    .infobox li:last-child { border-bottom: none; }
+    .infobox li strong {
+      display: block;
+      color: var(--color-text-primary);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    /* ── Table of contents ── */
+    .toc {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 32px 0 0;
+    }
+    .toc-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: toc;
+    }
+    .toc-list li {
+      counter-increment: toc;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: var(--text-sm);
+    }
+    .toc-list li:last-child { border-bottom: none; }
+    .toc-list li::before {
+      content: counter(toc);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-accent-text);
+      min-width: 16px;
+    }
+    .toc-list a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+    .toc-list a:hover { color: var(--color-accent); text-decoration: underline; }
+
+    /* ── Footer ── */
+    .footer-outer {
+      border-top: 1px solid var(--color-border-subtle);
+      background: var(--color-bg-surface);
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-brand {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .footer-brand span { color: var(--color-accent); }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--color-text-primary); }
+    .footer-copy {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      .hero { padding: 48px 20px 40px; }
+      .article-outer { padding: 0 20px 64px; }
+      nav { padding: 0 20px; }
+    }
+
+    /* ── Article hero image ── */
+    .article-hero-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+    }
+    .article-hero-img-wrap {
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+  </style>
+  <link rel="stylesheet" href="site.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <div class="accent-line"></div>
+
+  <div class="nav-outer">
+    <nav>
+      <a href="/" class="nav-brand">markdown<span>heaven</span></a>
+      <div class="nav-links">
+        <a href="/plain-text-formatted.html" class="nav-link">Plain text formatted</a>
+        <a href="/history.html" class="nav-link">History</a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <div style="background: var(--color-bg-base);">
+    <div class="hero">
+      <p class="hero-label">Notebooks</p>
+      <h1>Jupyter Notebooks and Markdown</h1>
+      <p class="hero-sub">A Jupyter notebook stores its documentation as raw Markdown strings inside a plain JSON file. That design decision, made in 2011, turns out to align exactly with how language models read and write text.</p>
+      <p class="hero-ingress">Jupyter notebooks have two surfaces. The rendered view in a browser shows formatted headings, executed code, plots, and output. Underneath that view is a plain JSON file — open it in a text editor and the structure is immediately legible. The documentation sections are stored as raw Markdown, exactly as written, not preprocessed or converted into anything else. That plainness is not a limitation. It is the reason Jupyter notebooks are one of the most AI-native document formats in wide use.</p>
+    </div>
+  </div>
+
+  <!-- Article hero illustration -->
+  <div class="article-hero-img-wrap">
+    <img class="article-hero-img"
+         src="illustrations/jupyter-notebooks.png"
+         alt="Illustration: layered blocks representing notebook cells, human figure assembling them"
+         loading="eager" />
+  </div>
+
+  <!-- Article -->
+  <div class="article-outer">
+    <article class="article">
+
+      <p>Most document formats hide their content behind a layer of encoding. A Word document is a ZIP archive full of XML. A PDF is a stack of instructions for a page description language. A Jupyter notebook, by contrast, is just JSON. Open it, read it, edit it with any tool that handles text. The documentation cells are Markdown strings. The code cells are source code strings. The outputs are whatever the kernel produced. Everything is there, and nothing requires special software to inspect.</p>
+
+      <p>This openness is why language models interact with notebooks more naturally than with almost any other document format. But to understand why, it helps to start with where the format came from.</p>
+
+      <!-- TOC -->
+      <nav class="toc" aria-label="Table of contents">
+        <p class="toc-label">In this article</p>
+        <ol class="toc-list">
+          <li><a href="#from-ipython-to-jupyter">From IPython to Jupyter</a></li>
+          <li><a href="#cell-types">Two cell types, one document</a></li>
+          <li><a href="#raw-format">Inside the format: <code>.ipynb</code> is JSON</a></li>
+          <li><a href="#language-models">Why language models speak notebook natively</a></li>
+          <li><a href="#generating-notebooks">Generating notebooks with AI</a></li>
+          <li><a href="#seams">Where the format shows its seams</a></li>
+        </ol>
+      </nav>
+
+      <!-- 1 -->
+      <h2 id="from-ipython-to-jupyter">From IPython to Jupyter</h2>
+
+      <p>Fernando Pérez created <a href="https://ipython.org" target="_blank" rel="noopener">IPython</a> in 2001 as a better interactive shell for Python — one that kept a history of commands and made it easy to experiment without writing full scripts. For nearly a decade it was a command-line tool. Then, in 2011, a browser-based interface called the IPython Notebook was added. You could now write code in a browser, execute it, and see the output directly below the cell. Prose and code could sit on the same page.</p>
+
+      <p>In 2014 the project was renamed <a href="https://jupyter.org" target="_blank" rel="noopener">Jupyter</a> — a portmanteau of Julia, Python, and R, the three languages it first supported. Today it supports dozens of languages through a kernel system, but the core idea has not changed: an interactive document where prose and executable code take turns.</p>
+
+      <div class="pullquote">
+        <p>"The IPython Notebook is a web-based interactive computational environment where you can combine code execution, text, mathematics, plots and rich media into a single document."</p>
+        <cite>— IPython Notebook announcement, 2011</cite>
+      </div>
+
+      <p>The file format for storing notebooks was called <code>.ipynb</code> from the start — short for IPython Notebook. The name stuck through the rename. A <code>.ipynb</code> file is a Jupyter notebook regardless of which language it contains or which version of Jupyter created it.</p>
+
+      <!-- 2 -->
+      <h2 id="cell-types">Two cell types, one document</h2>
+
+      <p>A notebook is a sequence of cells. Each cell has a type. For most purposes, only two types matter:</p>
+
+      <div class="infobox">
+        <h3>Cell types</h3>
+        <ul>
+          <li>
+            <strong>Code cells</strong>
+            Contain executable source code. When you run a code cell, the kernel executes it and any output — text, numbers, tables, plots, error messages — is stored directly below the cell in the notebook. Code cells carry a counter showing the order in which they were executed.
+          </li>
+          <li>
+            <strong>Markdown cells</strong>
+            Contain documentation written in Markdown. When rendered, they appear as formatted prose: headings, bullet points, bold text, links, inline code, and LaTeX math. When raw, they are just Markdown source. Markdown cells do not execute. They exist purely to explain what the code cells do, provide context, or structure the notebook into readable sections.
+          </li>
+          <li>
+            <strong>Raw cells</strong>
+            Pass-through content for tools like <a href="https://nbconvert.readthedocs.io/" target="_blank" rel="noopener">nbconvert</a>. Not commonly used in everyday notebooks.
+          </li>
+        </ul>
+      </div>
+
+      <p>The interleaving of Markdown and code is the central idea. A well-written notebook reads like a document: an introduction, a section of code that does something, a Markdown explanation of the result, more code, more explanation. The notebook becomes both the working environment and the final report. This style — sometimes called literate programming — was articulated by Donald Knuth in the 1980s as an ideal that most programming environments never quite achieved. Jupyter, accidentally or not, came closer than most.</p>
+
+      <!-- 3 -->
+      <h2 id="raw-format">Inside the format: <code>.ipynb</code> is JSON</h2>
+
+      <p>Open any <code>.ipynb</code> file in a text editor and the structure is immediately visible. The file has a top-level <code>"cells"</code> array and a <code>"metadata"</code> object. Each element of the cells array is a JSON object with a <code>"cell_type"</code> field, a <code>"source"</code> field, and a handful of others depending on type.</p>
+
+      <p>Here is what a Markdown cell looks like on disk:</p>
+
+      <div class="code-block">
+        <div class="code-block-label">Markdown cell — raw JSON</div>
+        <pre><code>{
+  "cell_type": "markdown",
+  "metadata": {},
+  "source": [
+    "## Data cleaning\n",
+    "\n",
+    "Before fitting the model, we remove outliers using a 3-sigma cutoff.\n",
+    "This step is critical — see the referenced paper for full justification.\n",
+    "\n",
+    "- Values more than 3 standard deviations from the mean are dropped.\n",
+    "- The threshold was chosen empirically on the validation set."
+  ]
+}</code></pre>
+      </div>
+
+      <p>The <code>"source"</code> field is an array of strings, one per line of Markdown, each ending in <code>\n</code>. That is the complete representation of the documentation cell. No encoding, no transformation, no binary data. It is Markdown, stored as Markdown, inside JSON.</p>
+
+      <p>A code cell that follows it looks structurally similar, with the addition of output storage:</p>
+
+      <div class="code-block">
+        <div class="code-block-label">Code cell — raw JSON</div>
+        <pre><code>{
+  "cell_type": "code",
+  "execution_count": 4,
+  "metadata": {},
+  "outputs": [
+    {
+      "name": "stdout",
+      "output_type": "stream",
+      "text": ["Removed 23 outliers. 4977 rows remaining.\n"]
+    }
+  ],
+  "source": [
+    "threshold = df['value'].mean() + 3 * df['value'].std()\n",
+    "removed = df[df['value'] > threshold]\n",
+    "df = df[df['value'] <= threshold]\n",
+    "print(f'Removed {len(removed)} outliers. {len(df)} rows remaining.')"
+  ]
+}</code></pre>
+      </div>
+
+      <p>The outputs of executed cells are also stored in the file. This means a notebook saved after execution contains not just the code and documentation, but also a snapshot of every result. A reader who opens the file without a running kernel can still see what the code produced when it was last run.</p>
+
+      <!-- 4 -->
+      <h2 id="language-models">Why language models speak notebook natively</h2>
+
+      <p>Language models are trained on large amounts of text scraped from the public internet. GitHub is a substantial part of that training data, and GitHub hosts millions of <code>.ipynb</code> files — data science tutorials, research code, machine learning experiments, university course materials. The notebook format appears in training data at scale, in its raw JSON form.</p>
+
+      <p>This means language models have seen the structure repeatedly. They know that <code>"cell_type": "markdown"</code> is followed by prose, that <code>"cell_type": "code"</code> is followed by executable source, and that the two alternate in a logical progression. More importantly, the documentation cells are written in Markdown — the same format that dominates the rest of the training data. There is no translation step. The model reads a notebook the same way it reads a README or a blog post: as structured text.</p>
+
+      <p>Markdown is particularly well-suited to this because it is <a href="/plain-text-formatted.html">plain text formatted</a> — the semantics of the document are visible in the source itself. A heading is a heading because it starts with <code>#</code>, not because a stylesheet says so. A code sample is marked as code because it is in backticks, not because of invisible binary formatting. This makes Markdown predictable for a model that has to generate it — there is no gap between what the model writes and what the format requires.</p>
+
+      <div class="pullquote">
+        <p>"Markdown is the format that works equally well as input to a language model and as output from one. Jupyter notebooks store their documentation in exactly that format."</p>
+      </div>
+
+      <p>The combination matters: Jupyter notebooks interleave the format language models understand best (Markdown) with executable code that is also well-represented in training data. The result is that a language model can reason about a notebook — what the code does, whether the documentation accurately describes it, what the next logical step might be — without any special preprocessing.</p>
+
+      <!-- 5 -->
+      <h2 id="generating-notebooks">Generating notebooks with AI</h2>
+
+      <p>Because the format is plain JSON, you can ask a language model to generate a complete notebook as structured output. The model produces a JSON object with the correct <code>nbformat</code> keys and a cells array that alternates between Markdown and code. Save that output as a <code>.ipynb</code> file and open it in Jupyter — it works.</p>
+
+      <p>This is qualitatively different from asking a model to generate a Word document or a PDF. Those formats require post-processing: the model generates content, a library formats it. With <code>.ipynb</code>, the model generates the file itself. The gap between what the model produces and what Jupyter reads is a single file save.</p>
+
+      <p>Practical patterns that emerge from this:</p>
+
+      <h3>Scaffolding a new analysis</h3>
+      <p>Describe the analysis you want to perform — the dataset, the question, the method — and ask for a notebook scaffold. The model generates the section headings as Markdown cells, placeholder code cells with the key operations, and brief prose in each Markdown cell explaining what the code block will do. You fill in the actual implementation. The structure is there before you write a line of real code.</p>
+
+      <h3>Documenting existing notebooks</h3>
+      <p>The reverse operation: hand a model a notebook that has code cells but sparse Markdown documentation, and ask it to generate the explanatory text. Because the model can see both the code and any existing prose, it can produce Markdown cells that accurately describe what each section does, note important assumptions, and flag anything that looks unusual. The documentation becomes a second pass rather than an afterthought.</p>
+
+      <h3>Translating between languages</h3>
+      <p>A notebook in Python can be translated to R or Julia at the code-cell level while keeping the Markdown documentation unchanged. The prose describes the analysis, not the implementation. This separation — Markdown for what, code for how — makes language-level translation more tractable than it would be in a monolithic script.</p>
+
+      <!-- 6 -->
+      <h2 id="seams">Where the format shows its seams</h2>
+
+      <p>None of this means <code>.ipynb</code> is a clean format. It was designed for interactivity and rendering, not portability or long-term archiving. A few problems are worth knowing about.</p>
+
+      <h3>It is not standard Markdown</h3>
+      <p>The documentation cells <em>contain</em> Markdown, but the file is not a Markdown file. You cannot open a <code>.ipynb</code> in a Markdown editor and read formatted prose. You cannot version-control a notebook meaningfully with standard text-diff tools because the JSON structure mixes source, output, and execution metadata in the same file. A change to one output cell produces a large diff that obscures any change to the actual content. Tools like <a href="https://nbstripout.readthedocs.io/" target="_blank" rel="noopener">nbstripout</a> exist specifically to strip outputs before committing, restoring some diffability.</p>
+
+      <h3>Execution order is not guaranteed</h3>
+      <p>A notebook is not a script. Cells can be run in any order, and the execution counter in each cell records only when it was last run, not whether the cells are in a consistent state. A notebook where cells have been run out of order, or where earlier cells have been edited without re-running later ones, may contain outputs that contradict the current source. This is a persistent source of confusion and unreproducible results in shared notebooks.</p>
+
+      <h3>Outputs inflate file size</h3>
+      <p>Stored outputs — especially plots and images, which are embedded as base64-encoded strings — make <code>.ipynb</code> files large and opaque. A notebook with several matplotlib figures can exceed several megabytes before any code has been changed. The base64 blobs are not Markdown and not human-readable, which partly undermines the format's otherwise transparent structure.</p>
+
+      <h3>The format has versioned</h3>
+      <p>The <code>.ipynb</code> format has gone through multiple versions (the current spec is <code>nbformat</code> 4, introduced in 2014). Older notebooks in <code>nbformat</code> 3 have a slightly different structure — notably, they use a <code>"worksheets"</code> layer that was removed in version 4. Most tools handle both, but the version field at the top of every notebook file exists for a reason.</p>
+
+      <p>Despite these rough edges, the format has held. The combination of human-readable documentation, executable code, and captured output in a single portable file is genuinely useful — and genuinely rare. The decision to store documentation as raw Markdown, rather than as rendered HTML or some proprietary encoding, was the right one. It keeps the notebooks legible to humans editing them in a text editor, to version control systems tracking them in a repository, and to language models reading them as training data or generating them as output.</p>
+
+      <p>That last use was not anticipated when the format was designed. It is one of those cases where a decision made for one reason turns out, years later, to have been the right decision for a reason nobody had yet.</p>
+
+      <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); color: var(--color-text-faint);">
+        Further reading: <a href="https://nbformat.readthedocs.io/en/latest/" target="_blank" rel="noopener">nbformat specification</a> · <a href="https://jupyter.org/documentation" target="_blank" rel="noopener">Jupyter documentation</a> · <a href="https://nbconvert.readthedocs.io/" target="_blank" rel="noopener">nbconvert — converting notebooks to other formats</a> · <a href="https://nbstripout.readthedocs.io/" target="_blank" rel="noopener">nbstripout — strip outputs before committing</a>
+      </p>
+
+    </article>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-outer">
+    <div class="footer-inner">
+      <a href="/" class="footer-brand">markdown<span>heaven</span></a>
+      <div class="footer-links">
+        <a href="/plain-text-formatted.html">Plain text formatted</a>
+        <a href="/history.html">History</a>
+        <a href="/math.html">Math</a>
+      </div>
+      <span class="footer-copy">markdownheaven.com</span>
+    </div>
+  </footer>
+
+</body>
+</html>

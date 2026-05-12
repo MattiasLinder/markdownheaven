@@ -1,0 +1,93 @@
+# Terraform: markdownheaven main stack (SWA + RG). OIDC via azure/login — repository Variables (AZURE_*).
+#
+# WHEN THIS RUNS: Only when started manually (workflow_dispatch).
+#
+# Requires: Repository Variables AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID,
+#           AZURE_LOCATION, AZURE_RESOURCE_GROUP.
+#           Repository Secret GH_PAT (classic PAT with repo scope — fine-grained PATs cannot write environment secrets).
+#           Federated credential subject must match: repo:MattiasLinder/markdownheaven:environment:production
+
+name: Terraform (markdownheaven)
+
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        description: 'plan = no changes in Azure; apply = run terraform apply'
+        required: true
+        type: choice
+        options:
+          - plan
+          - apply
+      confirm:
+        description: 'For apply only: type DEPLOY (exactly). Leave empty for plan.'
+        required: false
+        type: string
+
+defaults:
+  run:
+    working-directory: terraform/markdownheaven
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    env:
+      ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_USE_OIDC: "true"
+      TF_VAR_azure_subscription_id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      TF_VAR_azure_tenant_id: ${{ vars.AZURE_TENANT_ID }}
+      TF_VAR_resource_group_name: ${{ vars.AZURE_RESOURCE_GROUP }}
+      TF_VAR_location: ${{ vars.AZURE_LOCATION }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Confirm apply
+        if: github.event.inputs.terraform_action == 'apply'
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "DEPLOY" ]; then
+            echo "For apply, set confirm to DEPLOY (exactly)."
+            exit 1
+          fi
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+          terraform_wrapper: false   # Required: wrapper pollutes stdout, breaks token capture
+
+      - name: Terraform init
+        run: terraform init -input=false
+
+      - name: Terraform plan
+        if: github.event.inputs.terraform_action == 'plan'
+        run: terraform plan -input=false -no-color
+
+      - name: Terraform apply
+        if: github.event.inputs.terraform_action == 'apply'
+        run: terraform apply -input=false -auto-approve
+
+      - name: Update SWA deployment token secret
+        if: github.event.inputs.terraform_action == 'apply'
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          TOKEN=$(terraform output -raw swa_deployment_token)
+          gh secret set AZURE_STATIC_WEB_APPS_API_TOKEN \
+            --repo ${{ github.repository }} \
+            --env production \
+            --body "$TOKEN"

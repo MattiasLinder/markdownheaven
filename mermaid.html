@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mermaid and Markdown — markdownheaven.com</title>
-  <meta name="description" content="Mermaid is a text-based diagramming language that lives inside Markdown fenced code blocks. How it works, where it came from, and why diagrams as code matter." />
+  <meta name="description" content="Mermaid is the diagram format that AI actually understands. Plain text, Markdown-native, and readable by every major AI assistant. How it works, why it matters, and what it means for documentation in the AI era." />
   <meta property="og:title" content="Mermaid and Markdown" />
-  <meta property="og:description" content="Mermaid is a text-based diagramming language that lives inside Markdown fenced code blocks. How it works, where it came from, and why diagrams as code matter." />
+  <meta property="og:description" content="Mermaid is the diagram format that AI actually understands. Plain text, Markdown-native, and readable by every major AI assistant." />
   <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-05-12T00:00:00Z" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -102,6 +103,12 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--color-accent-text);
+      margin-bottom: 16px;
+    }
+    .hero-date {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
       margin-bottom: 16px;
     }
     .hero h1 {
@@ -431,28 +438,19 @@
       border-bottom: 1px solid var(--color-border-subtle);
     }
   </style>
+  <link rel="stylesheet" href="site.css" />
 </head>
 <body>
-
-  <div class="accent-line"></div>
-
-  <div class="nav-outer">
-    <nav>
-      <a href="/" class="nav-brand">markdown<span>heaven</span></a>
-      <div class="nav-links">
-        <a href="/plain-text-formatted.html" class="nav-link">Plain text formatted</a>
-        <a href="#" class="nav-link">Tools</a>
-      </div>
-    </nav>
-  </div>
+  <div id="site-nav"></div>
 
   <!-- Hero -->
   <div style="background: var(--color-bg-base);">
     <div class="hero">
-      <p class="hero-label">Diagrams as text</p>
+      <p class="hero-label">Diagrams as text · AI-native by design</p>
+      <p class="hero-date"><time datetime="2025-05-12">12 May 2025</time></p>
       <h1>Mermaid and Markdown</h1>
-      <p class="hero-sub">Mermaid is a text-based diagramming language that lives inside a Markdown fenced code block. Write a few lines of plain text, get a flowchart, a sequence diagram, or a Gantt chart in return. No drawing tool. No image files. No diagrams that go stale.</p>
-      <p class="hero-ingress">The connection between Mermaid and Markdown is not accidental — it is philosophical. Both are built on the idea that structure should be legible in plain text, not locked in a proprietary format. A Mermaid diagram is readable as source. It lives in the same file as the prose around it. It can be reviewed in a pull request, searched with grep, and versioned with git. GitHub renders it automatically. So does GitLab, Notion, and Obsidian. The diagram is the documentation, in the same way Markdown made the source the document.</p>
+      <p class="hero-sub">Mermaid is the diagram format that AI actually understands. It lives in Markdown as plain text — which means every major AI assistant can generate, read, and modify diagrams from a description. That is not a coincidence. It follows directly from the decision to make diagrams text-based.</p>
+      <p class="hero-ingress">The connection between Mermaid and Markdown is not accidental — it is philosophical. Both are built on the idea that structure should be legible in plain text, not locked in a proprietary format. A Mermaid diagram is readable as source. It lives in the same file as the prose around it. It can be reviewed in a pull request, searched with grep, and versioned with git. GitHub renders it automatically. So does GitLab, Notion, and Obsidian. The diagram is the documentation, in the same way Markdown made the source the document. And text-based source, it turns out, is also what makes diagrams AI-readable — a consequence the format's creator could not have anticipated in 2014, but one that matters enormously now.</p>
     </div>
   </div>
 
@@ -485,6 +483,7 @@
           <li><a href="#the-philosophy">The shared philosophy with Markdown</a></li>
           <li><a href="#diagram-types">Diagram types</a></li>
           <li><a href="#where-it-renders">Where Mermaid renders</a></li>
+          <li><a href="#ai-and-mermaid">AI and Mermaid — a natural fit</a></li>
           <li><a href="#history">A short history</a></li>
           <li><a href="#limits">The limits of text-based diagrams</a></li>
           <li><a href="#why-it-matters">Why it matters for documentation</a></li>
@@ -536,6 +535,8 @@ flowchart LR
       <div class="pullquote">
         <p>"Diagrams as code" is not a new idea — UML tools have offered text-to-diagram for decades. What Mermaid added was the integration with Markdown: diagrams in the same file, in the same commit, with the same review workflow as the prose around them.</p>
       </div>
+
+      <p>And then there is a third property that neither Gruber in 2004 nor Sveidqvist in 2014 could have anticipated: text-based formats are natively legible to AI. A Mermaid diagram in a Markdown file is as readable to a language model as it is to a developer. The structural clarity that makes the source human-readable also makes it machine-parseable. The format that was designed for version control and readable diffs turns out to be — by the same logic, not by addition — the diagram format of the AI era.</p>
 
       <p>There is also a maintenance argument. Diagrams created in drawing tools live outside the repository. When the system they describe changes, updating the diagram requires opening a separate application, making changes, re-exporting, and re-embedding. The friction is small but consistent — and consistent small friction is how documentation goes stale. A Mermaid diagram edited in the same file as the code it describes has a much shorter path from "system changed" to "diagram updated".</p>
 
@@ -607,7 +608,7 @@ flowchart LR
         </div>
       </div>
 
-      <p>The syntax varies significantly between diagram types, but the structural principle is consistent: a top-level keyword declares the type, and the lines that follow describe the content in a format specific to that type. Most syntax can be learned in under an hour for any individual diagram type.</p>
+      <p>The syntax varies significantly between diagram types, but the structural principle is consistent: a top-level keyword declares the type, and the lines that follow describe the content in a format specific to that type. Most syntax can be learned in under an hour for any individual diagram type — or described to an AI assistant and generated correctly without learning the syntax at all.</p>
 
       <h3>A sequence diagram example</h3>
 
@@ -694,6 +695,23 @@ sequenceDiagram
 
       <p>The pattern is consistent across platforms: the renderer sees a fenced code block with the <code>mermaid</code> language tag, hands the content to the Mermaid JavaScript library, and replaces the block with an SVG. The format is portable because the convention is simple and the library is open-source.</p>
 
+      <!-- AI and Mermaid -->
+      <h2 id="ai-and-mermaid">AI and Mermaid — a natural fit</h2>
+
+      <p>Every major AI assistant — ChatGPT, Claude, Copilot, Gemini — understands Mermaid natively. Not through a plugin, not through a special mode. They were trained on enormous volumes of open-source Markdown, and that Markdown contained Mermaid diagrams. The result is that Mermaid syntax is as natural to these models as prose.</p>
+
+      <div class="pullquote">
+        <p>AI does not just generate Mermaid — it understands it. Describe a process, get a diagram. Show a diagram, get an explanation. Ask for a change, get a revised source. The loop is fast, and it stays in text.</p>
+      </div>
+
+      <p>This matters in both directions. Generation is the obvious case: describe a system or process in plain English and the model returns correct Mermaid source. Comprehension is equally useful: paste a Mermaid diagram into a conversation and ask what it represents, whether it's complete, or where the bottleneck is. Ask it to add a step, rename a participant, or restructure the flow — it can do all of this because the format is text and text is what models are good at.</p>
+
+      <p>The practical workflow is fast and stays close to the code. Describe a system, get Mermaid back, paste it into the Markdown file next to the code it documents, commit both together. When the system changes, ask the AI to update the diagram from a description of what changed. The diagram stays in the repository, in the same file as everything else, reviewed in the same pull request as the code change it describes.</p>
+
+      <p>An image file embedded in a repository cannot be handed to an AI for modification. A Mermaid block can. That asymmetry is not small. It means diagrams can stay current with far less friction than any drawing-tool workflow allows. The format that was designed to make diagrams version-control-friendly turns out, for exactly the same reason, to be AI-friendly. Same property. Same source.</p>
+
+      <p>For new users, this also removes the main adoption barrier. You do not need to learn the syntax before your first diagram. Describe what you want, take what the AI returns, read the source to understand it, and correct from there. The Mermaid live editor at <a href="https://mermaid.live" target="_blank" rel="noopener">mermaid.live</a> makes it easy to preview and iterate before committing.</p>
+
       <!-- History -->
       <h2 id="history">A short history</h2>
 
@@ -701,7 +719,7 @@ sequenceDiagram
 
       <p>The project grew slowly at first. GitHub stars accumulated but the user base was largely developers already committed to documentation-as-code workflows. The format was useful but not yet ubiquitous.</p>
 
-      <p>Three things changed that. First, GitHub announced native rendering in 2022 — instantly making Mermaid available to every repository on the platform without any setup. Second, AI coding assistants learned to write Mermaid. Because the syntax is text-based and learnable from open-source repositories, models like GitHub Copilot and ChatGPT can generate correct Mermaid diagrams from a plain-language description. This created a new path to adoption: ask the model for a diagram, get Mermaid back, paste it into a Markdown file. Third, Mermaid joined the Linux Foundation in 2023, which brought governance, funding, and sustained development at a higher rate than a single maintainer could support.</p>
+      <p>Three things changed that. First, GitHub announced native rendering in 2022 — instantly making Mermaid available to every repository on the platform without any setup. Second, AI assistants — GitHub Copilot, ChatGPT, Claude, and others — turned out to understand Mermaid natively. Because the syntax is text-based and present in enormous volumes of open-source Markdown, models can generate, read, and modify Mermaid diagrams from plain-language descriptions. This created a new path to adoption: describe a process, get Mermaid back, paste it into a Markdown file — no syntax knowledge required to produce the first diagram. Third, Mermaid joined the Linux Foundation in 2023, which brought governance, funding, and sustained development at a higher rate than a single maintainer could support.</p>
 
       <p>As of 2024 the project has over 70,000 GitHub stars and is one of the most widely used JavaScript libraries in developer tooling worldwide. Sveidqvist remains involved; the project is now maintained by a team of contributors.</p>
 
@@ -711,7 +729,7 @@ sequenceDiagram
       <p>Mermaid is not a replacement for a drawing tool. The constraints are real and worth understanding before committing to it for a project.</p>
 
       <h3>Layout is not controllable</h3>
-      <p>Mermaid generates layout automatically. For flowcharts, you can specify direction — top-to-bottom, left-to-right — but you cannot position individual nodes. If the automatic layout produces a visually confusing result, your options are limited: restructure the source, change the direction, or accept the output. This is a fundamental trade-off of the text-based approach. The layout algorithm tries to produce a sensible result; it does not always succeed on complex graphs.</p>
+      <p>Mermaid generates layout automatically. For flowcharts, you can specify direction — top-to-bottom, left-to-right — but you cannot position individual nodes. If the automatic layout produces a visually confusing result, your options are limited: restructure the source, change the direction, or accept the output. This is a fundamental trade-off of the text-based approach. The layout algorithm tries to produce a sensible result; it does not always succeed on complex graphs. One practical response: describe the problem to an AI assistant and ask it to rework the graph structure. It cannot override the layout engine, but it can often restructure the source in a way that produces a more useful automatic result.</p>
 
       <h3>Styling is constrained</h3>
       <p>Mermaid supports themes and some per-node styling via <code>style</code> directives, but it is not a design tool. You cannot control exact colours, fonts, or node shapes beyond what the library provides. For documentation this is usually fine — consistency and legibility matter more than brand fidelity. For presentation diagrams or customer-facing material, a drawing tool will produce better results.</p>
@@ -729,7 +747,7 @@ sequenceDiagram
 
       <p>Mermaid makes this possible for diagrams in the same way Markdown made it possible for formatted prose. The integration is not incidental — it was designed this way. The fenced code block mechanism that Mermaid uses was already in Markdown. The tooling that renders Markdown already existed. Mermaid extended a pattern that was already proven.</p>
 
-      <p>The AI dimension adds a new angle. Because Mermaid is text-based and trained into most large language models, diagrams can now be generated from descriptions. You can describe a process in natural language, ask an AI to produce a Mermaid diagram, review the source, correct it if needed, and commit it. The diagram stays in the text file. The review happens in the pull request. The update path when the system changes is the same as editing a paragraph.</p>
+      <p>The AI dimension reinforces all of this. Because Mermaid is structured plain text, AI assistants understand it natively — generating diagrams from descriptions, explaining what a diagram depicts, and updating it when the underlying system changes. The same property that makes Mermaid good for version control makes it good for AI collaboration. The diagram stays editable, reviewable, and describable throughout its lifetime.</p>
 
       <p>None of this eliminates the cases where a drawing tool is the right answer. Highly visual presentations, customer-facing material, and complex multi-layer architecture diagrams all benefit from the control that dedicated tools provide. Mermaid fills a specific gap: documentation-grade diagrams, living in code, versioned with the system they describe.</p>
 
@@ -739,20 +757,6 @@ sequenceDiagram
 
     </article>
   </div>
-
-  <!-- Footer -->
-  <footer class="footer-outer">
-    <div class="footer-inner">
-      <a href="/" class="footer-brand">markdown<span>heaven</span></a>
-      <div class="footer-links">
-        <a href="/plain-text-formatted.html">Plain text formatted</a>
-        <a href="/history.html">History</a>
-        <a href="/mermaid.html">Mermaid</a>
-      </div>
-      <span class="footer-copy">markdownheaven.com</span>
-    </div>
-  </footer>
-
 
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -766,5 +770,7 @@ sequenceDiagram
     });
   </script>
 
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
 </body>
 </html>

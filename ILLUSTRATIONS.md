@@ -59,6 +59,20 @@ Illustrationerna skapas med AI-bildgenerering (Gemini) och följer en etablerad 
 
 Korallen är markdownheavens sekundärfärg — den används inte på produktsidorna. Den ska synas omedelbart, inte vara en subtil detalj.
 
+### Bakgrund — enkel, inte tom
+
+Bakgrunden är varm cream (#fef9f4) men ska inte vara helt tom. Lägg till ett eller flera av dessa element, mycket sparsamt:
+
+- Två–tre låga kullar eller berg som enkla streck/linjer nära horisonten
+- En liten sol (bara en cirkel, inga strålar) högt i ett hörn
+- Ett enkelt molnmoln (två–tre mjuka kurvor, inget mer)
+
+Elementen ska vara knappt synliga mot bakgrunden — inte dominera kompositionen.
+
+### Djup — subtilt, inte 3D
+
+Figurer och objekt är fortfarande flat design, men kan ha ett visst djup: storleksvariationer som antyder perspektiv, lätt lagring av former, objekt som täcker varandra. Inte skuggor, inte 3D-rendering.
+
 ### Vad som inte ska finnas
 
 - Varumärkesnamn eller text i bilden
@@ -366,6 +380,95 @@ on any element. No brand name. Generous negative space.
 
 ---
 
+### which-markdown-flavor-for-ai.png
+
+```
+ONE single illustration. Landscape, exactly 3:2 ratio (1200×800px).
+One unified composition — not panels, not a triptych.
+
+Article: "Which Markdown flavor should you use with AI tools?"
+
+Concept: Several Markdown dialects exist — CommonMark, GFM, Obsidian —
+but for AI tools there is one clear choice: GitHub Flavored Markdown.
+It is what the models output, what they were trained on, and what
+creates a friction-free loop between writing and receiving. The
+illustration should convey convergence — many paths becoming one,
+a choice that clarifies rather than complicates.
+
+Style: Same flat editorial vector illustration style as the reference
+image — geometric shapes, markdown symbols as physical objects in the
+scene, flat human figures interacting with the composition. Confident
+and abstract, not corporate clipart.
+IMPORTANT: No outlines or strokes around any shapes or figures. Pure
+flat filled shapes only — no black borders, no contour lines, no stroke.
+
+Color palette (strict):
+- Background: warm cream (#fef9f4)
+- Sky blue dominant: #0284c7, #bae6fd, #e0f2fe
+- Dark near-black: #0f172a
+- Slate: #94a3b8
+- Warm coral-red (#e0603c) clearly visible on one figure's main
+  clothing — it should read immediately, not be a subtle detail
+
+Key visual elements:
+- Several diverging paths or branching lines converging into one clear
+  direction — geometric and abstract, not a literal road or map
+- A large # symbol as a landmark or focal point at the convergence
+- One human figure walking toward or standing at the convergence point,
+  facing forward
+- A sense of resolution and clarity — not chaos, not confusion, but
+  a decision made
+
+No brand name or UI text in the image. Generous negative space.
+```
+
+---
+
+### what-is-markdown.png ✅ klar
+
+```
+ONE single illustration. Landscape, exactly 3:2 ratio (1200×800px).
+One unified composition — not panels, not a triptych.
+
+Article: "What is Markdown — and why does it matter now?"
+
+Concept: Markdown is plain text with meaning — a handful of symbols
+(#, **, *, -, >) that carry structure without any toolbar or binary
+format. The illustration should feel like a first encounter: simple,
+clear, inviting. The symbols themselves are the subject. A figure
+discovering that these small characters contain meaning — not chaos,
+but elegant simplicity.
+
+Style: Same flat editorial vector illustration style as the reference
+image — geometric shapes, markdown symbols as physical objects in the
+scene, flat human figures interacting with the composition. Confident
+and abstract, not corporate clipart, not a UI screenshot.
+IMPORTANT: No outlines or strokes around any shapes or figures. Pure
+flat filled shapes only — no black borders, no contour lines, no stroke.
+
+Color palette (strict):
+- Background: warm cream (#fef9f4)
+- Sky blue dominant: #0284c7, #bae6fd, #e0f2fe
+- Dark near-black: #0f172a
+- Slate: #94a3b8
+- Warm coral-red (#e0603c) clearly visible on one figure's main
+  clothing — it should read immediately, not be a subtle detail
+
+Key visual elements:
+- Several core markdown symbols (#, **, *, >) as large, distinct
+  physical objects arranged in the scene — not floating randomly but
+  placed with intention, like a small collection
+- One human figure standing among or looking up at the symbols —
+  a moment of recognition, not confusion
+- A sense of simplicity and order — clean, spacious, not dense
+- Generous negative space — the symbols should breathe
+
+No outlines or strokes on any element. No brand name or UI text.
+Generous negative space.
+```
+
+---
+
 ### syntax-highlighting.png ✅ klar
 
 ```
@@ -402,6 +505,206 @@ Key visual elements:
 - One or two human figures — one pointing or placing the label, one
   observing the result
 - A before/after sense: grey/flat on one side, color emerging on the other
+
+No outlines or strokes on any element. No brand name or UI text.
+Generous negative space.
+```
+
+---
+
+### spec-driven-development.png ✅ klar
+
+```
+ONE single illustration. Landscape, exactly 3:2 ratio (1200×800px).
+One unified composition — not panels, not a triptych.
+
+Article: "Spec-driven development — this is where Markdown really shines"
+
+Concept: Writing a Markdown specification before writing any code produces
+better output and doubles as documentation. The illustration should convey
+precision and intention — a deliberate document that becomes the blueprint
+for everything that follows. Structure arriving before chaos gets a chance.
+
+Style: Same flat editorial vector illustration style as the reference
+image — geometric shapes, markdown symbols as physical objects in the
+scene, flat human figures interacting with the composition. Confident
+and abstract, not corporate clipart, not a UI screenshot.
+IMPORTANT: No outlines or strokes around any shapes or figures. Pure
+flat filled shapes only — no black borders, no contour lines, no stroke.
+Objects may suggest subtle depth through layering and size variation —
+still flat in style, not rendered 3D.
+
+Color palette (strict):
+- Background: warm cream (#fef9f4)
+- Sky blue dominant: #0284c7, #bae6fd, #e0f2fe
+- Dark near-black: #0f172a
+- Slate: #94a3b8
+- Warm coral-red (#e0603c) clearly visible on one figure's main
+  clothing — it should read immediately, not be a subtle detail
+
+Key visual elements:
+- A large, structured document shape — with visible # heading marks and
+  a short list — as a central physical object, slightly layered for depth
+- A human figure writing or placing elements into the document
+- Markdown symbols (# and maybe ```) as objects in the scene
+- A sense of calm deliberation — not rush, not code flying everywhere
+- Background: a faint horizon line with two or three low hill silhouettes,
+  one small sun circle high in a corner
+
+No outlines or strokes on any element. No brand name or UI text.
+Generous negative space.
+```
+
+---
+
+### markdown-as-rag.png ✅ klar
+
+```
+ONE single illustration. Landscape, exactly 3:2 ratio (1200×800px).
+One unified composition — not panels, not a triptych.
+
+Article: "Markdown as RAG — your own lightweight context layer"
+
+Concept: A plain Markdown file can serve as the knowledge layer for an
+AI agent — faster and more readable than Word, PDF, or a vector database.
+The illustration should convey grounding and flow: a document as a foundation
+that knowledge rises from, light and interpretable. No infrastructure, no
+complexity — just a file and clarity.
+
+Style: Same flat editorial vector illustration style as the reference
+image — geometric shapes, markdown symbols as physical objects in the
+scene, flat human figures interacting with the composition. Confident
+and abstract, not corporate clipart, not a UI screenshot.
+IMPORTANT: No outlines or strokes around any shapes or figures. Pure
+flat filled shapes only — no black borders, no contour lines, no stroke.
+Objects may suggest subtle depth through layering and size variation —
+still flat in style, not rendered 3D.
+
+Color palette (strict):
+- Background: warm cream (#fef9f4)
+- Sky blue dominant: #0284c7, #bae6fd, #e0f2fe
+- Dark near-black: #0f172a
+- Slate: #94a3b8
+- Warm coral-red (#e0603c) clearly visible on one figure's main
+  clothing — it should read immediately, not be a subtle detail
+
+Key visual elements:
+- Two or three flat document shapes stacked or fanned at the bottom,
+  slightly layered so depth is implied — the stack as a foundation
+- A simple upward line or beam connecting the stack to a small geometric
+  shape above (the agent/process) — abstract, not a technical diagram
+- A human figure standing near the documents, possibly handing one upward
+- Markdown # symbol visible on one of the documents
+- Background: a faint horizon with one or two low hill curves, a small
+  sun circle near the top edge
+
+No outlines or strokes on any element. No brand name or UI text.
+Generous negative space.
+```
+
+---
+
+### enshittification-of-markdown.png ✅ klar
+
+```
+ONE single illustration. Landscape, exactly 3:2 ratio (1200×800px).
+One unified composition — not panels, not a triptych.
+
+Article: "The Enshittification of Markdown"
+
+Concept: AI chat interfaces take markdown — the native language of every
+large language model — and bury it under rendering, reformatting, and
+friction. The illustration should show markdown symbols being overwhelmed
+or polluted. The poo emoji (💩) is a central visual element — large,
+cheerful, unmistakable — as the literal embodiment of the enshittification
+concept. Absurd but composed.
+
+Style: Same flat editorial vector illustration style as the reference
+image — geometric shapes, flat human figures, markdown symbols as
+physical objects in the scene. Confident and editorial, not corporate
+clipart, not a UI screenshot.
+IMPORTANT: No outlines or strokes around any shapes or figures. Pure
+flat filled shapes only — no black borders, no contour lines, no stroke.
+Objects may suggest subtle depth through layering and size variation —
+still flat in style, not rendered 3D.
+
+Color palette (strict):
+- Background: warm cream (#fef9f4)
+- Sky blue dominant: #0284c7, #bae6fd, #e0f2fe
+- Dark near-black: #0f172a
+- Slate: #94a3b8
+- Warm coral-red (#e0603c) clearly visible on one figure's main
+  clothing — it should read immediately, not be a subtle detail
+- The poo emoji is rendered in warm brown tones — flat vector style,
+  consistent with the rest of the illustration
+
+Key visual elements:
+- One large, prominent poo emoji shape (💩 style — round base, swirl top)
+  as the dominant villain of the composition — large enough to read at
+  thumbnail size, flat design. The face is EVIL: heavy angled eyebrows
+  pointing inward and downward, narrow menacing eyes, a wide sharp-toothed
+  grin — unmistakably villainous, not friendly or cute
+- The poo is ACTIVELY DOING something: it is grabbing or pushing free-floating
+  markdown symbols (#, *, **) — which are fluid, organic, slightly curved
+  shapes — and forcing them into rigid grey square boxes. The boxes are stiff,
+  bureaucratic rectangles. The contrast between the living flowing symbols
+  and the dead locked boxes is the central tension of the image
+- One or two markdown symbols are still free and organic on one side of the
+  composition; on the other side they are already trapped inside grey squares
+- One human figure — wearing coral clothing — watching with alarm or
+  helplessness as the transformation happens
+- Background: a generous warm cream field with a faint horizon line, two
+  or three low hill silhouettes, and one small sun circle high in a corner —
+  clearly visible backdrop, not an empty void
+- Generous negative space — the composition breathes, no crowding
+
+No outlines or strokes on any element. No brand name or UI text.
+Large, bold shapes — no small fussy details.
+```
+
+---
+
+### spec-driven-workflow.png ✅ klar
+
+```
+ONE single illustration. Landscape, exactly 3:2 ratio (1200×800px).
+One unified composition — not panels, not a triptych.
+
+Article: "Spec-driven development: the full workflow"
+
+Concept: A software project built with spec-driven development moves
+through distinct phases — idea, specification, planning, slices, code,
+maintenance — with Markdown as the connective thread throughout. The
+illustration should convey a calm journey: stages connected, each one
+building on the previous, no chaos.
+
+Style: Same flat editorial vector illustration style as the reference
+image — geometric shapes, markdown symbols as physical objects in the
+scene, flat human figures interacting with the composition. Confident
+and abstract, not corporate clipart, not a UI screenshot.
+IMPORTANT: No outlines or strokes around any shapes or figures. Pure
+flat filled shapes only — no black borders, no contour lines, no stroke.
+Objects may suggest subtle depth through layering and size variation —
+still flat in style, not rendered 3D.
+
+Color palette (strict):
+- Background: warm cream (#fef9f4)
+- Sky blue dominant: #0284c7, #bae6fd, #e0f2fe
+- Dark near-black: #0f172a
+- Slate: #94a3b8
+- Warm coral-red (#e0603c) clearly visible on one figure's main
+  clothing — it should read immediately, not be a subtle detail
+
+Key visual elements:
+- Four or five flat document or card shapes arranged left to right in
+  a gentle progression — earliest slightly open/sketchy, last solid and
+  complete — connected by a thin continuous line
+- One human figure walking along or tending to the progression — a sense
+  of forward movement
+- A # symbol visible on one of the earlier documents
+- Background: a faint horizon line with two or three low hill silhouettes,
+  one small sun circle, optionally a minimal cloud shape — all barely
+  perceptible against the cream
 
 No outlines or strokes on any element. No brand name or UI text.
 Generous negative space.

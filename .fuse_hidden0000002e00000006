@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math in Markdown — markdownheaven.com</title>
+  <meta name="description" content="Markdown has no built-in support for mathematical notation. So how do equations end up in GitHub READMEs, Jupyter notebooks, and academic papers written in plain text? The answer is LaTeX syntax, dollar-sign delimiters, and a rendering engine doing the heavy lifting." />
+  <meta property="og:title" content="Math in Markdown" />
+  <meta property="og:description" content="Markdown has no built-in math syntax. So how do equations end up in technical documents? LaTeX, dollar signs, and a rendering engine — here is how it works." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens (Theme 2 — Marketing-Web) ── */
+    :root {
+      --color-bg-base:        #ffffff;
+      --color-bg-surface:     #f8fafc;
+      --color-bg-elevated:    #f1f5f9;
+      --color-border-subtle:  #e2e8f0;
+      --color-border-default: #cbd5e1;
+      --color-text-primary:   #0f172a;
+      --color-text-secondary: #334155;
+      --color-text-muted:     #64748b;
+      --color-text-faint:     #94a3b8;
+      --color-accent:         #0284c7;
+      --color-accent-subtle:  #e0f2fe;
+      --color-accent-hover:   #0369a1;
+      --color-accent-text:    #0369a1;
+      --color-warning:        #d97706;
+      --color-warning-bg:     #fef3c7;
+      --color-ok:             #16a34a;
+      --color-ok-bg:          #dcfce7;
+      --color-ok-text:        #15803d;
+      --color-warning-text:   #854d0e;
+      --color-error-bg:       #fee2e2;
+      --color-error-text:     #991b1b;
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+
+      --font-sans:  'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono:  'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-lg:   18px;
+      --text-2xl:  24px;
+      --text-4xl:  36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-base);
+    }
+
+    /* ── Nav ── */
+    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
+    nav {
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .nav-brand {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--color-accent); }
+    nav a.nav-link {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    nav a.nav-link:hover { color: var(--color-text-primary); }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+
+    /* ── Accent line ── */
+    .accent-line { height: 3px; background: var(--color-accent); width: 100%; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 24px 56px;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      max-width: 720px;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      max-width: 640px;
+      line-height: 1.6;
+    }
+    .hero-ingress {
+      margin-top: 20px;
+      font-size: var(--text-base);
+      color: var(--color-text-secondary);
+      max-width: 640px;
+      line-height: 1.75;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    /* ── Article ── */
+    .article-outer { padding: 0 24px 96px; }
+    .article { max-width: 720px; margin: 0 auto; }
+    .article p {
+      margin-bottom: 20px;
+      color: var(--color-text-secondary);
+      line-height: 1.75;
+    }
+    .article h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      margin-top: 56px;
+      margin-bottom: 16px;
+      padding-top: 8px;
+      border-top: 2px solid var(--color-border-subtle);
+    }
+    .article h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin: 32px 0 12px;
+    }
+    .article a {
+      color: var(--color-accent-text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .article a:hover { color: var(--color-accent-hover); }
+    .article code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 1px 5px;
+      color: var(--color-text-primary);
+    }
+    .article pre {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      overflow-x: auto;
+      margin: 24px 0;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.65;
+      color: var(--color-text-primary);
+    }
+    .article pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* ── Pull quote ── */
+    .pullquote {
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-accent-subtle);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+    .pullquote p {
+      font-size: var(--text-lg);
+      color: var(--color-text-primary);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 10px !important;
+    }
+    .pullquote cite {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: normal;
+    }
+
+    /* ── Math demo box ── */
+    .math-demo {
+      margin: 28px 0;
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .math-demo-header {
+      background: var(--color-bg-elevated);
+      padding: 10px 18px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      border-bottom: 1px solid var(--color-border-default);
+      display: flex;
+      gap: 16px;
+    }
+    .math-demo-col {
+      flex: 1;
+    }
+    .math-demo-body {
+      display: flex;
+      gap: 0;
+    }
+    .math-demo-source {
+      flex: 1;
+      padding: 18px 20px;
+      border-right: 1px solid var(--color-border-subtle);
+      background: var(--color-bg-surface);
+    }
+    .math-demo-source pre {
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+    }
+    .math-demo-rendered {
+      flex: 1;
+      padding: 18px 20px;
+      font-size: var(--text-base);
+      color: var(--color-text-primary);
+      background: var(--color-bg-base);
+      display: flex;
+      align-items: center;
+    }
+
+    /* ── Support table ── */
+    .support-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 28px 0;
+      font-size: var(--text-sm);
+    }
+    .support-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .support-table td {
+      padding: 10px 14px;
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      vertical-align: top;
+    }
+    .support-table tr:hover td { background: var(--color-bg-surface); }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+    }
+    .badge-yes  { background: var(--color-ok-bg);      color: var(--color-ok-text); }
+    .badge-part { background: var(--color-warning-bg); color: var(--color-warning-text); }
+    .badge-no   { background: var(--color-error-bg);   color: var(--color-error-text); }
+
+    /* ── Info box ── */
+    .infobox {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      padding: 28px 32px;
+      margin: 40px 0;
+    }
+    .infobox h3 {
+      margin-top: 0;
+      border: none;
+    }
+    .infobox ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .infobox li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+    }
+    .infobox li:last-child { border-bottom: none; }
+    .infobox li strong {
+      display: block;
+      color: var(--color-text-primary);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    /* ── Table of contents ── */
+    .toc {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 32px 0 0;
+    }
+    .toc-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: toc;
+    }
+    .toc-list li {
+      counter-increment: toc;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: var(--text-sm);
+    }
+    .toc-list li:last-child { border-bottom: none; }
+    .toc-list li::before {
+      content: counter(toc);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-accent-text);
+      min-width: 16px;
+    }
+    .toc-list a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+    .toc-list a:hover { color: var(--color-accent); text-decoration: underline; }
+
+    /* ── Footer ── */
+    .footer-outer {
+      border-top: 1px solid var(--color-border-subtle);
+      background: var(--color-bg-surface);
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-brand {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .footer-brand span { color: var(--color-accent); }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--color-text-primary); }
+    .footer-copy {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      .hero { padding: 48px 20px 40px; }
+      .article-outer { padding: 0 20px 64px; }
+      nav { padding: 0 20px; }
+      .article { max-width: 100%; }
+      .math-demo-body { flex-direction: column; }
+      .math-demo-source { border-right: none; border-bottom: 1px solid var(--color-border-subtle); }
+      .support-table { font-size: var(--text-xs); }
+    }
+
+    /* ── Article hero image ── */
+    .article-hero-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+    }
+    .article-hero-img-wrap {
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+  </style>
+  <link rel="stylesheet" href="site.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <div class="accent-line"></div>
+
+  <div class="nav-outer">
+    <nav>
+      <a href="/" class="nav-brand">markdown<span>heaven</span></a>
+      <div class="nav-links">
+        <a href="/plain-text-formatted.html" class="nav-link">Plain text formatted</a>
+        <a href="/history.html" class="nav-link">History</a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <div style="background: var(--color-bg-base);">
+    <div class="hero">
+      <p class="hero-label">Extending Markdown</p>
+      <h1>Math in Markdown</h1>
+      <p class="hero-sub">Markdown was designed for prose, not equations. Yet technical documents, academic papers, and engineering notebooks routinely contain formatted mathematics alongside plain text. Here is how that works — and where it breaks.</p>
+      <p class="hero-ingress">Markdown has no built-in syntax for mathematical notation. What exists instead is a convention: embed LaTeX math expressions between dollar signs, and let a rendering engine turn them into typeset equations. The convention is widely supported, but it is not part of any Markdown standard. Whether your equation renders or shows as raw source code depends entirely on which tool is reading the file.</p>
+    </div>
+  </div>
+
+  <!-- Article hero illustration -->
+  <div class="article-hero-img-wrap">
+    <img class="article-hero-img"
+         src="illustrations/math.png"
+         alt="Illustration: mathematical symbols as physical objects, human figure engaging with them"
+         loading="eager" />
+  </div>
+
+  <!-- Article -->
+  <div class="article-outer">
+    <article class="article">
+
+      <p>If you have ever opened a Jupyter notebook, a GitHub README for a machine learning project, or an academic paper written in plain text, you have probably seen expressions like <code>$E = mc^2$</code> or blocks of text surrounded by double dollar signs. To a Markdown renderer that understands math, these become properly typeset equations. To a renderer that does not, they are just dollar signs and symbols on screen.</p>
+
+      <p>Understanding what is actually happening — and why it sometimes works and sometimes does not — requires knowing about three separate things: LaTeX, the dollar-sign convention, and the rendering engines that do the actual work.</p>
+
+      <!-- TOC -->
+      <nav class="toc" aria-label="Table of contents">
+        <p class="toc-label">In this article</p>
+        <ol class="toc-list">
+          <li><a href="#latex">What LaTeX is</a></li>
+          <li><a href="#the-convention">The dollar-sign convention</a></li>
+          <li><a href="#rendering-engines">The rendering engines: MathJax and KaTeX</a></li>
+          <li><a href="#where-it-works">Where it works</a></li>
+          <li><a href="#where-it-breaks">Where it breaks</a></li>
+          <li><a href="#practical-guide">A practical guide for writers</a></li>
+        </ol>
+      </nav>
+
+      <!-- LaTeX -->
+      <h2 id="latex">What LaTeX is</h2>
+
+      <p>LaTeX (pronounced <em>lah-tech</em> or <em>lay-tech</em>) is a document preparation system created by Leslie Lamport in 1984, built on top of Donald Knuth's TeX typesetting engine from 1978. It has been the standard format for scientific and mathematical publishing for decades. If you have read a paper in physics, mathematics, or computer science from a reputable journal, it was almost certainly written in LaTeX.</p>
+
+      <p>What matters here is not LaTeX the document system, but LaTeX the <em>math notation language</em>. This is a compact, text-based syntax for writing equations that has become the universal language for expressing mathematical formulas in plain text. You write commands like <code>\frac</code> for fractions, <code>\sqrt</code> for square roots, <code>^</code> for superscripts, and <code>_</code> for subscripts. A rendering engine reads those commands and draws the corresponding symbols.</p>
+
+      <p>LaTeX math notation has been adopted far beyond LaTeX documents. It is understood by Wikipedia, Jupyter, GitHub, Notion, Obsidian, many academic platforms, and dozens of other tools — not because they run LaTeX, but because they implement the same notation using a JavaScript rendering engine in the browser.</p>
+
+      <div class="pullquote">
+        <p>"TeX is intended for the creation of beautiful books — and especially for books that contain a lot of mathematics."</p>
+        <cite>— Donald Knuth, <em>The TeXbook</em>, 1984</cite>
+      </div>
+
+      <!-- The convention -->
+      <h2 id="the-convention">The dollar-sign convention</h2>
+
+      <p>In LaTeX documents, you signal that you are writing math by placing it inside dollar signs. A single dollar sign on each side gives you <em>inline math</em> — an equation that sits within a line of text. Double dollar signs on each side give you a <em>display block</em> — an equation that gets its own line, centered, and typically rendered at larger size.</p>
+
+      <p>This convention has been borrowed directly into Markdown:</p>
+
+      <div class="math-demo">
+        <div class="math-demo-header">
+          <div class="math-demo-col">Source (what you write)</div>
+          <div class="math-demo-col">Rendered (what it becomes)</div>
+        </div>
+        <div class="math-demo-body">
+          <div class="math-demo-source">
+            <pre>The formula $E = mc^2$ describes
+the energy-mass equivalence.</pre>
+          </div>
+          <div class="math-demo-rendered">
+            The formula <em>E = mc²</em> describes the energy-mass equivalence.
+          </div>
+        </div>
+      </div>
+
+      <div class="math-demo">
+        <div class="math-demo-header">
+          <div class="math-demo-col">Source (display block)</div>
+          <div class="math-demo-col">Rendered result</div>
+        </div>
+        <div class="math-demo-body">
+          <div class="math-demo-source">
+            <pre>$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$</pre>
+          </div>
+          <div class="math-demo-rendered" style="justify-content: center; font-style: italic;">
+            ∫₀^∞ e^(−x²) dx = √π / 2
+          </div>
+        </div>
+      </div>
+
+      <p>The rendered column above shows a simplified approximation — actual rendering by MathJax or KaTeX produces properly typeset mathematical notation with correct symbol shapes, sizing, and spacing, far beyond what HTML text can replicate.</p>
+
+      <h3>Common LaTeX math syntax</h3>
+
+      <p>You do not need to learn all of LaTeX to write equations in Markdown. Most technical writing uses a small subset of commands:</p>
+
+      <pre><code>Superscript:    x^2         → x²
+Subscript:      x_i         → xᵢ
+Fraction:       \frac{a}{b} → a/b (properly stacked)
+Square root:    \sqrt{x}    → √x
+Greek letters:  \alpha, \beta, \gamma, \pi, \sigma
+Sum:            \sum_{i=1}^{n}
+Integral:       \int_0^\infty
+Infinity:       \infty
+Multiplication: \times or \cdot
+Division:       \div
+Not equal:      \neq
+Approximately:  \approx</code></pre>
+
+      <p>Anything more complex — matrices, aligned multi-line equations, chemical formulas — is also possible, but the commands get longer. The LaTeX math reference on Wikipedia or at the <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener">KaTeX supported functions page</a> covers the full vocabulary.</p>
+
+      <!-- Rendering engines -->
+      <h2 id="rendering-engines">The rendering engines: MathJax and KaTeX</h2>
+
+      <p>A Markdown file is just text. The dollar signs and LaTeX commands are inert characters until something reads them and draws the equations. That something is a math rendering engine — a piece of software, typically running in a browser, that parses the LaTeX syntax and produces typeset output.</p>
+
+      <p>There are two dominant engines:</p>
+
+      <div class="infobox">
+        <h3>MathJax and KaTeX</h3>
+        <ul>
+          <li>
+            <strong>MathJax — mathjax.org</strong>
+            The older and more comprehensive of the two. First released in 2009. Supports a very large subset of LaTeX math, including many advanced features. Runs as a JavaScript library that scans the page for math delimiters and renders them. It is slower than KaTeX because it does more work client-side, but handles more complex expressions. Used by Wikipedia, Jupyter (as one option), arXiv, and thousands of academic sites. Version 3 (2020) significantly improved performance.
+            <a href="https://www.mathjax.org" target="_blank" rel="noopener">mathjax.org</a>
+          </li>
+          <li>
+            <strong>KaTeX — katex.org</strong>
+            Created by Khan Academy in 2014 as a faster alternative to MathJax. Renders synchronously rather than asynchronously, which means pages do not "flash" as equations load in. Supports a slightly smaller set of LaTeX commands than MathJax, but covers everything most writers need. Used by GitHub, Obsidian, many static site generators, and tools that prioritise rendering speed.
+            <a href="https://katex.org" target="_blank" rel="noopener">katex.org</a>
+          </li>
+        </ul>
+      </div>
+
+      <p>For practical purposes, the difference between the two is invisible for everyday use. Both render standard equations correctly. If you use an obscure LaTeX feature that KaTeX does not support, MathJax may handle it where KaTeX fails — but this is rare in typical technical writing.</p>
+
+      <p>What matters more is whether the tool you are using has <em>any</em> engine configured at all. A Markdown renderer with no math engine will show raw source text. No dollar sign convention alone makes equations render — the engine has to be there.</p>
+
+      <!-- Where it works -->
+      <h2 id="where-it-works">Where it works</h2>
+
+      <table class="support-table">
+        <thead>
+          <tr>
+            <th>Tool / Platform</th>
+            <th>Math support</th>
+            <th>Engine</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jupyter Notebook / JupyterLab</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>MathJax / KaTeX</td>
+            <td>The home territory. Inline and display math work out of the box. Used extensively in data science and scientific computing.</td>
+          </tr>
+          <tr>
+            <td>GitHub</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>MathJax</td>
+            <td>Added in May 2022. Works in README files, issues, pull requests, and wikis. Use <code>$...$</code> for inline, <code>$$...$$</code> for block.</td>
+          </tr>
+          <tr>
+            <td>Obsidian</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>MathJax</td>
+            <td>Built-in support, no plugin required. Standard dollar-sign syntax.</td>
+          </tr>
+          <tr>
+            <td>VS Code (with extensions)</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>KaTeX</td>
+            <td>The built-in Markdown preview does not render math. Extensions like <em>Markdown All in One</em> or <em>Markdown Preview Enhanced</em> add it.</td>
+          </tr>
+          <tr>
+            <td>Typora</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>MathJax</td>
+            <td>Inline rendering in the editor itself. Must be enabled in preferences.</td>
+          </tr>
+          <tr>
+            <td>Notion</td>
+            <td><span class="badge badge-part">Partial</span></td>
+            <td>KaTeX</td>
+            <td>Math blocks via <code>/math</code> command. Not triggered by dollar signs in flowing text — requires explicit block insertion.</td>
+          </tr>
+          <tr>
+            <td>GitLab</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>KaTeX</td>
+            <td>Supported in issues, merge requests, and wikis. Uses <code>$`...`$</code> syntax for inline (backtick-wrapped) to avoid conflicts with currency symbols.</td>
+          </tr>
+          <tr>
+            <td>Hugo, Jekyll, Gatsby</td>
+            <td><span class="badge badge-part">Partial</span></td>
+            <td>Varies</td>
+            <td>No built-in math support in the static site generators themselves. Requires adding MathJax or KaTeX via a layout template or plugin. Common pattern in academic Hugo themes.</td>
+          </tr>
+          <tr>
+            <td>Pandoc</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>Native LaTeX / MathJax</td>
+            <td>The document conversion tool has first-class math support. Can output to HTML (with MathJax), PDF (via LaTeX), DOCX, and more. The closest thing to a universal math-in-Markdown solution.</td>
+          </tr>
+          <tr>
+            <td>Wikipedia</td>
+            <td><span class="badge badge-yes">Yes</span></td>
+            <td>MathJax / PNG fallback</td>
+            <td>Uses a custom <code>&lt;math&gt;</code> tag syntax rather than dollar signs — not Markdown, but the LaTeX notation inside is the same.</td>
+          </tr>
+          <tr>
+            <td>Standard Markdown (Gruber original)</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td>—</td>
+            <td>No math syntax defined. Dollar signs are just dollar signs.</td>
+          </tr>
+          <tr>
+            <td>CommonMark</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td>—</td>
+            <td>Math is not in the CommonMark specification. Platforms that support it do so as an extension beyond the standard.</td>
+          </tr>
+          <tr>
+            <td>Email clients</td>
+            <td><span class="badge badge-no">No</span></td>
+            <td>—</td>
+            <td>Raw LaTeX source appears as text. No rendering.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Where it breaks -->
+      <h2 id="where-it-breaks">Where it breaks</h2>
+
+      <h3>The currency symbol problem</h3>
+      <p>The dollar sign was a reasonable choice for a math delimiter in 1978, when Knuth designed TeX, because it was otherwise rare in scientific text. In ordinary writing about money, prices, or business, it appears constantly. This creates a genuine ambiguity: does <code>$50</code> mean "fifty dollars" or "the start of a math expression"? Most modern implementations handle this with heuristics — a lone dollar sign followed by a number and no closing dollar sign is usually treated as a currency symbol — but the edge cases are real and occasionally cause stray dollar signs to trigger unwanted math rendering.</p>
+
+      <p>GitLab addressed this by using a different delimiter entirely: <code>$`inline math`$</code>, wrapping the expression in backticks to avoid any ambiguity with currency. This solves the problem but is incompatible with GitHub and most other tools.</p>
+
+      <h3>No universal standard</h3>
+      <p>Math support is not in CommonMark, the closest thing Markdown has to an official specification. Every platform that supports it has implemented its own extension, chosen its own engine, and in some cases defined its own delimiter. GitHub, GitLab, and Notion all do this slightly differently. A document with math that renders perfectly on GitHub may render differently on GitLab and fail entirely if pasted into a basic CMS.</p>
+
+      <h3>Export and conversion</h3>
+      <p>When you export a Markdown document with math to a format that does not natively support it — a Word document, a plain HTML page without a math engine loaded, a PDF generated without LaTeX — the equations either disappear or appear as raw source text. This is one of the areas where Pandoc earns its reputation: it is the only widely available tool that reliably converts math-in-Markdown to clean output across multiple formats.</p>
+
+      <h3>Screen readers and accessibility</h3>
+      <p>Typeset equations rendered by MathJax or KaTeX are often poorly accessible to screen readers. MathJax 3 added MathML output as a secondary channel, which helps, but accessibility in mathematical content remains an unsolved problem for the web at large, not just Markdown.</p>
+
+      <!-- Practical guide -->
+      <h2 id="practical-guide">A practical guide for writers</h2>
+
+      <h3>If you write for GitHub or Jupyter</h3>
+      <p>Use the standard dollar-sign syntax without hesitation. Both platforms have supported it reliably since 2022 (GitHub) and since the beginning of the project (Jupyter). Inline math goes between single dollar signs; display blocks go between double dollar signs on their own lines. This is the de facto standard for data science and scientific computing documentation.</p>
+
+      <h3>If you write for multiple platforms</h3>
+      <p>Test on each platform before relying on math rendering. The syntax is compatible enough that the same source usually works on both GitHub and Obsidian, but always verify before publishing. For platforms that do not support math, consider whether images of equations (PNG or SVG exports) are an acceptable fallback — they are less elegant but universally portable.</p>
+
+      <h3>If you need reliable export to Word or PDF</h3>
+      <p>Use Pandoc. It is the only tool that handles the full pipeline: Markdown source with LaTeX math in → clean Word document or PDF out, with equations properly typeset in both. The command is straightforward:</p>
+
+      <pre><code>pandoc document.md --mathml -o output.docx
+pandoc document.md --pdf-engine=xelatex -o output.pdf</code></pre>
+
+      <p>For PDF output, you need a LaTeX distribution installed (TeX Live on Linux, MiKTeX on Windows). For Word output, the <code>--mathml</code> flag embeds math as MathML, which recent versions of Word can render.</p>
+
+      <h3>If you are not writing math at all</h3>
+      <p>If you write about prices, financial figures, or any domain where dollar signs appear naturally, be aware that math rendering is active in certain editors. A stray pair of dollar signs around a number — like <code>$10 and $20</code> — can trigger unexpected rendering in tools that are looking for math delimiters. In Obsidian or Typora with math enabled, this will try to render <code>10 and </code> as a LaTeX expression. Escaping the dollar sign with a backslash (<code>\$</code>) prevents this.</p>
+
+      <div class="pullquote">
+        <p>"Math support in Markdown is a solved problem in most of the places that need it — Jupyter, GitHub, Obsidian. Where it is not solved is in portability between those places, and in the absence of any standard."</p>
+        <cite>— A practical observation, not a quote</cite>
+      </div>
+
+      <h3>The bigger picture</h3>
+      <p>Math in Markdown is a microcosm of Markdown's broader story. A practical need exists — scientists and engineers want to write equations in plain text alongside prose — and a working solution has emerged from convention rather than specification. The LaTeX math notation is fifty years old; the dollar-sign convention was inherited from TeX; the JavaScript rendering engines built the bridge to the browser. Nobody designed the whole system. It assembled itself from pieces that already existed, adopted by one platform at a time, and is now widespread enough to be a reasonable assumption in technical writing contexts.</p>
+
+      <p>Like most of what makes Markdown useful, it works — but only if the tool at the other end is expecting it.</p>
+
+      <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); color: var(--color-text-faint);">
+        Further reading: <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener">KaTeX supported functions</a> · <a href="https://docs.mathjax.org/en/latest/input/tex/index.html" target="_blank" rel="noopener">MathJax TeX/LaTeX reference</a> · <a href="https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions" target="_blank" rel="noopener">GitHub — Writing mathematical expressions</a> · <a href="https://pandoc.org/MANUAL.html#math" target="_blank" rel="noopener">Pandoc math documentation</a>
+      </p>
+
+    </article>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-outer">
+    <div class="footer-inner">
+      <a href="/" class="footer-brand">markdown<span>heaven</span></a>
+      <div class="footer-links">
+        <a href="/plain-text-formatted.html">Plain text formatted</a>
+        <a href="/history.html">History</a>
+        <a href="/math.html">Math</a>
+      </div>
+      <span class="footer-copy">markdownheaven.com</span>
+    </div>
+  </footer>
+
+</body>
+</html>

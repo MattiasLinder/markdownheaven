@@ -471,6 +471,91 @@
       color: var(--accent);
     }
 
+    /* ─── Mid-page tools band ─── */
+    .tools-band {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .tools-band-left { display: flex; flex-direction: column; gap: 3px; }
+
+    .tools-band-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .tools-band-heading {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .tools-band-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .tool-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+      padding: 8px 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .tool-pill:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.10);
+    }
+
+    .tool-pill-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+    .tool-pill-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tool-pill-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .tool-pill-name span { color: var(--accent); }
+
+    .tool-pill-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .tool-pill-badge-free { background: #dcfce7; color: #15803d; }
+    .tool-pill-badge-paid { background: var(--accent-subtle); color: #0369a1; }
+
     /* ─── Responsive ─── */
     @media (max-width: 720px) {
       .featured-grid { grid-template-columns: 1fr; }
@@ -524,6 +609,7 @@
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
   </script>
+  <link rel="stylesheet" href="site.css" />
 </head>
 <body>
 
@@ -549,26 +635,7 @@
 
     <div class="featured-grid">
 
-      <!-- FEATURED 1: Mermaid — most topical (AI draws diagrams) -->
-      <a href="mermaid.html" class="featured-card">
-        <div class="featured-thumb">
-          <img src="illustrations/mermaid.png"
-               alt="Mermaid diagrams illustration"
-               loading="eager"
-               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'featured-thumb-placeholder\'># * _</div>'" />
-        </div>
-        <div class="featured-body">
-          <div class="article-tag teal">Diagrams</div>
-          <div class="featured-title">Mermaid diagrams — the format AI actually draws in</div>
-          <div class="featured-excerpt">
-            When you ask an AI to draw a diagram, it almost always writes Mermaid syntax.
-            Here's what Mermaid is, why AI converged on it, and how to render what you get.
-          </div>
-          <div class="featured-read-more">Read article →</div>
-        </div>
-      </a>
-
-      <!-- FEATURED 2: Plain text formatted — brand core -->
+      <!-- FEATURED 1: Plain text formatted — brand core -->
       <a href="plain-text-formatted.html" class="featured-card">
         <div class="featured-thumb">
           <img src="illustrations/plain-text-formatted.png"
@@ -587,6 +654,59 @@
         </div>
       </a>
 
+      <!-- FEATURED 2: What is Markdown -->
+      <a href="what-is-markdown.html" class="featured-card">
+        <div class="featured-thumb">
+          <img src="illustrations/what-is-markdown.png"
+               alt="What is Markdown illustration"
+               loading="eager"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'featured-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="featured-body">
+          <div class="article-tag warm">Fundamentals</div>
+          <div class="featured-title">What is Markdown? A plain-language introduction</div>
+          <div class="featured-excerpt">
+            Plain text with meaning — what the symbols do, why it became the default format
+            of the web, and why AI speaks it natively.
+          </div>
+          <div class="featured-read-more">Read article →</div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ─── Mid-page tools band ─── -->
+    <div class="tools-band">
+      <div class="tools-band-left">
+        <div class="tools-band-eyebrow">The tools</div>
+        <div class="tools-band-heading">Ready to put it to work?</div>
+      </div>
+      <div class="tools-band-pills">
+        <a href="https://markdownword.com" class="tool-pill">
+          <div class="tool-pill-icon" style="background: var(--accent-subtle);">
+            <img src="icons/markdownword.png" alt=""
+                 onerror="this.style.display='none';this.parentElement.style.color='#0284c7';this.parentElement.textContent='📄'" />
+          </div>
+          <div class="tool-pill-name">markdown<span>word</span></div>
+          <div class="tool-pill-badge tool-pill-badge-paid">From $19</div>
+        </a>
+        <a href="https://showmarkdown.com" class="tool-pill">
+          <div class="tool-pill-icon" style="background: #ccfbf1;">
+            <img src="icons/showmarkdown.png" alt=""
+                 onerror="this.style.display='none';this.parentElement.style.color='#0f766e';this.parentElement.textContent='👁'" />
+          </div>
+          <div class="tool-pill-name">show<span>markdown</span></div>
+          <div class="tool-pill-badge tool-pill-badge-free">Free</div>
+        </a>
+        <a href="https://promptcorrector.com" class="tool-pill">
+          <div class="tool-pill-icon" style="background: var(--accent-warm-subtle);">
+            <img src="icons/promptcorrector.png" alt=""
+                 onerror="this.style.display='none';this.parentElement.style.color='#e0603c';this.parentElement.textContent='✏️'" />
+          </div>
+          <div class="tool-pill-name">prompt<span>corrector</span></div>
+          <div class="tool-pill-badge tool-pill-badge-free">Free</div>
+        </a>
+      </div>
     </div>
 
     <!-- All other guides -->
@@ -611,53 +731,19 @@
         </div>
       </a>
 
-      <a href="syntax-highlighting.html" class="article-card">
+      <a href="which-markdown-flavor-for-ai.html" class="article-card">
         <div class="article-thumb">
-          <img src="illustrations/syntax-highlighting.png"
-               alt="Syntax highlighting illustration"
+          <img src="illustrations/which-markdown-flavor-for-ai.png"
+               alt="Which markdown flavor for AI illustration"
                loading="lazy"
                onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
         </div>
         <div class="article-body">
-          <div class="article-tag">Format</div>
-          <div class="article-title">Syntax highlighting in markdown — how it works and why it matters</div>
+          <div class="article-tag warm">AI workflow</div>
+          <div class="article-title">Which Markdown flavor for AI? The case for GFM</div>
           <div class="article-excerpt">
-            Fenced code blocks, language tags, and why the same markdown renders so
-            differently depending on where you put it.
-          </div>
-        </div>
-      </a>
-
-      <a href="math.html" class="article-card">
-        <div class="article-thumb">
-          <img src="illustrations/math.png"
-               alt="Math in markdown illustration"
-               loading="lazy"
-               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
-        </div>
-        <div class="article-body">
-          <div class="article-tag">Format</div>
-          <div class="article-title">Math in markdown — LaTeX, KaTeX, and AI-generated equations</div>
-          <div class="article-excerpt">
-            AI writes math with LaTeX syntax. Here's what that means, where it renders,
-            and how to get clean output in your documents.
-          </div>
-        </div>
-      </a>
-
-      <a href="jupyter-notebooks.html" class="article-card">
-        <div class="article-thumb">
-          <img src="illustrations/jupyter-notebooks.png"
-               alt="Jupyter notebooks illustration"
-               loading="lazy"
-               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
-        </div>
-        <div class="article-body">
-          <div class="article-tag">Format</div>
-          <div class="article-title">Jupyter notebooks and markdown — AI-native by design</div>
-          <div class="article-excerpt">
-            Jupyter's .ipynb format embeds markdown natively. What that means for
-            AI-generated notebooks and why it matters.
+            CommonMark, GFM, Obsidian — one dialect sits closest to how AI tools
+            think, output, and were trained. Here's why it matters.
           </div>
         </div>
       </a>
@@ -679,6 +765,40 @@
         </div>
       </a>
 
+      <a href="mermaid.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/mermaid.png"
+               alt="Mermaid diagrams illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag teal">Diagrams</div>
+          <div class="article-title">Mermaid diagrams — the format AI actually draws in</div>
+          <div class="article-excerpt">
+            When you ask an AI to draw a diagram, it almost always writes Mermaid syntax.
+            Here's what Mermaid is, why AI converged on it, and how to render what you get.
+          </div>
+        </div>
+      </a>
+
+      <a href="syntax-highlighting.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/syntax-highlighting.png"
+               alt="Syntax highlighting illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag">Format</div>
+          <div class="article-title">Syntax highlighting in markdown — how it works and why it matters</div>
+          <div class="article-excerpt">
+            Fenced code blocks, language tags, and why the same markdown renders so
+            differently depending on where you put it.
+          </div>
+        </div>
+      </a>
+
       <a href="history.html" class="article-card">
         <div class="article-thumb">
           <img src="illustrations/history.png"
@@ -692,6 +812,91 @@
           <div class="article-excerpt">
             How a simple formatting convention became the default language of the
             internet and AI.
+          </div>
+        </div>
+      </a>
+
+      <a href="jupyter-notebooks.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/jupyter-notebooks.png"
+               alt="Jupyter notebooks illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag">Format</div>
+          <div class="article-title">Jupyter notebooks and markdown — AI-native by design</div>
+          <div class="article-excerpt">
+            Jupyter's .ipynb format embeds markdown natively. What that means for
+            AI-generated notebooks and why it matters.
+          </div>
+        </div>
+      </a>
+
+      <a href="math.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/math.png"
+               alt="Math in markdown illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag">Format</div>
+          <div class="article-title">Math in markdown — LaTeX, KaTeX, and AI-generated equations</div>
+          <div class="article-excerpt">
+            AI writes math with LaTeX syntax. Here's what that means, where it renders,
+            and how to get clean output in your documents.
+          </div>
+        </div>
+      </a>
+
+      <a href="spec-driven-workflow.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/spec-driven-workflow.png"
+               alt="Spec-driven workflow illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># workflow</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag warm">AI workflow</div>
+          <div class="article-title">Spec-driven development: the full workflow</div>
+          <div class="article-excerpt">
+            Phases, slices, and what happens to documentation after launch —
+            plus three ready-to-use prompts for spec-driven projects.
+          </div>
+        </div>
+      </a>
+
+      <a href="spec-driven-development.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/spec-driven-development.png"
+               alt="Spec-driven development illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># spec</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag warm">AI workflow</div>
+          <div class="article-title">Spec-driven development — this is where Markdown really shines</div>
+          <div class="article-excerpt">
+            Write the spec first, in Markdown. Then hand it to AI. Cleaner output,
+            fewer correction cycles, and a document that stays useful long after the first session.
+          </div>
+        </div>
+      </a>
+
+      <a href="markdown-as-rag.html" class="article-card">
+        <div class="article-thumb">
+          <img src="illustrations/markdown-as-rag.png"
+               alt="Markdown as RAG illustration"
+               loading="lazy"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># context</div>'" />
+        </div>
+        <div class="article-body">
+          <div class="article-tag warm">AI workflow</div>
+          <div class="article-title">Markdown as RAG — your own lightweight context layer</div>
+          <div class="article-excerpt">
+            You don't need a vector database to give an AI agent meaningful background knowledge.
+            A plain Markdown file is faster, more readable, and easier to maintain.
           </div>
         </div>
       </a>

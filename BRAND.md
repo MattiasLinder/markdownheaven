@@ -95,6 +95,14 @@ The site is a destination, not just a landing page. It should have:
 
 Articles serve SEO and establish credibility. They should be genuinely useful, not content-farm filler.
 
+### Editorial principle — the AI lens
+
+Every article on markdownheaven.com should answer the question: *why does this matter in the AI era?* This is not a section to add at the end. It is a lens the whole article looks through.
+
+Markdown's plain-text design is what makes it AI-native — readable and writable by language models without plugins or special handling. That property surfaces differently in each topic: in Mermaid it means diagrams can be generated and modified by AI; in Jupyter notebooks it means cells are legible to models; in math notation it means AI can write equations the same way it writes prose; in the history of Markdown it means the format's original design decisions turned out to be exactly right for the AI era, decades before AI arrived.
+
+Each article should make its version of this connection explicit — in the hero, and threaded through the body where it is genuinely relevant. Not forced. Not a section bolted on. The connection is real; the writing should reflect that.
+
 ---
 
 ## What markdownheaven is NOT

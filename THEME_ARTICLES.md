@@ -712,3 +712,8 @@ Används för att visa två versioner av samma innehåll sida vid sida. Anpassa 
 **Footer-text (Type A).** Alltid exakt: `Part of the <a href="/">markdownheaven.com</a> family of Markdown tools.`
 
 **Footer (Type B).** Rik footer med brand + nav-länkrad + copyright-text `markdownheaven.com`.
+
+**Publiceringsdatum.** Varje artikel ska ha datum på tre ställen:
+1. `<meta property="article:published_time" content="YYYY-MM-DDT00:00:00Z" />` i `<head>` (efter `og:type`-raden).
+2. CSS-klass `.hero-date { font-size: var(--text-xs); color: var(--color-text-faint); letter-spacing: 0.04em; margin-bottom: 16px; }` — lägg direkt efter `.hero-label { … }` (Type B) eller `.hero-eyebrow { … }` (Type A).
+3. HTML-element direkt efter `<p class="hero-label">` (Type B) eller `<span class="hero-eyebrow">` (Type A): `<p class="hero-date"><time datetime="YYYY-MM-DD">D Month YYYY</time></p>`

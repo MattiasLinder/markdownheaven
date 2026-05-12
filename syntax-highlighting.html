@@ -8,6 +8,7 @@
   <meta property="og:title" content="The language hint that unlocks color in your code blocks" />
   <meta property="og:description" content="Three backticks and a word. That's all it takes. Here's what actually happens after that — and why your code looks dead when you forget it." />
   <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-03-20T00:00:00Z" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -75,33 +76,7 @@
       line-height: 1.7;
       color: var(--color-text-primary);
       background-color: var(--color-bg-base);
-    }
-
-    /* ── Nav ── */
-    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
-    nav {
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1152px;
-      margin: 0 auto;
-    }
-    .nav-brand {
-      font-size: var(--text-lg);
-      font-weight: 700;
-      color: var(--color-text-primary);
-      text-decoration: none;
-      letter-spacing: -0.01em;
-    }
-    .nav-brand span { color: var(--color-accent); }
-    nav a.nav-link {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-      text-decoration: none;
-    }
-    nav a.nav-link:hover { color: var(--color-text-primary); }
+    }    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
 
     /* ── Layout ── */
     .page-wrapper {
@@ -126,6 +101,12 @@
       padding: 4px 10px;
       border-radius: var(--radius-sm);
       margin-bottom: 20px;
+    }
+    .hero-date {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
     }
     .hero-accent-line {
       width: 48px;
@@ -494,20 +475,16 @@
       border-bottom: 1px solid var(--color-border-subtle);
     }
   </style>
+  <link rel="stylesheet" href="site.css" />
 </head>
 <body>
-
-  <div class="nav-outer">
-    <nav>
-      <a class="nav-brand" href="/">markdown<span>heaven</span>.com</a>
-      <a class="nav-link" href="/">All tools</a>
-    </nav>
-  </div>
+  <div id="site-nav"></div>
 
   <div class="page-wrapper">
 
     <section class="hero">
       <span class="hero-eyebrow">Code blocks &amp; syntax highlighting</span>
+      <p class="hero-date"><time datetime="2025-03-20">20 March 2025</time></p>
       <div class="hero-accent-line"></div>
       <h1>The language hint that gives code its colors</h1>
       <p class="hero-lead">
@@ -846,9 +823,9 @@ result <span class="op">=</span> <span class="fn">greet</span>(<span class="str"
     </div><!-- /.article -->
   </div><!-- /.page-wrapper -->
 
-  <footer>
-    <p>Part of the <a href="/">markdownheaven.com</a> family of Markdown tools.</p>
-  </footer>
+  <div id="site-footer"></div>
 
+  <script src="site.js"></script>
 </body>
 </html>
+                                                                                                                                                                                  

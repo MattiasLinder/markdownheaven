@@ -1,0 +1,116 @@
+/* ─── markdownheaven shared nav + footer ───────────────────────────────────
+   Self-contained: uses its own custom properties so it works on any page
+   regardless of the host page's CSS variable naming conventions.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --mh-accent:        #0284c7;
+  --mh-accent-hover:  #0369a1;
+  --mh-text-primary:  #0f172a;
+  --mh-text-secondary:#334155;
+  --mh-text-muted:    #64748b;
+  --mh-border:        #e2e8f0;
+  --mh-font-display:  'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --mh-font-sans:     ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Accent bar ─── */
+.mh-accent-bar {
+  height: 3px;
+  background: var(--mh-accent);
+}
+
+/* ─── Nav ─── */
+.mh-nav {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--mh-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  font-family: var(--mh-font-sans);
+}
+
+.mh-nav-inner {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mh-wordmark {
+  font-family: var(--mh-font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--mh-text-primary);
+  text-decoration: none;
+}
+.mh-wordmark span { color: var(--mh-accent); }
+
+.mh-nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mh-nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--mh-text-secondary);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.mh-nav-links a:hover { color: var(--mh-text-primary); }
+.mh-nav-links a.active { color: var(--mh-text-primary); font-weight: 600; }
+
+/* ─── Footer ─── */
+.mh-footer {
+  border-top: 1px solid var(--mh-border);
+  padding: 40px 24px;
+  font-family: var(--mh-font-sans);
+  background: #ffffff;
+}
+
+.mh-footer-inner {
+  max-width: 1152px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.mh-footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mh-footer-links a {
+  font-size: 13px;
+  color: var(--mh-text-muted);
+  text-decoration: none;
+}
+.mh-footer-links a:hover { color: var(--mh-text-primary); }
+
+.mh-footer-copy {
+  font-size: 13px;
+  color: var(--mh-text-muted);
+}
+
+.mh-footer-brand {
+  font-family: var(--mh-font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--mh-text-muted);
+  text-decoration: none;
+}
+.mh-footer-brand span { color: var(--mh-accent); }

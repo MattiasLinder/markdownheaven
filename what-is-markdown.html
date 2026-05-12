@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What is Markdown? — markdownheaven.com</title>
+  <meta name="description" content="Markdown is plain text with meaning — and it's already at the centre of how AI communicates. A clear introduction to what it is, how it works, and why it matters now." />
+  <meta property="og:title" content="What is Markdown?" />
+  <meta property="og:description" content="Markdown is plain text with meaning — and it's already at the centre of how AI communicates. A clear introduction to what it is, how it works, and why it matters now." />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-02-10T00:00:00Z" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens (Theme 2 — Marketing-Web) ── */
+    :root {
+      --color-bg-base:        #ffffff;
+      --color-bg-surface:     #f8fafc;
+      --color-bg-elevated:    #f1f5f9;
+      --color-border-subtle:  #e2e8f0;
+      --color-border-default: #cbd5e1;
+      --color-text-primary:   #0f172a;
+      --color-text-secondary: #334155;
+      --color-text-muted:     #64748b;
+      --color-text-faint:     #94a3b8;
+      --color-accent:         #0284c7;
+      --color-accent-subtle:  #e0f2fe;
+      --color-accent-hover:   #0369a1;
+      --color-accent-text:    #0369a1;
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+
+      --font-sans:  'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono:  'Cascadia Code', 'Fira Code', ui-monospace, monospace;
+
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-base: 16px;
+      --text-lg:   18px;
+      --text-2xl:  24px;
+      --text-4xl:  36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-base);
+    }    .nav-outer { border-bottom: 1px solid var(--color-border-subtle); }
+    .nav-links { display: flex; gap: 24px; }
+
+    /* ── Accent line ── */
+    .accent-line {
+      height: 3px;
+      background: var(--color-accent);
+      width: 100%;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background-color: var(--color-bg-base);
+      padding: 72px 24px 56px;
+      max-width: 1152px;
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      margin-bottom: 16px;
+    }
+    .hero-date {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      max-width: 720px;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      max-width: 640px;
+      line-height: 1.6;
+    }
+    .hero-ingress {
+      margin-top: 20px;
+      font-size: var(--text-base);
+      color: var(--color-text-secondary);
+      max-width: 640px;
+      line-height: 1.75;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    /* ── Article body ── */
+    .article-outer {
+      padding: 0 24px 96px;
+    }
+    .article {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .article h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      margin-top: 56px;
+      margin-bottom: 16px;
+      padding-top: 8px;
+      border-top: 2px solid var(--color-border-subtle);
+    }
+
+    .article h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    .article p {
+      color: var(--color-text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .article a {
+      color: var(--color-accent-text);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+    .article a:hover { color: var(--color-accent-hover); }
+
+    .article ul, .article ol {
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+    .article li {
+      color: var(--color-text-secondary);
+      margin-bottom: 6px;
+      line-height: 1.65;
+    }
+
+    /* ── Syntax reference box ── */
+    .syntax-box {
+      background: #0f172a;
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin: 32px 0;
+      overflow-x: auto;
+    }
+    .syntax-box pre {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.9;
+      color: #e2e8f0;
+      margin: 0;
+      white-space: pre;
+    }
+    .syntax-box .syn-comment { color: #64748b; }
+    .syntax-box .syn-symbol  { color: #7dd3fc; }
+    .syntax-box .syn-result  { color: #94a3b8; }
+
+    /* ── Pull quote ── */
+    .pullquote {
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-accent-subtle);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+    .pullquote p {
+      color: var(--color-text-primary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .pullquote p:last-child { margin-bottom: 0; }
+    .pullquote cite {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: normal;
+    }
+
+    /* ── Friction list ── */
+    .friction-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 28px;
+    }
+    .friction-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+    }
+    .friction-list li:last-child { border-bottom: none; }
+    .friction-list li::before {
+      content: '→';
+      color: var(--color-accent-text);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Table of contents ── */
+    .toc {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 32px 0 0;
+    }
+    .toc-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: toc;
+    }
+    .toc-list li {
+      counter-increment: toc;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: var(--text-sm);
+    }
+    .toc-list li:last-child { border-bottom: none; }
+    .toc-list li::before {
+      content: counter(toc);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-accent-text);
+      min-width: 16px;
+    }
+    .toc-list a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+    .toc-list a:hover { color: var(--color-accent); text-decoration: underline; }
+
+    /* ── Article hero image ── */
+    .article-hero-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
+    }
+    .article-hero-img-wrap {
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    /* ── Footer ── */
+    .footer-outer {
+      border-top: 1px solid var(--color-border-subtle);
+      background: var(--color-bg-surface);
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 1152px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-brand {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .footer-brand span { color: var(--color-accent); }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--color-text-primary); }
+    .footer-copy {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      .hero { padding: 48px 20px 40px; }
+      .article-outer { padding: 0 20px 64px; }
+      .syntax-box { padding: 20px; }
+    }
+  </style>
+  <link rel="stylesheet" href="site.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <!-- Hero -->
+  <div style="background: var(--color-bg-base);">
+    <div class="hero">
+      <p class="hero-label">Fundamentals</p>
+      <p class="hero-date"><time datetime="2025-02-10">10 February 2025</time></p>
+      <h1>What is Markdown — and why does it matter now?</h1>
+      <p class="hero-sub">Plain text with meaning. No toolbar, no binary format, no vendor. Just a handful of symbols that have quietly become the default language of the web — and of AI.</p>
+      <p class="hero-ingress">Markdown is a way of writing plain text that carries meaning. A word surrounded by asterisks becomes bold. A line starting with a hash becomes a heading. A hyphen at the start of a line becomes a list item. The formatting is visible in the text itself — not hidden behind a toolbar or stored in a binary format you cannot read without a dedicated application. That same property — structure you can read without rendering — turns out to be exactly what makes Markdown the native format of AI.</p>
+    </div>
+  </div>
+
+  <!-- Article hero illustration -->
+  <div class="article-hero-img-wrap">
+    <img class="article-hero-img"
+         src="illustrations/what-is-markdown.png"
+         alt="Illustration: markdown formatting symbols"
+         loading="eager"
+         onerror="this.style.display='none'" />
+  </div>
+
+  <!-- Article -->
+  <div class="article-outer">
+    <article class="article">
+
+      <p>That simplicity is the point. Markdown was designed in 2004 by John Gruber with a single goal: let you write in a format that is readable as-is, and convertible to clean HTML without any fuss. It has no vendor, no licence fee, and no lock-in. A markdown file is a text file. It will open in any text editor, on any device, in any decade.</p>
+
+      <!-- Table of contents -->
+      <nav class="toc" aria-label="Table of contents">
+        <p class="toc-label">In this article</p>
+        <ol class="toc-list">
+          <li><a href="#the-basics">The basics</a></li>
+          <li><a href="#what-markdown-is-not">What markdown is not</a></li>
+          <li><a href="#why-it-spread">Why markdown became the language of the internet</a></li>
+          <li><a href="#markdown-and-ai">Markdown and AI</a></li>
+          <li><a href="#what-this-means">What this means for how you work</a></li>
+          <li><a href="#where-to-go">Where to go from here</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="the-basics">The basics</h2>
+      <p>Markdown syntax is small enough to learn in a single sitting. The elements you use every day cover perhaps a dozen rules:</p>
+
+      <div class="syntax-box">
+        <pre><span class="syn-symbol"># Heading 1</span>
+<span class="syn-symbol">## Heading 2</span>
+
+<span class="syn-symbol">**bold**</span><span class="syn-result">,  </span><span class="syn-symbol">*italic*</span><span class="syn-result">,  </span><span class="syn-symbol">~~strikethrough~~</span>
+
+<span class="syn-symbol">- List item</span>
+<span class="syn-symbol">- Another item</span>
+
+<span class="syn-symbol">1. Numbered item</span>
+<span class="syn-symbol">2. Another</span>
+
+<span class="syn-symbol">[Link text](https://example.com)</span>
+
+<span class="syn-symbol">![Alt text](image.png)</span>
+
+<span class="syn-symbol">`inline code`</span>
+
+<span class="syn-symbol">> Blockquote</span>
+
+<span class="syn-symbol">---</span>  <span class="syn-comment">(horizontal rule)</span></pre>
+      </div>
+
+      <p>Tables, footnotes, and task lists exist in extended variants — <a href="which-markdown-flavor-for-ai.html">GitHub Flavoured Markdown</a> being the most common — but the core is intentionally minimal. You do not need to learn much to be productive with it.</p>
+
+      <h2 id="what-markdown-is-not">What markdown is not</h2>
+      <p>Markdown is not a word processor. It does not control page margins, font choices, or print layout. It does not track changes or support comments in the way a Word document does. It is a content format, not a design format.</p>
+      <p>This is a feature, not a deficiency. When you write in markdown, you are separating what you say from how it looks. The rendering — the colours, the font, the spacing — is handled elsewhere, by a stylesheet or an application. Your content stays portable.</p>
+
+      <h2 id="why-it-spread">Why markdown became the language of the internet</h2>
+      <p>By the time most people had heard of markdown, it had already become the default format for large parts of the web. GitHub uses it for README files and issue comments. Stack Overflow uses it for questions and answers. Most documentation platforms use it. Many blogging tools use it.</p>
+      <p>The reason is the same as the reason it was created: it works in plain text, requires no special tools, and converts cleanly to HTML. Developers in particular adopted it quickly because plain text fits naturally into version control — you can diff a markdown file, review it in a pull request, and track every change over time. By the time large language models arrived, Markdown was already the dominant format for developer documentation and technical writing. The models inherited it — and it fit naturally, because readable plain text is what language models are built on.</p>
+
+      <div class="pullquote">
+        <p>"The overriding design goal for Markdown's formatting syntax is to make it as readable as possible. The idea is that a Markdown-formatted document should be publishable as-is, as plain text, without looking like it's been marked up with tags or formatting instructions."</p>
+        <cite>— John Gruber, Markdown Syntax Documentation, 2004</cite>
+      </div>
+
+      <h2 id="markdown-and-ai">Markdown and AI</h2>
+      <p>If you use AI tools — ChatGPT, Claude, Gemini, Copilot — you have been reading markdown whether you knew it or not.</p>
+      <p>When an AI assistant responds to a question with a structured answer, it typically formats that answer in markdown. The <strong>bold</strong> terms, the bullet points, the numbered steps, the code blocks — all of it is markdown syntax. The chat interface renders it into formatted text so it looks polished. Underneath, it is plain markdown.</p>
+      <p>This is not arbitrary — and it is not only a matter of training data. Markdown's design goal, as Gruber stated it in 2004, was that the source should be readable as-is, without rendering. A format that is legible to a human without a renderer is also legible to a language model without special handling. The structure is in the characters: <code>#</code> means heading, <code>-</code> means list item, <code>**</code> means emphasis. No tag tree to parse, no binary format to decode. AI models were trained on vast amounts of Markdown — but they handle it fluently because its design is inherently compatible with how text models work. AI models reach for Markdown the same way writers do: because it is the clearest way to add structure to plain text.</p>
+      <p>This has a practical consequence. The output of an AI assistant is, in its raw form, a markdown document. When you copy that output and paste it into an email, a Word document, a Slack message, or a note-taking app, something often goes wrong. The formatting disappears, or the markdown symbols leak through as literal characters, or the structure collapses into a single block of text.</p>
+      <p>The problem is not the AI. The problem is that most applications were not built with markdown in mind.</p>
+
+      <h2 id="what-this-means">What this means for how you work</h2>
+      <p>If you rely on AI tools as part of your workflow — and most knowledge workers increasingly do — then markdown is already at the centre of how you receive and produce information. Getting it to behave correctly across applications is, for most people, a daily source of small frustrations.</p>
+      <p>The friction shows up in specific places:</p>
+
+      <ul class="friction-list">
+        <li>Copying an AI response into a Word document and losing all structure</li>
+        <li>Pasting into an email client and seeing asterisks instead of bold text</li>
+        <li>Sharing notes between apps where markdown renders in some and not others</li>
+        <li>Trying to convert AI-drafted content into a formatted document without manual cleanup</li>
+      </ul>
+
+      <p>None of these are unsolvable problems. They are the result of tools that were built before AI output became a routine part of everyday work. The gap is closing — but in the meantime, a small set of the right tools makes a significant difference.</p>
+
+      <h2 id="where-to-go">Where to go from here</h2>
+      <p>Markdown is not going away. If anything, its role will grow as AI becomes more deeply embedded in how we write, research, and communicate. Understanding what it is — and where it breaks down — is increasingly practical knowledge, not just technical curiosity.</p>
+      <p>The tools on this site were built around exactly that gap: making markdown work in the rest of your workflow, not just in the places that natively support it.</p>
+
+      <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); color: var(--color-text-faint);">
+        Further reading:
+        <a href="history.html">The history of Markdown</a> ·
+        <a href="which-markdown-flavor-for-ai.html">Which Markdown flavor for AI?</a> ·
+        <a href="plain-text-formatted.html">Plain text formatted — what "AI-ready" really means</a>
+      </p>
+
+    </article>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+</body>
+</html>

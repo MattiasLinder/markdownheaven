@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>markdownheaven — Markdown tools for the AI age</title>
-  <meta name="description" content="A family of tools built around markdown — the format that connects human writing and machine thinking. Convert, view, format, and understand markdown." />
+  <meta name="description" content="Markdown is how AI communicates — and most tools still don't handle it well. markdownheaven is a family of tools built around the format: convert, view, format, and move AI output without the friction." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -547,20 +547,28 @@
       margin: 4px 0;
     }
 
-    /* ─── "More guides" link ─── */
-    .guides-footer {
-      margin-top: 36px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* ─── Guide groups ─── */
+    .guide-group { margin-bottom: 72px; }
+    .guide-group:last-child { margin-bottom: 0; }
+
+    .guide-group-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent-warm);
+      margin-bottom: 6px;
     }
-    .guides-more-link {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--accent);
-      text-decoration: none;
+    .guide-group-eyebrow.blue { color: var(--accent); }
+
+    .guide-group-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-bottom: 24px;
     }
-    .guides-more-link:hover { color: var(--accent-hover); }
 
     /* ─── Cookie banner ─── */
     #cookie-banner {
@@ -632,6 +640,7 @@
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
   </script>
+  <link rel="stylesheet" href="site.css" />
 </head>
 <body>
 
@@ -707,10 +716,11 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════ -->
-  <!--  ARTICLES / GUIDES  (content-first, before products)   -->
+  <!--  ARTICLES / GUIDES — three groups                       -->
   <!-- ═══════════════════════════════════════════════════════ -->
   <section class="section articles-bg" id="guides">
     <div class="section-inner">
+
       <div class="section-eyebrow warm">Guides</div>
       <h2 class="section-title">Understand the format.</h2>
       <p class="section-intro">
@@ -718,63 +728,269 @@
         Genuinely useful — not content-farm filler.
       </p>
 
-      <div class="articles-grid">
+      <!-- ── Group 1: Markdown × AI ── -->
+      <div class="guide-group">
+        <div class="guide-group-eyebrow">Markdown × AI</div>
+        <h3 class="guide-group-title">Where markdown meets machine thinking</h3>
+        <div class="articles-grid">
 
-        <a href="plain-text-formatted.html" class="article-card">
-          <div class="article-thumb">
-            <img src="illustrations/plain-text-formatted.png"
-                 alt="Plain text formatted illustration"
-                 loading="lazy"
-                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
-          </div>
-          <div class="article-body">
-            <div class="article-tag warm">Fundamentals</div>
-            <div class="article-title">Plain text formatted — what "AI-ready" really means</div>
-            <div class="article-excerpt">
-              Why structured plain text is the most reliable format for both writing
-              prompts and receiving AI output.
+          <a href="enshittification-of-markdown.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/enshittification-of-markdown.png"
+                   alt="Enshittification of Markdown illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
             </div>
-          </div>
-        </a>
-
-        <a href="history.html" class="article-card">
-          <div class="article-thumb">
-            <img src="illustrations/history.png"
-                 alt="History of markdown illustration"
-                 loading="lazy"
-                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
-          </div>
-          <div class="article-body">
-            <div class="article-tag">History</div>
-            <div class="article-title">The history of markdown — from Gruber to CommonMark</div>
-            <div class="article-excerpt">
-              How a simple formatting convention became the default language of the
-              internet and AI.
+            <div class="article-body">
+              <div class="article-tag warm">Opinion</div>
+              <div class="article-title">The Enshittification of Markdown</div>
+              <div class="article-excerpt">
+                AI chat interfaces speak markdown natively — then spend considerable
+                effort hiding that fact from you.
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
 
-        <a href="copy-button-vs-selection.html" class="article-card">
-          <div class="article-thumb">
-            <img src="illustrations/copy-button-vs-selection.jpg"
-                 alt="Copy button vs selection illustration"
-                 loading="lazy"
-                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
-          </div>
-          <div class="article-body">
-            <div class="article-tag warm">Workflow</div>
-            <div class="article-title">Copy button vs. selection — why they give you different text</div>
-            <div class="article-excerpt">
-              The copy button in a chat interface and Ctrl+C do not give you the same
-              thing. Here's why — and what to do about it.
+          <a href="plain-text-formatted.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/plain-text-formatted.png"
+                   alt="Plain text formatted illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
             </div>
-          </div>
-        </a>
+            <div class="article-body">
+              <div class="article-tag warm">AI workflow</div>
+              <div class="article-title">Plain text formatted — what "AI-ready" really means</div>
+              <div class="article-excerpt">
+                Why structured plain text is the most reliable format for both writing
+                prompts and receiving AI output.
+              </div>
+            </div>
+          </a>
 
+          <a href="markdown-as-rag.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/markdown-as-rag.png"
+                   alt="Markdown as RAG illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag warm">AI workflow</div>
+              <div class="article-title">Markdown as RAG — your own lightweight context layer</div>
+              <div class="article-excerpt">
+                A plain markdown file can serve as the knowledge layer for an AI agent —
+                faster and more readable than Word, PDF, or a vector database.
+              </div>
+            </div>
+          </a>
+
+          <a href="jupyter-notebooks.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/jupyter-notebooks.png"
+                   alt="Jupyter notebooks illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag warm">AI workflow</div>
+              <div class="article-title">Jupyter notebooks and markdown — AI-native by design</div>
+              <div class="article-excerpt">
+                Jupyter mixes code, output, and markdown in one document. It is AI-native
+                before "AI-native" was a phrase.
+              </div>
+            </div>
+          </a>
+
+          <a href="spec-driven-development.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/spec-driven-development.png"
+                   alt="Spec-driven development illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag warm">AI workflow</div>
+              <div class="article-title">Spec-driven development — this is where Markdown really shines</div>
+              <div class="article-excerpt">
+                Writing a markdown specification before writing any code produces better
+                output and doubles as documentation.
+              </div>
+            </div>
+          </a>
+
+          <a href="spec-driven-workflow.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/spec-driven-workflow.png"
+                   alt="Spec-driven workflow illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag warm">AI workflow</div>
+              <div class="article-title">Spec-driven development: the full workflow</div>
+              <div class="article-excerpt">
+                From idea to maintenance — markdown as the connective thread through
+                every phase of an AI-assisted project.
+              </div>
+            </div>
+          </a>
+
+          <a href="copy-button-vs-selection.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/copy-button-vs-selection.jpg"
+                   alt="Copy button vs selection illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag warm">AI workflow</div>
+              <div class="article-title">Copy button vs. selection — why they give you different text</div>
+              <div class="article-excerpt">
+                The copy button in a chat interface and Ctrl+C do not give you the same
+                thing. Here's why — and what to do about it.
+              </div>
+            </div>
+          </a>
+
+        </div>
       </div>
 
-      <div class="guides-footer">
-        <a href="guides.html" class="guides-more-link">More guides →</a>
+      <!-- ── Group 2: Syntax & features ── -->
+      <div class="guide-group">
+        <div class="guide-group-eyebrow blue">Syntax &amp; features</div>
+        <h3 class="guide-group-title">What markdown can do</h3>
+        <div class="articles-grid">
+
+          <a href="syntax-highlighting.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/syntax-highlighting.png"
+                   alt="Syntax highlighting illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Syntax</div>
+              <div class="article-title">The language hint that gives code its colors</div>
+              <div class="article-excerpt">
+                One word after the opening fence — and a whole system of color and
+                recognition switches on.
+              </div>
+            </div>
+          </a>
+
+          <a href="mermaid.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/mermaid.png"
+                   alt="Mermaid diagram illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Syntax</div>
+              <div class="article-title">Mermaid and Markdown — diagrams from plain text</div>
+              <div class="article-excerpt">
+                Mermaid turns plain text into flowcharts, sequence diagrams, and more.
+                No drawing tools required.
+              </div>
+            </div>
+          </a>
+
+          <a href="math.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/math.png"
+                   alt="Math in Markdown illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Syntax</div>
+              <div class="article-title">Math in Markdown</div>
+              <div class="article-excerpt">
+                LaTeX expressions between dollar signs — how markdown handles equations
+                and when it does and doesn't render them.
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ── Group 3: The basics ── -->
+      <div class="guide-group">
+        <div class="guide-group-eyebrow blue">The basics</div>
+        <h3 class="guide-group-title">Start here if you're new to markdown</h3>
+        <div class="articles-grid">
+
+          <a href="what-is-markdown.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/what-is-markdown.png"
+                   alt="What is Markdown illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Fundamentals</div>
+              <div class="article-title">What is Markdown?</div>
+              <div class="article-excerpt">
+                Markdown is plain text with meaning — and it's already at the centre
+                of how AI communicates.
+              </div>
+            </div>
+          </a>
+
+          <a href="history.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/history.png"
+                   alt="History of Markdown illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Fundamentals</div>
+              <div class="article-title">The history of Markdown — from Gruber to CommonMark</div>
+              <div class="article-excerpt">
+                How a simple tool for converting plain text to HTML became the default
+                language of the internet — and then of AI.
+              </div>
+            </div>
+          </a>
+
+          <a href="title-vs-headings.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/title-vs-headings.png"
+                   alt="Title vs headings illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Fundamentals</div>
+              <div class="article-title">Title vs. headings — the H1 you should never repeat</div>
+              <div class="article-excerpt">
+                The distinction between a document title and its internal headings —
+                and why it matters more when AI is reading it.
+              </div>
+            </div>
+          </a>
+
+          <a href="which-markdown-flavor-for-ai.html" class="article-card">
+            <div class="article-thumb">
+              <img src="illustrations/which-markdown-flavor-for-ai.png"
+                   alt="Which markdown flavor illustration"
+                   loading="lazy"
+                   onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'article-thumb-placeholder\'># * _</div>'" />
+            </div>
+            <div class="article-body">
+              <div class="article-tag">Fundamentals</div>
+              <div class="article-title">Which Markdown flavor should you use with AI tools?</div>
+              <div class="article-excerpt">
+                CommonMark, GFM, Obsidian — for AI tools there is one clear choice,
+                and a clear reason why.
+              </div>
+            </div>
+          </a>
+
+        </div>
       </div>
 
     </div>
@@ -853,7 +1069,8 @@
         When you write a prompt, you write in human-readable text. When AI responds,
         it responds in human-readable text — most often in markdown. Markdown is structured
         enough to carry meaning: headings, lists, emphasis, code, tables. And transparent
-        enough that you never lose the words underneath. The problem is that the rest
+        enough that you never lose the words underneath. This is not a coincidence —
+        plain text is what language models are built on. The problem is that the rest
         of the software world hasn't caught up. That's the gap these tools fill.
       </p>
     </div>

@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Math in Markdown — markdownheaven.com</title>
-  <meta name="description" content="Markdown has no built-in support for mathematical notation. So how do equations end up in GitHub READMEs, Jupyter notebooks, and academic papers written in plain text? The answer is LaTeX syntax, dollar-sign delimiters, and a rendering engine doing the heavy lifting." />
+  <meta name="description" content="AI assistants output LaTeX math notation natively — the same plain-text syntax that powers equations in Jupyter notebooks, GitHub READMEs, and academic papers. Here is how it works, where it renders, and where it breaks." />
   <meta property="og:title" content="Math in Markdown" />
   <meta property="og:description" content="Markdown has no built-in math syntax. So how do equations end up in technical documents? LaTeX, dollar signs, and a rendering engine — here is how it works." />
   <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-06-03T00:00:00Z" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -105,6 +106,12 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--color-accent-text);
+      margin-bottom: 16px;
+    }
+    .hero-date {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
       margin-bottom: 16px;
     }
     .hero h1 {
@@ -432,27 +439,18 @@
       border-bottom: 1px solid var(--color-border-subtle);
     }
   </style>
+  <link rel="stylesheet" href="site.css" />
 </head>
 <body>
-
-  <div class="accent-line"></div>
-
-  <div class="nav-outer">
-    <nav>
-      <a href="/" class="nav-brand">markdown<span>heaven</span></a>
-      <div class="nav-links">
-        <a href="/plain-text-formatted.html" class="nav-link">Plain text formatted</a>
-        <a href="/history.html" class="nav-link">History</a>
-      </div>
-    </nav>
-  </div>
+  <div id="site-nav"></div>
 
   <!-- Hero -->
   <div style="background: var(--color-bg-base);">
     <div class="hero">
       <p class="hero-label">Extending Markdown</p>
+      <p class="hero-date"><time datetime="2025-06-03">3 June 2025</time></p>
       <h1>Math in Markdown</h1>
-      <p class="hero-sub">Markdown was designed for prose, not equations. Yet technical documents, academic papers, and engineering notebooks routinely contain formatted mathematics alongside plain text. Here is how that works — and where it breaks.</p>
+      <p class="hero-sub">Markdown was designed for prose, not equations. Yet LaTeX math notation — the same syntax AI assistants output when you ask them about mathematics — appears routinely in Jupyter notebooks, GitHub READMEs, and academic papers written in plain text. Here is how it works, where it renders, and where it breaks.</p>
       <p class="hero-ingress">Markdown has no built-in syntax for mathematical notation. What exists instead is a convention: embed LaTeX math expressions between dollar signs, and let a rendering engine turn them into typeset equations. The convention is widely supported, but it is not part of any Markdown standard. Whether your equation renders or shows as raw source code depends entirely on which tool is reading the file.</p>
     </div>
   </div>
@@ -494,6 +492,8 @@
       <p>What matters here is not LaTeX the document system, but LaTeX the <em>math notation language</em>. This is a compact, text-based syntax for writing equations that has become the universal language for expressing mathematical formulas in plain text. You write commands like <code>\frac</code> for fractions, <code>\sqrt</code> for square roots, <code>^</code> for superscripts, and <code>_</code> for subscripts. A rendering engine reads those commands and draws the corresponding symbols.</p>
 
       <p>LaTeX math notation has been adopted far beyond LaTeX documents. It is understood by Wikipedia, Jupyter, GitHub, Notion, Obsidian, many academic platforms, and dozens of other tools — not because they run LaTeX, but because they implement the same notation using a JavaScript rendering engine in the browser.</p>
+
+      <p>AI assistants have joined this list. ChatGPT, Claude, Gemini, and Copilot all output LaTeX math notation when responding to questions that involve equations. The reason is the same as for Mermaid diagrams and Markdown headings: LaTeX math notation is plain text. It is text-based, structured, and present in enormous volumes of training data — academic papers, scientific documentation, Jupyter notebooks. Language models output it naturally, for exactly the same reason they output Markdown: the structure is in the characters, not in a rendering layer.</p>
 
       <div class="pullquote">
         <p>"TeX is intended for the creation of beautiful books — and especially for books that contain a lot of mathematics."</p>
@@ -727,7 +727,9 @@ pandoc document.md --pdf-engine=xelatex -o output.pdf</code></pre>
       <h3>The bigger picture</h3>
       <p>Math in Markdown is a microcosm of Markdown's broader story. A practical need exists — scientists and engineers want to write equations in plain text alongside prose — and a working solution has emerged from convention rather than specification. The LaTeX math notation is fifty years old; the dollar-sign convention was inherited from TeX; the JavaScript rendering engines built the bridge to the browser. Nobody designed the whole system. It assembled itself from pieces that already existed, adopted by one platform at a time, and is now widespread enough to be a reasonable assumption in technical writing contexts.</p>
 
-      <p>Like most of what makes Markdown useful, it works — but only if the tool at the other end is expecting it.</p>
+      <p>AI has amplified this. When you ask an AI assistant a question that involves mathematics, it responds in LaTeX notation without being told to. The equations appear in your chat interface already rendered, because the interface has a math engine configured. But if you copy that response and paste it somewhere else — a Word document, an email, a plain HTML page — the same portability problem applies that affects all Markdown: the structure is in the source, and the source only renders if the destination knows what to do with it. Understanding the system makes the behaviour predictable rather than mysterious.</p>
+
+      <p>Like most of what makes Markdown useful, math notation works — but only if the tool at the other end is expecting it.</p>
 
       <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); color: var(--color-text-faint);">
         Further reading: <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener">KaTeX supported functions</a> · <a href="https://docs.mathjax.org/en/latest/input/tex/index.html" target="_blank" rel="noopener">MathJax TeX/LaTeX reference</a> · <a href="https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions" target="_blank" rel="noopener">GitHub — Writing mathematical expressions</a> · <a href="https://pandoc.org/MANUAL.html#math" target="_blank" rel="noopener">Pandoc math documentation</a>
@@ -736,18 +738,8 @@ pandoc document.md --pdf-engine=xelatex -o output.pdf</code></pre>
     </article>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer-outer">
-    <div class="footer-inner">
-      <a href="/" class="footer-brand">markdown<span>heaven</span></a>
-      <div class="footer-links">
-        <a href="/plain-text-formatted.html">Plain text formatted</a>
-        <a href="/history.html">History</a>
-        <a href="/math.html">Math</a>
-      </div>
-      <span class="footer-copy">markdownheaven.com</span>
-    </div>
-  </footer>
+  <div id="site-footer"></div>
 
+  <script src="site.js"></script>
 </body>
 </html>
